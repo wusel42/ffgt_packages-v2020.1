@@ -2,11 +2,9 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffgt-banner
 PKG_VERSION:=2
-PKG_RELEASE:=$(GLUON_VERSION)
-
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include ../gluon.mk
+include $(TOPDIR)/../package/gluon.mk
 
 define Package/ffgt-banner
   SECTION:=ffgt
@@ -68,4 +66,4 @@ define Package/ffgt-banner/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackageGluon,ffgt-banner))
+$(eval $(call BuildPackage,$(PKG_NAME)))
