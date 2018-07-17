@@ -6,7 +6,7 @@ PKG_RELEASE:=$(GLUON_VERSION)
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(GLUONDIR)/include/package.mk
+include ../gluon.mk
 
 define Package/ffgt-banner
   SECTION:=ffgt
@@ -16,7 +16,7 @@ define Package/ffgt-banner
 endef
 
 define Package/ffgt-banner/description
-	Freifunk KreisGT shell banner
+	Freifunk Kreis GT shell banner
 endef
 
 define Build/Prepare
@@ -68,4 +68,4 @@ define Package/ffgt-banner/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,ffgt-banner))
+$(eval $(call BuildPackageGluon,ffgt-banner))
