@@ -1,0 +1,23 @@
+#!/usr/bin/lua
+
+local fs = require 'nixio.fs'
+
+if not fs.access('/lib/gluon/domains/') then
+	return
+end
+
+local uci = require('simple-uci').cursor()
+
+local locode = uci:get('gluon-node-info', 'location', 'siteselect')
+if locode and not fs.access('/lib/gluon/domains/' .. locode .. '.json') then
+	io.stderr:write(string.format("Warning: invalid FFGT locode '%s' configured, ignoring.\n", locode))
+	locode = nil
+end
+
+if locode then
+	io.stderr:write(string.format("Information: setting FFGT locode '%s' as domain code for site.conf.\n", locode))
+    uci:set('gluon', 'core', 'domain', locode)
+    uci:commit('gluon')
+    uci:delete('gluon-node-info', 'location', 'siteselect')
+    uci:commit('gluon-node-info')
+end
