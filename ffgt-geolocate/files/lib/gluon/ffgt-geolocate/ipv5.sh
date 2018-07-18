@@ -6,10 +6,10 @@
 # we (mis-) use /sbin/start-stop-daemon for executing ping as that gid.
 USEIPV4=1
 USEIPV6=0
-/sbin/start-stop-daemon -c root:gluon-fastd -S -x /bin/ping -- -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
+/bin/ping -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
 if [ $? -ne 0 ]; then
  USEIPV4=0
- /sbin/start-stop-daemon -c root:gluon-fastd -S -x /bin/ping -- -q -c 3 setup.ipv6.4830.org >/dev/null 2>&1
+ /bin/ping -q -c 3 setup.ipv6.4830.org >/dev/null 2>&1
  if [ $? -eq 0 ]; then
   USEIPV6=1
  else
