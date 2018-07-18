@@ -27,18 +27,18 @@ if [ ${runnow} -eq 1 ]; then
 
  mac=`/sbin/uci get network.bat0.macaddr`
  # FIXME. On multiband devices, check wlan1 as well!
- ${IW} dev wlan0 scan >/dev/null 2>&1
+ ${IW} dev client0 scan >/dev/null 2>&1
  if [ $? -ne 0 ]; then
-  /sbin/ifconfig wlan0 up
+  /sbin/ifconfig client0 up
   sleep 2
  fi
- /usr/bin/wget -q -O /dev/null "`${IW} wlan0 scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
+ /bin/wget -q -O /dev/null "`${IW} client0 scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
  # On success only ...
  if [ -e /tmp/run/geolocate-data-sent ]; then
   curlat="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
   if [ "X${curlat}" = "X" ]; then
    sleep 5
-   /usr/bin/wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=$mac"
+   /bin/wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=$mac"
    if [ -e /tmp/geoloc.out ]; then
     # Actually, we might want to sanity check the reply, as it could be empty or worse ... (FIXME) 
     /bin/cat /dev/null >/tmp/geoloc.sh

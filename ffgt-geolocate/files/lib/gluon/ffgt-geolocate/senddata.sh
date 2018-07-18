@@ -61,7 +61,7 @@ fi
 mac=`/sbin/uci get network.bat0.macaddr`
 # Fuuuu... iw might not be there. If so, let's fake it.
 if [ -e /usr/sbin/iw ]; then
- SCANIF="`/usr/sbin/iw dev | /usr/bin/awk 'BEGIN{idx=1;} /Interface / {iface[idx]=$2; ifacemap[$2]=idx; idx++}; END{if(ifacemap["mesh1"]>0) {printf("mesh1\n");} else if(ifacemap["wlan1"]>0) {printf("wlan1\n");} else if(ifacemap["mesh0"]>0) {printf("mesh0\n");} else if(ifacemap["wlan0"]>0) {printf("wlan0\n");} else {printf("%s\n", iface[idx-1]);}}'`"
+ SCANIF="`/usr/sbin/iw dev | /usr/bin/awk 'BEGIN{idx=1;} /Interface / {iface[idx]=$2; ifacemap[$2]=idx; idx++}; END{if(ifacemap["client0"]>0) {printf("client0\n");} else if(ifacemap["client1"]>0) {printf("client1\n");} else if(ifacemap["wlan0"]>0) {printf("wlan0\n");} else {printf("%s\n", iface[idx-1]);}}'`"
  /usr/sbin/iw ${SCANIF} scan 2>/dev/null >/dev/null
  if [ $? -ne 0 ]; then
   /sbin/ifconfig ${SCANIF} up
