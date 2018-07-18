@@ -1,4 +1,4 @@
-returrn function(form, uci)
+return function(form, uci)
   local pkg_i18n = i18n 'ffgt-geolocate'
   local site_i18n = i18n 'gluon-site'
 
