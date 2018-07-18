@@ -1,46 +1,51 @@
-local cbi = require "luci.cbi"
-local uci = luci.model.uci.cursor()
-local sys = luci.sys
+returrn function(form, uci)
+  local pkg_i18n = i18n 'ffgt-geolocate'
+  local site_i18n = i18n 'gluon-site'
 
-local M = {}
+  local site = require 'gluon.site'
 
-function M.section(form)
+  local location = uci:get_first("gluon-node-info", "location")
   local lat = uci:get_first("gluon-node-info", 'location', "latitude")
   local lon = uci:get_first("gluon-node-info", 'location', "longitude")
   local unlocode = uci:get_first("gluon-node-info", "location", "locode")
   if not lat then lat=0 end
   if not lon then lon=0 end
   if (lat == 0) and (lon == 0) then
-    local s = form:section(cbi.SimpleSection, nil,
-    [[<b>Es sind keine Koordinaten hinterlegt.</b> Bitte trage sie ein oder versuche die
-    automatische Lokalisierung (anhand der empfangenen Funknetze bzw. der IP-Adresse)
-    &uuml;ber <a href="geoloc/">Geolocate</a>. Bitte beachte, da&szlig; Dein
-    Knoten Internet-Zugang haben mu&szlig;.]])
+    local text = pkg_i18n.translate(
+		'No coordinates set; please add them or try the WiFi-based geolocation, ' ..
+		'which will upload the WiFi networks (SSID, BSSID, strenght, channel) ' ..
+		'to our server, which in turn will use third party services (Google, ' ..
+		'OpenStreetMap, ...) to map that to a location. We _need_ a proper ' ..
+		'location to assign this node to a Freifunk network ("hood", "community", ...).'
+	)
+
+	local s = form:section(Section, nil, text)
   elseif (lat == "51") and (lon == "9") then
-    local s = form:section(cbi.SimpleSection, nil,
-    [[<b>Die automatische Lokalisierung ist fehlgeschlagen.</b> Bitte trage Deine
-    Koordinaten, gerne mit Hilfe der Karte, ein. Bitte beachte, da&szlig; Dein
-    Knoten Internet-Zugang haben mu&szlig;, damit die Daten validiert werden k&ouml;nnen.]])
+    local text = pkg_i18n.translate(
+		'Looks like geolocation failed. Please add the coordinates this node ' ..
+		'will be located at below, feel free to utilize our map.'
+	)
+
+	local s = form:section(Section, nil, text)
   elseif not unlocode then
-    local s = form:section(cbi.SimpleSection, nil,
-    [[<b>Die Adressaufl&ouml;sung ist fehlgeschlagen.</b> Bitte &uuml;berpr&uuml;fe Deine
-    Koordinaten, sie konnten keinem Ort zugeordnet werden. Bitte beachte, da&szlig; Dein
-    Knoten Internet-Zugang haben mu&szlig;, damit die Daten validiert werden k&ouml;nnen.]])
+    local text = pkg_i18n.translate(
+		'We couldn't map the coordinated to a location code. That is odd; ' ..
+		'does this node have Internet connectivity? '
+	)
+
+	local s = form:section(Section, nil, text)
   else
     local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
     local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
     local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
-    local community = uci:get_first('siteselect', unlocode, 'sitename') or unlocode
-    if community == unlocode then
-      community=string.gsub(sys.exec(string.format('/sbin/uci get siteselect.%s.sitename', unlocode)), "\n", "")
-    end
-    local mystr = string.format("Lokalisierung des Knotens erfolgreich; bitte Daten &uuml;berpr&uuml;fen:<br></br><b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, community)
-    local s = form:section(cbi.SimpleSection, nil, mystr)
+    local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, community)
+    local text = pkg_i18n.translate(
+		'Located the future position of this node as follows, please verify:<br></br>'
+	)
+    text = text .. ' ' .. mystr
+
+	local s = form:section(Section, nil, text)
   end
-end
 
-function M.handle(data)
-  return
+  return {'gluon-node-info'}
 end
-
-return M
