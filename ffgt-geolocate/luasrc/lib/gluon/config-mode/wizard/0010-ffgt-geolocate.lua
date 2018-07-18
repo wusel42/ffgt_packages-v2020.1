@@ -38,7 +38,7 @@ return function(form, uci)
     local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
     local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
     local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
-    local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, community)
+    local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, unlocode)
     local text = pkg_i18n.translate(
 		'Located the future position of this node as follows, please verify:<br></br>'
 	)
