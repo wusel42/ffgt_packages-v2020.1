@@ -29,7 +29,7 @@ return function(form, uci)
 	local s = form:section(Section, nil, text)
   elseif not unlocode then
     local text = pkg_i18n.translate(
-		'We couldn't map the coordinated to a location code. That is odd; ' ..
+		'We could not map the coordinated to a location code. That is odd; ' ..
 		'does this node have Internet connectivity? '
 	)
 
