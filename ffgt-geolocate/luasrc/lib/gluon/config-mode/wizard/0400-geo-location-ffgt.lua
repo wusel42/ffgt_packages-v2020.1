@@ -88,12 +88,10 @@ return function(form, uci)
     local text = pkg_i18n.translate(
 	    'There should be our map in an iframe; feel free to scroll around and use ' ..
 	    'the location picker to find the desired coordinates.'
-
-    text = text .. <p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700">Karte/Map</iframe></p>'
+    )
+    text = text .. '<p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700">Karte/Map</iframe></p>'
 
     local s = form:section(Section, nil, text)
-
-    local s = form:section(cbi.SimpleSection, nil, mystr)
 
 	o = s:option(Value, "latitude", pkg_i18n.translate("Latitude"), pkg_i18n.translatef("e.g. %s", "53.873621"))
 	o.default = uci:get("gluon-node-info", location, "latitude")
