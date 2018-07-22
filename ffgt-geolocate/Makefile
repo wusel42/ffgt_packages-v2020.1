@@ -11,7 +11,7 @@ include $(TOPDIR)/../package/gluon.mk
 define Package/ffgt-geolocate
   SECTION:=gluon
   CATEGORY:=Gluon
-  DEPENDS:=+gluon-core
+  DEPENDS:=+gluon-core +micrond
   TITLE:=Assist geolocating the node and survey the wifi spectrum
 endef
 
