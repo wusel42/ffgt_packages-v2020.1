@@ -39,3 +39,7 @@ fi
 if [ -e /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua ]; then
   mv /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua /lib/gluon/config-mode/wizard/0200-domain-select.lua
 fi
+
+if [ -e /etc/crontabs/root ]; then
+  mv /etc/crontabs /etc/crontabs_nomore
+fi
