@@ -1,0 +1,84 @@
+<%#
+Copyright 2008 Steven Barth <steven@midlink.org>
+Copyright 2008-2009 Jo-Philipp Wich <xm@subsignal.org>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id$
+
+-%>
+<%
+local util = require 'gluon.util'
+local fs = require 'nixio.fs'
+local site = require 'gluon.site'
+%>
+<h2><%:Geolocate%></h2>
+
+<form method="post" enctype="multipart/form-data" action="<%|url(request)%>">
+	<p>
+		<%:Please select where this node will be located at.%>
+	</p>
+<%
+local location = uci:get_first("gluon-node-info", "location")
+local lat = uci:get_first("gluon-node-info", 'location', "latitude")
+local lon = uci:get_first("gluon-node-info", 'location', "longitude")
+local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+
+if not lat then lat=0 end
+if not lon then lon=0 end
+if (lat == 0) and (lon == 0) then %>
+	<p> class="error"<%:No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We _need_ a proper location to assign this node to a Freifunk network ("hood", "community", ...).'%></p>
+<%
+elseif (lat == "51") and (lon == "9") then %>
+	<p class="error"><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%></p>
+<%
+elseif not unlocode then %>
+	<p><%:We could not map the coordinated to a location code. That is odd; does this node have Internet connectivity?%></p>
+<%
+else
+  local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
+  local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
+  local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
+  local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, unlocode)
+  local text = translate('Located the future position of this node as follows, please verify:')
+  text = text .. '<br></br>' .. mystr
+  write(text)
+end %>
+
+    <p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700"><%:Map%></iframe></p>
+
+	<div class="gluon-section-node">
+		<div class="gluon-value">
+			<label class="gluon-value-title">
+				<%:Coordinates%>
+			</label>
+			<div class="gluon-value-field">Latitude:
+				<input class="gluon-input-file" type="text" name="lat" />
+			</div>
+			<div class="gluon-value-field">Longitude:
+				<input class="gluon-input-file" type="text" name="lon" />
+			</div>
+		</div>
+
+		<div class="gluon-value gluon-value-last">
+			<label class="gluon-value-title">
+				<%:Try network-based location (will fill in lat/lon based on the guestimated current location of this node by way of WiFi and IP adresses).%>
+			</label>
+
+			<div class="gluon-value-field">
+				<input id="autolocate" class="gluon-input-checkbox" type="checkbox" name="autolocate" value="1" checked="checked" />
+				<label for="autolocate"></label>
+			</div>
+		</div>
+	</div>
+
+	<div class="gluon-page-actions right">
+		<input type="hidden" name="step" value="2" />
+		<input type="hidden" name="token" value="<%=token%>" />
+		<input class="gluon-button gluon-button-submit" type="submit" value="<%:Submit%>" />
+	</div>
+</form>
