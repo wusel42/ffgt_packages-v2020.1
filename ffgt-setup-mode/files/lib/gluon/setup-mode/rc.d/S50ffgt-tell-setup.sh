@@ -7,4 +7,5 @@ START=50
 /lib/gluon/config-mode/notify-setup.sh force
 ((sleep 15 ; /lib/gluon/setup-mode/rc.d/S50ffgt-tell-setup.sh force)&)
 # Reboot if in setup mode for more that 3600 seconds (i. e. 1 hour) -- accidental invocation?
-/usr/bin/awk < /proc/uptime '{if($1 > 3600.0) {printf("/sbin/reboot\n");} else {printf("echo -n\n");}}'| /bin/sh
+# FIXME: is is that the proper approach? Disable for now. -wusel, 2018-07-25
+#/usr/bin/awk < /proc/uptime '{if($1 > 3600.0) {printf("/sbin/reboot\n");} else {printf("echo -n\n");}}'| /bin/sh
