@@ -16,10 +16,6 @@ local util = require 'gluon.util'
 local fs = require 'nixio.fs'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
-local location = uci:get_first("gluon-node-info", "location")
-local lat = uci:get_first("gluon-node-info", 'location', "latitude")
-local lon = uci:get_first("gluon-node-info", 'location', "longitude")
-local unlocode = uci:get_first("gluon-node-info", "location", "locode")
 
 
 
@@ -45,13 +41,22 @@ local function action_geoloc(http, renderer)
 
 	-- Step 1: file upload, error on unsupported image format
 	if step == 1 then
-		if has_image then
-			fs.unlink(tmpfile)
-		end
+	    os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
 
-		renderer.render_layout('admin/geolocate', {
-			bad_image = has_image and not has_support,
-		}, 'gluon-web-admin')
+	    local location = uci:get_first("gluon-node-info", "location")
+        local lat = uci:get_first("gluon-node-info", 'location', "latitude")
+        local lon = uci:get_first("gluon-node-info", 'location', "longitude")
+        local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+
+        if not lat then lat=0 end
+        if not lon then lon=0 end
+        if (lat == "51.892825") and (lon == "8.383708") then lat=51 lon=9 end
+
+        if ((lat=0 and lon=0) or (lat=51 and lon=9) then
+		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')
+		else
+		  renderer.render_layout('admin/geolocate_done', { rgeo_error = 1, }, 'gluon-web-admin')
+		end
 
 	-- Step 2: present uploaded file, show checksum, confirmation
 	elseif step == 2 then
