@@ -15,6 +15,7 @@ package 'gluon-web-admin'
 local util = require 'gluon.util'
 local fs = require 'nixio.fs'
 local site = require 'gluon.site'
+local uci = require("simple-uci").cursor()
 local location = uci:get_first("gluon-node-info", "location")
 local lat = uci:get_first("gluon-node-info", 'location', "latitude")
 local lon = uci:get_first("gluon-node-info", 'location', "longitude")
