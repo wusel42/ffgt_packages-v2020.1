@@ -52,7 +52,7 @@ local function action_geoloc(http, renderer)
         if not lon then lon=0 end
         if (lat == "51.892825") and (lon == "8.383708") then lat=51 lon=9 end
 
-        if ((lat=0 and lon=0) or (lat=51 and lon=9) then
+        if ((lat == 0 and lon == 0) or (lat == 51 and lon == 9)) then
 		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')
 		else
 		  renderer.render_layout('admin/geolocate_done', { rgeo_error = 1, }, 'gluon-web-admin')
