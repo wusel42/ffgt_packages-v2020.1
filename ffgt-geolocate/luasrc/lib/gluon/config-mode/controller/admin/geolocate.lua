@@ -42,11 +42,23 @@ local function action_geoloc(http, renderer)
 	-- Step 1: file upload, error on unsupported image format
 	if step == 1 then
 	    os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
+	-- Step 2: present uploaded file, show checksum, confirmation
+	elseif step == 2 then
+	    os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
+
+		local autolocate = (http:formvalue("autolocate") == "1")
+		if (autolocate) then
+
+		end
+
 
 	    local location = uci:get_first("gluon-node-info", "location")
         local lat = uci:get_first("gluon-node-info", 'location', "latitude")
         local lon = uci:get_first("gluon-node-info", 'location', "longitude")
         local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+
+
+
 
         if not lat then lat=0 end
         if not lon then lon=0 end
@@ -55,11 +67,10 @@ local function action_geoloc(http, renderer)
         if ((lat == 0 and lon == 0) or (lat == 51 and lon == 9)) then
 		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')
 		else
-		  renderer.render_layout('admin/geolocate_done', { rgeo_error = 1, }, 'gluon-web-admin')
-		end
+		  renderer.render_layout('admin/geolocate_done', nil, 'gluon-web-admin')
 
-	-- Step 2: present uploaded file, show checksum, confirmation
-	elseif step == 2 then
+
+
 		renderer.render_layout('admin/geolocate_2', {
 			autolocate = (http:formvalue("autolocate") == "1"),
 		}, 'gluon-web-admin')

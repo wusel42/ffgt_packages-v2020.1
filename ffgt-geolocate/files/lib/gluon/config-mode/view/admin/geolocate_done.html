@@ -27,8 +27,7 @@ local unlocode = uci:get_first("gluon-node-info", "location", "locode")
 if not lat then lat=0 end
 if not lon then lon=0 end
 if (lat == "51.892825") and (lon == "8.383708") then lat=51 lon=9 end
-%>Lat: <%=lat%>
-Lon: <%=lon%><%
+%><!-- Lat: <%=lat%> Lon: <%=lon%> locode: <%=unnoclode%> --><%
 local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
 local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
 local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
@@ -40,4 +39,3 @@ local text = translate('Your node will be registered running at:')
 	<p>
 		<%:If neccessary, please go back to Geolocation.%>
 	</p>
-<% end %>
