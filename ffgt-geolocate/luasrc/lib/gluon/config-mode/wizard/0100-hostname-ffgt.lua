@@ -65,23 +65,23 @@ return function(form, uci)
 	-- end
 
 	function o:write(data)
-	    hostname = data or default_hostname
-        hostname = hostname:gsub(" ","-")
-        hostname = hostname:gsub("%p","-")
-        hostname = hostname:gsub("_","-")
-        hostname = hostname:gsub("%-%-","-")
-        hostname = hostname:gsub("^ffgt%-", "")
-        hostname = hostname:gsub("^ffrw%-", "")
-        hostname = hostname:gsub("^freifunk%-", "")
-        hostname = hostname:gsub("^gut%-", "")
-        hostname = hostname:gsub("^tst%-", "")
-        hostname = hostname:gsub("^rhwd%-", "")
-        hostname = hostname:gsub("^muer%-", "")
-        hostname = hostname:gsub("^%d%d%d%d%d%-", "")
-        hostname = zip .. "-" .. hostname
-        hostname = hostname:sub(1, 37)
+	    local newname = data
+        newname = newname:gsub(" ","-")
+        newname = newname:gsub("%p","-")
+        newname = newname:gsub("_","-")
+        newname = newname:gsub("%-%-","-")
+        newname = newname:gsub("^ffgt%-", "")
+        newname = newname:gsub("^ffrw%-", "")
+        newname = newname:gsub("^freifunk%-", "")
+        newname = newname:gsub("^gut%-", "")
+        newname = newname:gsub("^tst%-", "")
+        newname = newname:gsub("^rhwd%-", "")
+        newname = newname:gsub("^muer%-", "")
+        newname = newname:gsub("^%d%d%d%d%d%-", "")
+        newname = zip .. "-" .. newname
+        newname = newname:sub(1, 37)
 
-		pretty_hostname.set(uci, hostname)
+		pretty_hostname.set(uci, newname)
 	end
 
 	return {'system'}
