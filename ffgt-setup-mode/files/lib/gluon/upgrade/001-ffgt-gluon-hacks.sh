@@ -24,7 +24,7 @@ if [ -e /etc/crontabs/root ]; then
   mv /etc/crontabs /etc/crontabs_notused
 fi
 
-if [-e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
+if [ -e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
   mv /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua /lib/gluon/config-mode/controller/admin/privatewifi.lua
 fi
 

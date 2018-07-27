@@ -52,7 +52,7 @@ return function(form, uci)
 
     if (not current_systemhostname) then hostname=mystrA end
 
-    local optstr=string.format("%s: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s-", pkg_i18n.translate("Node name"), zip)
+    local optstr=string.format("%s: %s-", pkg_i18n.translate("Node name"), zip)
 	local s = form:section(Section)
 	local o = s:option(Value, "hostname", optstr)
 	o.datatype = 'minlength(1)'
