@@ -1,0 +1,88 @@
+return function(form, uci)
+	local pkg_i18n = i18n 'gluon-config-mode-hostname'
+	local site_i18n = i18n 'gluon-site'
+
+	local pretty_hostname = require 'pretty_hostname'
+	local site = require 'gluon.site'
+	local util = require 'gluon.util'
+    local uci = require("simple-uci").cursor()
+
+    local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
+    local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
+    local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
+    local mac = string.sub(util.node_id(), 9)
+
+    if not zip or not city or not addr then
+        renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
+    end
+
+    local current_systemhostname = uci:get_first("system", "system", "hostname")
+	local current_hostname = pretty_hostname.get(uci)
+	local default_hostname = util.default_hostname()
+	local configured = uci:get_first('gluon-setup-mode', 'setup_mode', 'configured', false) or (current_hostname ~= default_hostname)
+
+	if (not current_hostname) then hostname=default_hostname else hostname=current_hostname end
+	hostname = hostname:gsub(" ","-")
+    hostname = hostname:gsub("%p","-")
+    hostname = hostname:gsub("_","-")
+    hostname = hostname:gsub("%-%-","-")
+    hostname = hostname:gsub("^ffgt%-", "")
+    hostname = hostname:gsub("^ffrw%-", "")
+    hostname = hostname:gsub("^freifunk%-", "")
+    hostname = hostname:gsub("^gut%-", "")
+    hostname = hostname:gsub("^tst%-", "")
+    hostname = hostname:gsub("^rhwd%-", "")
+    hostname = hostname:gsub("^muer%-", "")
+    -- hostname = hostname:gsub("^" .. zip .. "%-", "")
+    hostname = hostname:gsub("^%d%d%d%d%d%-", "")
+    hostname = hostname:sub(1, 31)
+
+    -- Limit to (37-strlen("00000-")), i. e. 31 chars
+    local mystrA = string.sub(string.format("%.26s-%s", addr, mac), 1, 31)
+    local mystrB = string.sub(string.format("%.26s-%s", city, mac), 1, 31)
+    local mystrC = string.sub(string.format("freifunk-%s", util.node_id()), 1, 31)
+
+	local help = site_i18n._translate("gluon-config-mode:hostname-help") or pkg_i18n.translate(
+		'The node name is used solely for identification of your node, e.g. on a '
+		.. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
+	)
+	help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names: ")
+	help = help .. string.format("%s | %s | %s", mystrA, mystrB, mystrC);
+	form:section(Section, nil, help)
+
+    if (not current_systemhostname) then hostname=mystrA end
+
+    local optstr=string.format("%s: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s-", pkg_i18n.translate("Node name"), zip)
+	local s = form:section(Section)
+	local o = s:option(Value, "hostname", optstr)
+	o.datatype = 'minlength(1)'
+	if site.config_mode.hostname.optional(true) then
+		o.optional = true
+		o.placeholder = default_hostname
+	end
+    -- if configured then
+		o.default = hostname
+	-- end
+
+	function o:write(data)
+	    hostname = data or default_hostname
+        hostname = hostname:gsub(" ","-")
+        hostname = hostname:gsub("%p","-")
+        hostname = hostname:gsub("_","-")
+        hostname = hostname:gsub("%-%-","-")
+        hostname = hostname:gsub("^ffgt%-", "")
+        hostname = hostname:gsub("^ffrw%-", "")
+        hostname = hostname:gsub("^freifunk%-", "")
+        hostname = hostname:gsub("^gut%-", "")
+        hostname = hostname:gsub("^tst%-", "")
+        hostname = hostname:gsub("^rhwd%-", "")
+        hostname = hostname:gsub("^muer%-", "")
+        hostname = hostname:gsub("^%d%d%d%d%d%-", "")
+        hostname = zip .. "-" .. hostname
+        hostname = hostname:sub(1, 37)
+
+		pretty_hostname.set(uci, hostname)
+	end
+
+	return {'system'}
+end

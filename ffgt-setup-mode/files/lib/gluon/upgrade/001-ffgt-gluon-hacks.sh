@@ -8,29 +8,9 @@
 # replace existig files during image creation.
 #
 # Hmm, looks like it's possible to have Gluon apply patches to itself?
-# Anyone daring to explain that magic to me? -- wusel, 2018-07-19 FIXME!
+# Anyone willing to explain that magic to me? -- wusel, 2018-07-19 FIXME!
 
 START=1
-
-#if [ -e /lib/gluon/setup-mode/rc.d/S20network ]; then
-# /bin/echo -e "#!/bin/sh\nexit 0\n" >/lib/gluon/setup-mode/rc.d/S20network
-#fi
-
-#if [ -e /lib/gluon/setup-mode/rc.d/S60dnsmasq  ]; then
-# /bin/echo -e "#!/bin/sh\nexit 0\n" >/lib/gluon/setup-mode/rc.d/S60dnsmasq
-#fi
-
-#if [ -e /usr/lib/lua/gluon/util-ffgt.lua ]; then
-#  /bin/mv /usr/lib/lua/gluon/util-ffgt.lua /usr/lib/lua/gluon/util.lua
-#fi
-
-#if [ -e /etc/config/siteselect.upgrade ]; then
-#  mv /etc/config/siteselect.upgrade /etc/config/siteselect
-#fi
-
-#if [ -e /lib/gluon/upgrade/320-setup-ifname-ffgt ]; then
-#  mv /lib/gluon/upgrade/320-setup-ifname-ffgt /lib/gluon/upgrade/320-setup-ifname
-#fi
 
 if [ -e /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua ]; then
   mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua
@@ -41,5 +21,17 @@ if [ -e /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua ]; then
 fi
 
 if [ -e /etc/crontabs/root ]; then
-  mv /etc/crontabs /etc/crontabs_nomore
+  mv /etc/crontabs /etc/crontabs_notused
+fi
+
+if [-e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua /lib/gluon/config-mode/controller/admin/privatewifi.lua
+fi
+
+if [ -e /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua /lib/gluon/config-mode/wizard/0100-hostname.lua
+fi
+
+if [ -e /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua /lib/gluon/config-mode/controller/admin/wifi-config.lua
 fi
