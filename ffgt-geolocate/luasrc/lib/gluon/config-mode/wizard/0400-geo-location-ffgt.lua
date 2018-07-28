@@ -52,7 +52,7 @@ return function(form, uci)
 		    'Located the future position of this node as follows, please verify:<div><br></br></div>'
 	    )
         text = text .. ' ' .. mystr
-		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change, go to Admin/Geolocation.')
+		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change, go to Advanced settings/Geolocation.')
 
 	    local s = form:section(Section, nil, text)
     end

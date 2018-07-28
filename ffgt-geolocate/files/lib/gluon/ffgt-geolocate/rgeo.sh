@@ -12,8 +12,13 @@ if [ "Y$IPVXPREFIX" == "Y" -o "$IPVXPREFIX" == "ipv5." ]; then
 fi
 
 mac=`/sbin/uci get network.bat0.macaddr`
-curlat="`/sbin/uci get gluon-node-info.@location[0].latitude 2>/dev/null`"
-curlon="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
+if [ $# -eq 2 ]; then
+  curlat="$1"
+  curlon="$2"
+else
+  curlat="`/sbin/uci get gluon-node-info.@location[0].latitude 2>/dev/null`"
+  curlon="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
+fi
 if [ "X${curlat}" != "X" -a "X${curlon}" != "X" ]; then
  /bin/wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?rgeo=me&node=${mac}&lat=${curlat}&lon=${curlon}"
  if [ -e /tmp/geoloc.out ]; then

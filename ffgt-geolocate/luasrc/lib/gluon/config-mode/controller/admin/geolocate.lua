@@ -46,15 +46,22 @@ local function action_geoloc(http, renderer)
 
         if not lat then lat = 0 end
         if not lon then lon = 0 end
-        if (lat ~= 0 and lon ~= 0) then os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh") end
+        if not (lat == 0 and lon == 0) then
+            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh") end
+        end
 		renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
 	-- Step 2: present uploaded file, show checksum, confirmation
 	elseif step == 2 then
-	    os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
+	    local newlat = trim(http:formvalue("lat"))
+	    local newlon = trim(http:formvalue("lon"))
+
+        local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %s %s", newlat, newlon)
+	    os.execute(cmdstr)
 
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if (autolocate) then
           os.execute("/lib/gluon/ffgt-geolocate/senddata.sh")
+          renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
 		end
 
 	    local location = uci:get_first("gluon-node-info", "location")
@@ -69,6 +76,9 @@ local function action_geoloc(http, renderer)
         if ((lat == 0 and lon == 0) or (lat == 51 and lon == 9)) then
 		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')
 		else
+          uci:set('gluon', 'core', 'domain', unlocode)
+          uci:commit('gluon')
+		  os.execute('gluon-reconfigure')
 		  renderer.render_layout('admin/geolocate_done', nil, 'gluon-web-admin')
 		end
 	elseif step == 3 then
