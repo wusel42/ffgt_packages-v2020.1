@@ -82,6 +82,8 @@ return function(form, uci)
         newname = newname:sub(1, 37)
 
 		pretty_hostname.set(uci, newname)
+		uci:commit('system')
+
 	end
 
 	return {'system'}

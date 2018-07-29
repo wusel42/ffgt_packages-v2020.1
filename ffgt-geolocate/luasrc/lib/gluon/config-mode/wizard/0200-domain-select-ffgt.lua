@@ -18,8 +18,8 @@ return function(form, uci)
     end
 
     local text = site_i18n.translate('Based on the coordinates configured, this node will be part of:')
-    local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", unlocode)),"\n", "")
-    text = text .. " " .. communityname .. "."
+    local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", locode)),"\n", "")
+    text = text .. " <strong>" .. communityname .. "</strong>."
 	local s = form:section(Section, nil, text)
 
 	return {'gluon', reconfigure}

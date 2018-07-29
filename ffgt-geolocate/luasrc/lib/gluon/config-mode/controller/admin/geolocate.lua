@@ -18,6 +18,9 @@ local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
 
 
+local function trim(s)
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
 
 local function filehandler(meta, chunk, eof)
 	if not fs.access(tmpfile) and not file and chunk and #chunk > 0 then
@@ -47,7 +50,7 @@ local function action_geoloc(http, renderer)
         if not lat then lat = 0 end
         if not lon then lon = 0 end
         if not (lat == 0 and lon == 0) then
-            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh") end
+            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
         end
 		renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
 	-- Step 2: present uploaded file, show checksum, confirmation
