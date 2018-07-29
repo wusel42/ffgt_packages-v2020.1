@@ -35,3 +35,7 @@ fi
 if [ -e /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua ]; then
   mv /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua /lib/gluon/config-mode/controller/admin/wifi-config.lua
 fi
+
+if [ -e /lib/gluon/config-mode/view/admin/info-ffgt.html ]; then
+  mv /lib/gluon/config-mode/view/admin/info-ffgt.html  /lib/gluon/config-mode/view/admin/info.html
+fi

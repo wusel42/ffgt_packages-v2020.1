@@ -47,8 +47,8 @@ local function action_geoloc(http, renderer)
         local lat = uci:get_first("gluon-node-info", 'location', "latitude")
         local lon = uci:get_first("gluon-node-info", 'location', "longitude")
 
-        if not lat then lat = 0 end
-        if not lon then lon = 0 end
+        if not lat then lat = 0 else lat=tonumber(lat) end
+        if not lon then lon = 0 else lon=tonumber(lon) end
         if not (lat == 0 and lon == 0) then
             os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
         end
@@ -72,9 +72,12 @@ local function action_geoloc(http, renderer)
         local lon = uci:get_first("gluon-node-info", 'location', "longitude")
         local unlocode = uci:get_first("gluon-node-info", "location", "locode")
 
-        if not lat then lat=0 end
-        if not lon then lon=0 end
-        if (lat == "51.892825") and (lon == "8.383708") then lat=51 lon=9 end
+        if not lat then lat = 0 else lat=tonumber(lat) end
+        if not lon then lon = 0 else lon=tonumber(lon) end
+        if (lat == 51.892825) and (lon == 8.383708) then
+            lat=51
+            lon=9
+        end
 
         if ((lat == 0 and lon == 0) or (lat == 51 and lon == 9)) then
 		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')

@@ -35,11 +35,11 @@ return function(form, uci)
 		uci:set("gluon-node-info", location, "share_location", data)
 	end
 
-    if not lat then lat=0 end
-    if not lon then lon=0 end
+    if not lat then lat=0 else lat=tonumber(lat) end
+    if not lon then lon=0 else lon=tonumber(lon) end
     if (lat == 0) and (lon == 0) then
         renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
-    elseif (lat == "51") and (lon == "9") then
+    elseif (lat == 51) and (lon == 9) then
         renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
     elseif not unlocode then
         renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
