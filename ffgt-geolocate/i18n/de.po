@@ -13,7 +13,7 @@ msgstr ""
 msgid ""
 "If you want the location of your node to be displayed on the map, please tick the checkbox below.'
 msgstr ""
-"Wenn Dein Knoten auch auf unserer Karte angezeigt werden soll, aktiviere bitte das entsprechende H&aum;ckchen."
+"Wenn Dein Knoten auch auf unserer Karte angezeigt werden soll, aktiviere bitte das entsprechende Häckchen."
 
 msgid "Latitude"
 msgstr "Breitengrad"
@@ -25,10 +25,10 @@ msgid "Show node on the map"
 msgstr "Knoten auf der Karte anzeigen"
 
 msgid "e.g. %s"
-msgstr "z.&thinsp;B. %s"
+msgstr "z. B. %s"
 
 msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We _need_ a proper location to assign this node to a Freifunk network (\"hood\", \"community\", ...)."
-msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalst&auml;rke, Kanal) auf unseren Server hochl&auml;dt, der wiederum &uuml;ber Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir <em>ben&ouml;tigen</em> eine Aufstellposition f&uuml;r jeden Konten, um diesen f&uuml;r das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
+msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseodonymisiert über Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir <em>benötigen</em> eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
 
 msgid "Please select where this node will be located at."
 msgstr "Bitte gib' an, wo dieser Knoten steht/stehen wird."
@@ -37,22 +37,22 @@ msgid "Looks like geolocation failed. Please add the coordinates this node will 
 msgstr "Die automatische Lokalisierung schlug wohl fehl. Bitte gib' die Aufstellkoordinaten dieses Knotens an, gerne unter Zuhilfename unserer Karte."
 
 msgid "We could not map your coordinates to a location code. That is odd; does this node have Internet connectivity?"
-msgstr "Hmm, es ist keine Zuordnung von Koordinaten zu einer Adresse m&ouml;glich; hat dieser Knoten aktuell Internetzugang?"
+msgstr "Hmm, es ist keine Zuordnung von Koordinaten zu einer Adresse möglich; hat dieser Knoten aktuell Internetzugang?"
 
 msgid "Located the future position of this node as follows, please verify:"
-msgstr "Der Aufstellort dieses Knotens wurde wie folgt ermittelt; bitte &uuml;berpr&uuml;fen und ggf. korrigieren:"
+msgstr "Der Aufstellort dieses Knotens wurde wie folgt ermittelt; bitte überprüfen und ggf. korrigieren:"
 
 msgid "If neccessary, please update where this node will be located at."
 msgstr "Bei Bedarf bitte den Standort aktualisieren, falls er nicht mehr aktuell ist."
 
 msgid "To select which configuration your node should use, we need to know where it will be located."
-msgstr "Um die korrekte Konfiguration f&uuml;r diesen Knoten zu ermitteln, m&uuml;ssen wir wissen, wo er stehen soll."
+msgstr "Um die korrekte Konfiguration für diesen Knoten zu ermitteln, müssen wir wissen, wo er stehen soll."
 
 msgid "We will use OpenStreetMap data to convert the coordinates you enter below to a street address, which in turn will result in a location code (locode)."
 msgstr "Wir nutzen OpenStreetMap-Daten, um die Koordinaten in eine Adresse umzurechnen, aus welcher sich wiederum ein Ortskode (locode) ergibt."
 
 msgid "We strongly believe in server-assisted setup, therefore we kindly request this information from you and that your node is connected to the Internet during Setup."
-msgstr "Da wir stark auf server-basierte Konfiguration bauen, gib' uns bitte die Aufstellungskoordinaten; einer Anzeige an diesen auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, da&szlig; dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht m&ouml;glich."
+msgstr "Da wir stark auf server-basierte Konfiguration bauen, gib' uns bitte die Aufstellungskoordinaten; einer Anzeige an diesen auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, daß dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht möglich."
 
 msgid "This node can try network-based location. Our server will receive the neighbouring WiFi networks and try to translate that into a geoposition."
 msgstr "Dieser Knoten kann versuchen, sich über die WLAN-Netze der Umgebung lokalisieren zu lassen."
@@ -68,7 +68,7 @@ msgid "The node name is used solely for identification of your node, e.g. on a n
 msgstr "Der Knotenname dient ausschließlich zur Identifikation Deines Knotens, z. B. auf einer Knotenkarte. Er hat keinen Einfluss auf den Namen (SSID) des ausgestrahlten WLANs."
 
 msgid "Suggested names:"
-msgstr "Namensvorschl&auml;ge:"
+msgstr "Namensvorschläge:"
 
 msgid "Based on the coordinates configured, this node will be part of:"
 msgstr "Aufgrund der konfigurierten Koordinaten wird dieser Knoten Teil von:"
@@ -81,4 +81,4 @@ msgid "Show node on the map"
 msgstr "Knoten auf Karten anzeigen"
 
 msgid "To change, go to Advanced settings/Geolocation."
-msgstr "Zum &auml;ndern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Geolocation</em> gehen."
+msgstr "Zum ändern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Geolocation</em> gehen."
