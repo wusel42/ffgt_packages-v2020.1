@@ -7,7 +7,7 @@ return function(form, uci)
   local location = uci:get_first("gluon-node-info", "location")
   local lat = uci:get_first("gluon-node-info", 'location', "latitude")
   local lon = uci:get_first("gluon-node-info", 'location', "longitude")
-  local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+  local unlocode = uci:get_first("gluon-node-info", "location", "locode") or "zzz"
   if not lat then lat=0 end
   if not lon then lon=0 end
   if (lat == 0) and (lon == 0) then
