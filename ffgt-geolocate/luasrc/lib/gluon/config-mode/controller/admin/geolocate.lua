@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 	http://www.apache.org/licenses/LICENSE-2.0
 ]]--
 
-package 'gluon-web-admin'
+package 'ffgt-geolocate'
 
 
 local util = require 'gluon.util'
@@ -40,9 +40,7 @@ local function action_geoloc(http, renderer)
 	-- Determine state
 	local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
 
-	local has_image   = fs.access("/tmp/foobar")
-
-	-- Step 1: file upload, error on unsupported image format
+	-- Step 1: Select/enter coordinates; if some are there alredy, try reverse geolocation with them
 	if step == 1 then
         local lat = uci:get_first("gluon-node-info", 'location', "latitude")
         local lon = uci:get_first("gluon-node-info", 'location', "longitude")
@@ -53,18 +51,18 @@ local function action_geoloc(http, renderer)
             os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
         end
 		renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
-	-- Step 2: present uploaded file, show checksum, confirmation
+	-- Step 2: Try geolocate with the data entered, unless "autolocate" was selected, in which
+	--         case we ignore the coordinates entered.
 	elseif step == 2 then
-	    local newlat = trim(http:formvalue("lat"))
-	    local newlon = trim(http:formvalue("lon"))
-
-        local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %s %s", newlat, newlon)
-	    os.execute(cmdstr)
-
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if (autolocate) then
-          os.execute("/lib/gluon/ffgt-geolocate/senddata.sh")
-          renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
+            os.execute("/lib/gluon/ffgt-geolocate/senddata.sh force")
+            renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
+        else
+            local newlat = trim(http:formvalue("lat"))
+    	    local newlon = trim(http:formvalue("lon"))
+            local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %s %s", newlat, newlon)
+	        os.execute(cmdstr)
 		end
 
 	    local location = uci:get_first("gluon-node-info", "location")

@@ -1,5 +1,6 @@
 return function(form, uci)
-	local pkg_i18n = i18n 'gluon-config-mode-hostname'
+	local pkg_i18n = i18n 'ffgt-geolocate'
+	-- 'gluon-config-mode-hostname'
 	local site_i18n = i18n 'gluon-site'
 
 	local pretty_hostname = require 'pretty_hostname'
@@ -47,13 +48,22 @@ return function(form, uci)
 		.. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
 	)
 	help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names: ")
-	help = help .. string.format("%s | %s | %s", mystrA, mystrB, mystrC);
+	help = help .. string.format("<em>%s</em> | <em>%s</em> | <em>%s</em>", mystrA, mystrB, mystrC);
 	form:section(Section, nil, help)
 
     if (not current_systemhostname) then hostname=mystrA end
 
+    -- local s = form:section(Section)
+    -- local suggested_hostname = s:option(ListValue, "suggested_hostname", site_i18n.translate("Suggested hostnames")
+    -- suggested_hostname:value("own", translate("(Own input below)"))
+    -- suggested_hostname:value("optA", mystrA)
+    -- suggested_hostname:value("optB", mystrB)
+    -- suggested_hostname:value("optC", mystrC)
+    -- suggested_hostname.default = "own"
+
     local optstr=string.format("%s: %s-", pkg_i18n.translate("Node name"), zip)
 	local s = form:section(Section)
+
 	local o = s:option(Value, "hostname", optstr)
 	o.datatype = 'minlength(1)'
 	if site.config_mode.hostname.optional(true) then

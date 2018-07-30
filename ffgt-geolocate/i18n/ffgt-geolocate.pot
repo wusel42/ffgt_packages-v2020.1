@@ -1,9 +1,7 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid ""
-"If you want the location of your node to be displayed on the map, you can "
-"enter its coordinates here."
+msgid "If you want the location of your node to be displayed on the map, you can enter it's coordinates here."
 msgstr ""
 
 msgid "Latitude"
@@ -16,4 +14,60 @@ msgid "Show node on the map"
 msgstr ""
 
 msgid "e.g. %s"
+msgstr ""
+
+msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We _need_ a proper location to assign this node to a Freifunk network (\"hood\", \"community\", ...)."
+msgstr ""
+
+msgid "Please select where this node will be located at."
+msgstr ""
+
+msgid "Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map."
+msgstr ""
+
+msgid "We could not map your coordinates to a location code. That is odd; does this node have Internet connectivity?"
+msgstr ""
+
+msgid "Located the future position of this node as follows, please verify:"
+msgstr ""
+
+msgid "If neccessary, please update where this node will be located at."
+msgstr ""
+
+msgid "To select which configuration your node should use, we need to know where it will be located."
+msgstr ""
+
+msgid "We will use OpenStreetMap data to convert the coordinates you enter below to a street address, which in turn will result in a location code (locode)."
+msgstr ""
+
+msgid "We strongly believe in server-assisted setup, therefore we kindly request this information from you and that your node is connected to the Internet during Setup."
+msgstr ""
+
+msgid "This node can try network-based location. Our server will receive the neighbouring WiFi networks and try to translate that into a geoposition."
+msgstr ""
+
+msgid "Automagic geolocation"
+msgstr ""
+
+
+msgid "Node name"
+msgstr ""
+
+msgid "The node name is used solely for identification of your node, e.g. on a node map. It does not affect the name (SSID) of the broadcasted WLAN."
+msgstr ""
+
+msgid "Suggested names:"
+msgstr ""
+
+msgid "Based on the coordinates configured, this node will be part of:"
+msgstr ""
+
+
+msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
+msgstr ""
+
+msgid "Show node on the map"
+msgstr ""
+
+msgid "To change, go to Advanced settings/Geolocation."
 msgstr ""

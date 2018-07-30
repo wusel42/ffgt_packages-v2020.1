@@ -8,7 +8,7 @@ end
 
 local uci = require('simple-uci').cursor()
 
-local locode = uci:get('gluon-node-info', 'location', 'siteselect')
+local locode = uci:get_first('gluon-node-info', 'location', 'siteselect')
 if locode and not fs.access('/lib/gluon/domains/' .. locode .. '.json') then
 	io.stderr:write(string.format("Warning: invalid FFGT locode '%s' configured, ignoring.\n", locode))
 	locode = nil

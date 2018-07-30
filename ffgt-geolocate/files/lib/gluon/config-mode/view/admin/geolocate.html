@@ -27,7 +27,10 @@ local lon = uci:get_first("gluon-node-info", 'location', "longitude")
 local unlocode = uci:get_first("gluon-node-info", "location", "locode")
 if not lat then lat=0 else lat=tonumber(lat) end
 if not lon then lon=0 else lon=tonumber(lon) end
-if (lat == 51.892825) and (lon == 8.383708) then lat=51 lon=9 end
+if (lat == 51.892825) and (lon == 8.383708) then
+	lat=51
+	lon=9
+end
 %><!-- Lat: <%=lat%> Lon: <%=lon%> Loc: <%=unlocode%> --><%
 if (lat == 0) and (lon == 0) then %>
 	<p> class="error"<%:No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We _need_ a proper location to assign this node to a Freifunk network ("hood", "community", ...).'%></p>
@@ -85,10 +88,10 @@ if (tonumber(has_wifi) > 0) then %>
 	<div class="gluon-section-node">
 		<div class="gluon-value gluon-value-last">
 			<label class="gluon-value-title">
-				<%:Automagic location%>
+				<%:Automagic geolocation%>
 			</label>
 			<div class="gluon-value-field">
-				<input id="autolocate" class="gluon-input-checkbox" type="checkbox" name="autolocate" value="1" <% if (lat == 0) and (lon == 0) then %>checked="checked" <% else %>checked="false" <% end %>/>
+				<input id="autolocate" class="gluon-input-checkbox" type="checkbox" name="autolocate" value="1" <% if (lat == 0 and lon == 0) or (lat == 51 and lon == 9) then %>checked="checked" <% end %>/>
 				<label for="autolocate"></label>
 			</div>
 		</div>

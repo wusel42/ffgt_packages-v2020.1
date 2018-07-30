@@ -49,9 +49,9 @@ return function(form, uci)
         local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
         local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, unlocode)
         local text = pkg_i18n.translate(
-		    'Located the future position of this node as follows, please verify:<div><br></br></div>'
+		    'Located the future position of this node as follows, please verify:'
 	    )
-        text = text .. ' ' .. mystr
+        text = text .. '<div><br></br></div> ' .. mystr
 		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change, go to Advanced settings/Geolocation.')
 
 	    local s = form:section(Section, nil, text)

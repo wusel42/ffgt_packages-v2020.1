@@ -1,6 +1,7 @@
 
 return function(form, uci)
 	local site_i18n = i18n 'gluon-site'
+	local ffgt_i18n = i18n 'ffgt-geoloc'
 
 	local fs = require 'nixio.fs'
 	local json = require 'jsonc'
@@ -17,7 +18,7 @@ return function(form, uci)
         os.execute('gluon-reconfigure')
     end
 
-    local text = site_i18n.translate('Based on the coordinates configured, this node will be part of:')
+    local text = ffgt_i18n.translate('Based on the coordinates configured, this node will be part of:')
     local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", locode)),"\n", "")
     text = text .. " <strong>" .. communityname .. "</strong>."
 	local s = form:section(Section, nil, text)

@@ -10,7 +10,7 @@ setupmode="`/sbin/uci get gluon-setup-mode.@setup_mode[0].enabled 2>/dev/null`"
 UPSECS=$(cut -d ' ' -f 1 /proc/uptime)
 UPSECS=$(printf %.0f $UPSECS)
 if [ $setupmode -eq 0 -a $UPSECS -lt 300 ]; then exit 0 ; fi
-# Need at least 5 mins (300 sec) of uptime for things to have settled.
+# Need at least 5 mins (300 sec) of uptime for things to have settled outside config-mode.
 CURMIN=`/bin/date +%M`
 MODULO=`/usr/bin/expr ${CURMIN} % 5`
 mobile="`/sbin/uci get gluon-node-info.@location[0].is_mobile 2>/dev/null`"
