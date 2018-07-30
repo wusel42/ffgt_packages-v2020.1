@@ -47,6 +47,9 @@ local function action_geoloc(http, renderer)
 
         if not lat then lat = 0 else lat=tonumber(lat) end
         if not lon then lon = 0 else lon=tonumber(lon) end
+        -- lat / lon were no numbers ...
+        if not lat then lat = 0 end
+        if not lon then lon = 0 end
         if not (lat == 0 and lon == 0) then
             os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
         end
@@ -55,13 +58,17 @@ local function action_geoloc(http, renderer)
 	--         case we ignore the coordinates entered.
 	elseif step == 2 then
 		local autolocate = (http:formvalue("autolocate") == "1")
-		if (autolocate) then
+		if autolocate then
             os.execute("/lib/gluon/ffgt-geolocate/senddata.sh force")
             renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
         else
-            local newlat = trim(http:formvalue("lat"))
-    	    local newlon = trim(http:formvalue("lon"))
-            local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %s %s", newlat, newlon)
+            local newlat = tonumber(trim(http:formvalue("lat")))
+    	    local newlon = tonumber(trim(http:formvalue("lon")))
+
+    	    if not newlat or not newlon then
+    	      renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
+    	    end
+            local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f", newlat, newlon)
 	        os.execute(cmdstr)
 		end
 
@@ -72,6 +79,9 @@ local function action_geoloc(http, renderer)
 
         if not lat then lat = 0 else lat=tonumber(lat) end
         if not lon then lon = 0 else lon=tonumber(lon) end
+        -- lat / lon were no numbers ...
+        if not lat then lat = 0 end
+        if not lon then lon = 0 end
         if (lat == 51.892825) and (lon == 8.383708) then
             lat=51
             lon=9

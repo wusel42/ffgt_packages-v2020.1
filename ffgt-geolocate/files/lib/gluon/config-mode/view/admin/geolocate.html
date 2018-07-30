@@ -71,6 +71,12 @@ else
 
     <p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700"><%:Map%></iframe></p>
 
+<%
+lat=tonumber(lat)
+lon=tonumber(lon)
+if not lat then lat=0 end
+if not lon then lon=0 end
+%>
 	<div class="gluon-section-node">
 		<div class="gluon-value">
 			<label class="gluon-value-title"><%:Latitude%></label>
