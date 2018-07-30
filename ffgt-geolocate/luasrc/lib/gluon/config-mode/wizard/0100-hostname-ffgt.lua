@@ -47,8 +47,8 @@ return function(form, uci)
 		'The node name is used solely for identification of your node, e.g. on a '
 		.. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
 	)
-	help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names: ")
-	help = help .. string.format("<em>%s</em> | <em>%s</em> | <em>%s</em>", mystrA, mystrB, mystrC);
+	help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names:")
+	help = help .. " " .. string.format("<em>%s</em> | <em>%s</em> | <em>%s</em>", mystrA, mystrB, mystrC);
 	form:section(Section, nil, help)
 
     if (not current_systemhostname) then hostname=mystrA end

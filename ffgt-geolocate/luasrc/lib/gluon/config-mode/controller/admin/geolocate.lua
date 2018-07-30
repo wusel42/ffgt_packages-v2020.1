@@ -11,7 +11,6 @@ You may obtain a copy of the License at
 
 package 'ffgt-geolocate'
 
-
 local util = require 'gluon.util'
 local fs = require 'nixio.fs'
 local site = require 'gluon.site'

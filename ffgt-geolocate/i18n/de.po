@@ -75,7 +75,7 @@ msgstr "Aufgrund der konfigurierten Koordinaten wird dieser Knoten Teil von:"
 
 
 msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
-msgstr "Wenn die Position dieses Knotens auf Karten angezeigt werden darf, bitte den Haken setzen."
+msgstr "Bitte den Haken setzen/gesetzt lassen, damit die Position dieses Knotens auf Karten angezeigt werden darf."
 
 msgid "Show node on the map"
 msgstr "Knoten auf Karten anzeigen"
