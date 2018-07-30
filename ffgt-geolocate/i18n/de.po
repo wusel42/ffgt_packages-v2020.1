@@ -65,7 +65,7 @@ msgid "Node name"
 msgstr "Name dieses Knotens"
 
 msgid "The node name is used solely for identification of your node, e.g. on a node map. It does not affect the name (SSID) of the broadcasted WLAN."
-msgstr "Der Knotenname dient ausschließlich zur Identifikation Deines Knotens, z.&thinsp;B. auf einer Knotenkarte. Er hat keinen Einfluss auf den Namen (SSID) des ausgestrahlten WLANs."
+msgstr "Der Knotenname dient ausschließlich zur Identifikation Deines Knotens, z. B. auf einer Knotenkarte. Er hat keinen Einfluss auf den Namen (SSID) des ausgestrahlten WLANs."
 
 msgid "Suggested names:"
 msgstr "Namensvorschl&auml;ge:"
