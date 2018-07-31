@@ -107,4 +107,4 @@ local function action_geoloc(http, renderer)
 end
 
 
-local geoloc = entry({"admin", "geolocate"}, call(action_geoloc), _("Geolocation"), 8)
+local geoloc = entry({"admin", "geolocate"}, call(action_geoloc), _("Geolocation"), 2)

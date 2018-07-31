@@ -37,12 +37,10 @@ return function(form, uci)
 
     if not lat then lat=0 else lat=tonumber(lat) end
     if not lon then lon=0 else lon=tonumber(lon) end
-    if (lat == 0) and (lon == 0) then
-        renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
-    elseif (lat == 51) and (lon == 9) then
-        renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
-    elseif not unlocode then
-        renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
+    if ((lat == 0) and (lon == 0)) or ((lat == 51) and (lon == 9)) or (not unlocode) then
+        local text = pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
+	    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>')
+	    local s = form:section(Section, nil, text)
     else
         local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
         local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"

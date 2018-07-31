@@ -27,6 +27,9 @@ local lon = uci:get_first("gluon-node-info", 'location', "longitude")
 local unlocode = uci:get_first("gluon-node-info", "location", "locode")
 if not lat then lat=0 else lat=tonumber(lat) end
 if not lon then lon=0 else lon=tonumber(lon) end
+-- if lat/lon were no numbers, tonumber() yields nil
+if not lat then lat=0 end
+if not lon then lon=0 end
 if (lat == 51.892825) and (lon == 8.383708) then
 	lat=51
 	lon=9
@@ -58,11 +61,14 @@ else
   local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, communityname)
   local text = translate('Located the future position of this node as follows, please verify:')
   text = text .. '<div><br></br></div>' .. mystr
-  write(text) %>
+  write(text)
+%>
 	<p>
 		<%:If neccessary, please update where this node will be located at.%>
 	</p>
-<% end %>
+<%
+end
+%>
     <p>
 		<%:To select which configuration your node should use, we need to know where it will be located.%>
 		<%:We will use OpenStreetMap data to convert the coordinates you enter below to a street address, which in turn will result in a location code (locode).%>
@@ -71,12 +77,6 @@ else
 
     <p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700"><%:Map%></iframe></p>
 
-<%
-lat=tonumber(lat)
-lon=tonumber(lon)
-if not lat then lat=0 end
-if not lon then lon=0 end
-%>
 	<div class="gluon-section-node">
 		<div class="gluon-value">
 			<label class="gluon-value-title"><%:Latitude%></label>

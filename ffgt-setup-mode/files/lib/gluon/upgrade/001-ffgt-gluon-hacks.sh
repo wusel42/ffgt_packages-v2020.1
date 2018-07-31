@@ -12,6 +12,14 @@
 
 START=1
 
+if [ -e /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
+  mv /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua
+fi
+
+if [ -e /lib/gluon/config-mode/view/wizard/welcome-ffgt.html ]; then
+  mv /lib/gluon/config-mode/view/wizard/welcome-ffgt.html /lib/gluon/config-mode/view/wizard/welcome.html
+fi
+
 if [ -e /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua ]; then
   mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua
 fi
@@ -21,7 +29,7 @@ if [ -e /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua ]; then
 fi
 
 if [ -e /etc/crontabs/root ]; then
-  mv /etc/crontabs /etc/crontabs_notused
+  mv /etc/crontabs /etc/crontabs_not_used_by_gluon
 fi
 
 if [ -e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
