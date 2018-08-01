@@ -42,8 +42,8 @@ local function action_geoloc(http, renderer)
 	-- Step 1: Select/enter coordinates; if some are there alredy, try reverse geolocation with them
 	if step == 1 then
         local location = uci:get_first("gluon-node-info", "location")
-        local lat = uci:get_first("gluon-node-info", location, "latitude")
-        local lon = uci:get_first("gluon-node-info", location, "longitude")
+        local lat = uci:get("gluon-node-info", location, "latitude")
+        local lon = uci:get("gluon-node-info", location, "longitude")
 
         if not lat then lat = 0 else lat=tonumber(lat) end
         if not lon then lon = 0 else lon=tonumber(lon) end
@@ -73,9 +73,9 @@ local function action_geoloc(http, renderer)
 		end
 
 	    local location = uci:get_first("gluon-node-info", "location")
-        local lat = uci:get_first("gluon-node-info", location, "latitude")
-        local lon = uci:get_first("gluon-node-info", location, "longitude")
-        local unlocode = uci:get_first("gluon-node-info", location, "locode")
+        local lat = uci:get("gluon-node-info", location, "latitude")
+        local lon = uci:get("gluon-node-info", location, "longitude")
+        local unlocode = uci:get("gluon-node-info", location, "locode")
 
         if not lat then lat = 0 else lat=tonumber(lat) end
         if not lon then lon = 0 else lon=tonumber(lon) end
@@ -90,20 +90,12 @@ local function action_geoloc(http, renderer)
         if ((lat == 0 and lon == 0) or (lat == 51 and lon == 9)) then
 		  renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'gluon-web-admin')
 		else
-
-		  uci:set("gluon-node-info", location, "share_location", "1")
-		  uci:commit("gluon-node-info")
           uci:set('gluon', 'core', 'domain', unlocode)
           uci:commit('gluon')
 		  os.execute('gluon-reconfigure')
 		  renderer.render_layout('admin/geolocate_done', nil, 'gluon-web-admin')
 		end
 	elseif step == 3 then
---		if http:formvalue("keepcfg") == "1" then
---			fork_exec("/sbin/sysupgrade", tmpfile)
---		else
---			fork_exec("/sbin/sysupgrade", "-n", tmpfile)
---		end
 		renderer.render_layout('admin/geolocate_eeeee', nil, 'gluon-web-admin', {
 			hidenav = true,
 		})

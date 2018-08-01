@@ -8,14 +8,19 @@ return function(form, uci)
 	local util = require 'gluon.util'
     local uci = require("simple-uci").cursor()
 
-    local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
-    local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
-    local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
+    local location = uci:get_first("gluon-node-info", 'location')
+    local addr = uci:get("gluon-node-info", location, "addr") or "FEHLER_ADDR"
+    local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
+    local zip = uci:get("gluon-node-info", location, "zip") or "00000"
     local mac = string.sub(util.node_id(), 9)
 
     if not zip or not city or not addr then
-        renderer.render_layout('admin/geolocate', nil, 'gluon-web-admin')
-    end
+%>
+<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>
+<%
+	local text = pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
+	text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>') .. "</STRONG></CENTER>"
+	form:section(Section, nil, text)
 
     local current_systemhostname = uci:get_first("system", "system", "hostname")
 	local current_hostname = pretty_hostname.get(uci)
