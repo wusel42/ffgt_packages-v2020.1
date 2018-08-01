@@ -15,12 +15,11 @@ return function(form, uci)
     local mac = string.sub(util.node_id(), 9)
 
     if not zip or not city or not addr then
-%>
-<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>
-<%
-	local text = pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
-	text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>') .. "</STRONG></CENTER>"
-	form:section(Section, nil, text)
+        local text = "<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>"
+        text = text .. pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
+        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>') .. "</STRONG></CENTER>"
+        form:section(Section, nil, text)
+    end
 
     local current_systemhostname = uci:get_first("system", "system", "hostname")
 	local current_hostname = pretty_hostname.get(uci)
