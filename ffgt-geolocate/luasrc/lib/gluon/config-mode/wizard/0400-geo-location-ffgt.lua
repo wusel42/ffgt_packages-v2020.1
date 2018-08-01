@@ -5,9 +5,9 @@ return function(form, uci)
 	local site = require 'gluon.site'
 
 	local location = uci:get_first("gluon-node-info", "location")
-    local lat = uci:get_first("gluon-node-info", 'location', "latitude")
-    local lon = uci:get_first("gluon-node-info", 'location', "longitude")
-    local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+    local lat = uci:get_first("gluon-node-info", location, "latitude")
+    local lon = uci:get_first("gluon-node-info", location, "longitude")
+    local unlocode = uci:get_first("gluon-node-info", location, "locode")
 
 	local function show_altitude()
 		if site.config_mode.geo_location.show_altitude(true) then
@@ -30,7 +30,7 @@ return function(form, uci)
 	local o
 
 	local share_location = s:option(Flag, "location", pkg_i18n.translate("Show node on the map"))
-	share_location.default = uci:get_bool("gluon-node-info", location, "share_location")
+	share_location.default = uci:get_bool("gluon-node-info", location, "share_location") or true
 	function share_location:write(data)
 		uci:set("gluon-node-info", location, "share_location", data)
 	end
@@ -42,9 +42,9 @@ return function(form, uci)
 	    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>')
 	    local s = form:section(Section, nil, text)
     else
-        local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
-        local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
-        local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"
+        local addr = uci:get_first("gluon-node-info", location, "addr") or "FEHLER_ADDR"
+        local city = uci:get_first("gluon-node-info", location, "city") or "FEHLER_ORT"
+        local zip = uci:get_first("gluon-node-info", location, "zip") or "00000"
         local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, unlocode)
         local text = pkg_i18n.translate(
 		    'Located the future position of this node as follows, please verify:'
