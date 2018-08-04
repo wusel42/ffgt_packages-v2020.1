@@ -1,4 +1,3 @@
-
       _/_/_/_/                      _/      _/_/                      _/
      _/        _/  _/_/    _/_/          _/      _/    _/  _/_/_/    _/  _/
     _/_/_/    _/_/      _/_/_/_/  _/  _/_/_/_/  _/    _/  _/    _/  _/_/
@@ -6,9 +5,10 @@
   _/        _/          _/_/_/  _/    _/        _/_/_/  _/    _/  _/    _/
 
       Freifunk-Firmware für den Kreis Gütersloh sowie die Müritz-Region
+                      und die Feldberger Seenlandschaft
 
-  Web......: https://freifunk-kreisgt.de/   |   http://mueritz.freifunk.net
-  Kontakt..: info@guetersloh.freifunk.net   |   matthias@freifunk-mueritz.de
+  Info/Kontakt: https://freifunk-kreisgt.de | https://mueritz.freifunk.net
+                https://freifunk-feldberg.de
 
   Tools:
   - autoupdater -f    (Firmware-Update erzwingen)
