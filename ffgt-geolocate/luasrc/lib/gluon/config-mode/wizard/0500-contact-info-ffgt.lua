@@ -10,7 +10,7 @@ return function(form, uci)
     local valid_contact = false
 
     if contact then
-	    local text = pkg_i18n.translate('The email address of this node's operator looks valid and is recorded as: ')
+	    local text = pkg_i18n.translate("The email address of this node's operator looks valid and is recorded as: ")
 	    text = text .. string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
 	    text = text .. pkg_i18n.translate('To change it, go to Advanced settings/Contact.')
 	    form:section(Section, nil, text)

@@ -108,9 +108,8 @@ local function action_contact(http, renderer)
 		uci:set("gluon-node-info", owner, "contact", contact)
         uci:commit('gluon-node-info')
 	    renderer.render_layout('admin/contact_done', nil, 'gluon-web-admin')
-		end
 	end
 end
 
 
-local contact = entry({"admin", "contact"}, call(action_contact), _("Geolocation"), 2)
+local contact = entry({"admin", "contact"}, call(action_contact), _("Contact"), 2)
