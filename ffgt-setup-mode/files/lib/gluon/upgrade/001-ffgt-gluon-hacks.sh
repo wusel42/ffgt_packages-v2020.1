@@ -20,12 +20,20 @@ if [ -e /lib/gluon/config-mode/view/wizard/welcome-ffgt.html ]; then
   mv /lib/gluon/config-mode/view/wizard/welcome-ffgt.html /lib/gluon/config-mode/view/wizard/welcome.html
 fi
 
-if [ -e /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua
+if [ -e /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua /lib/gluon/config-mode/wizard/0100-hostname.lua
 fi
 
 if [ -e /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua ]; then
   mv /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua /lib/gluon/config-mode/wizard/0200-domain-select.lua
+fi
+
+if [ -e /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua
+fi
+
+if [ -e /lib/gluon/config-mode/wizard/0500-contact-info-ffgt.lua ]; then
+  mv /lib/gluon/config-mode/wizard/0500-contact-info-ffgt.lua /lib/gluon/config-mode/wizard/0500-contact-info.lua
 fi
 
 if [ -e /etc/crontabs/root ]; then
@@ -34,10 +42,6 @@ fi
 
 if [ -e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
   mv /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua /lib/gluon/config-mode/controller/admin/privatewifi.lua
-fi
-
-if [ -e /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua /lib/gluon/config-mode/wizard/0100-hostname.lua
 fi
 
 if [ -e /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua ]; then

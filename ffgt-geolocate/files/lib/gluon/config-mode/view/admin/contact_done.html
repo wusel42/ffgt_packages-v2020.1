@@ -1,0 +1,29 @@
+<%#
+Copyright 2008 Steven Barth <steven@midlink.org>
+Copyright 2008-2009 Jo-Philipp Wich <xm@subsignal.org>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id$
+
+-%>
+<%
+local util = require 'gluon.util'
+local fs = require 'nixio.fs'
+local site = require 'gluon.site'
+local uci = require("simple-uci").cursor()
+%>
+<h2><%:Contact data set%></h2>
+
+<%
+local text = "<script> window.location.href = "/";</script>"
+text = text .. pkg_i18n.translate('Contact data set, continue at %s.')
+text = "<CENTER><STRONG>" .. string.format(text, '<a href="/">Wizard</a>') .. "</STRONG></CENTER>"
+write(text) %>
+	<p>
+		<%:So long, and thanks for all the fish!%>
+	</p>
