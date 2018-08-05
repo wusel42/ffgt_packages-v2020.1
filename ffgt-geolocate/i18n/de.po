@@ -21,6 +21,9 @@ msgstr "Breitengrad"
 msgid "Longitude"
 msgstr "Längengrad"
 
+msgid "Geolocation"
+msgstr "Geolokalisierung"
+
 msgid "Show node on the map"
 msgstr "Knoten auf der Karte anzeigen"
 
@@ -81,4 +84,17 @@ msgid "Show node on the map"
 msgstr "Knoten auf Karten anzeigen"
 
 msgid "To change, go to Advanced settings/Geolocation."
-msgstr "Zum ändern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Geolocation</em> gehen."
+msgstr "Zum ändern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Geolokalisierung</em> gehen."
+
+msgid 'LOCATION NOT SET. Please go to %s.'
+msgstr "Koordinaten nicht gesetzt; bitte setze welche unter %s."
+
+
+msgid "The email address of this node's operator looks valid and is recorded as: "
+msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
+
+msgid 'To change it, go to Advanced settings/Contact.'
+msgstr "Sie kann unter <em>Erweiterte Einstellungen</em>/<em>Kontaktangaben</em>."
+
+msgid 'CONTACT NOT SET. Please go to %s.'
+msgstr "Keine Kontaktadresse angegeben, bitte unter %s eintragen."

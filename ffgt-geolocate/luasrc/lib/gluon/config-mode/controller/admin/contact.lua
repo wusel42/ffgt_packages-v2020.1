@@ -91,23 +91,24 @@ local function action_contact(http, renderer)
 
 	-- Step 1: Display form
 	if step == 1 then
-		renderer.render_layout('admin/contact', { error_message, }, 'gluon-web-admin')
+		renderer.render_layout('admin/contact', { error_message, }, 'ffgt-geolocate')
 	-- Step 2: Validate
 	elseif step >= 1 then
 	    contact=trim(http:formvalue("contact"))
         if contact then
             valid_contact, error_message = validemail(contact)
             if not valid_contact then
-                renderer.render_layout('admin/contact', { error_message, }, 'gluon-web-admin')
+                renderer.render_layout('admin/contact', { error_message, }, 'ffgt-geolocate')
             end
+            -- we should have arrived with a valid contact email, fall through, ...
         else
-            renderer.render_layout('admin/contact', { error_message="unset", }, 'gluon-web-admin')
+            renderer.render_layout('admin/contact', { error_message="unset", }, 'ffgt-geolocate')
         end
 
-        -- we should have arrived with a valid contact email ...
+        -- ... and happily jump to the finish line.
 		uci:set("gluon-node-info", owner, "contact", contact)
         uci:commit('gluon-node-info')
-	    renderer.render_layout('admin/contact_done', nil, 'gluon-web-admin')
+	    renderer.render_layout('admin/contact_done', nil, 'ffgt-geolocate')
 	end
 end
 

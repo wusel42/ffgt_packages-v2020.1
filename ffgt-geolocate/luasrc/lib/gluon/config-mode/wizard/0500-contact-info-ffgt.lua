@@ -15,9 +15,9 @@ return function(form, uci)
 	    text = text .. pkg_i18n.translate('To change it, go to Advanced settings/Contact.')
 	    form:section(Section, nil, text)
 	else
-        local text = "<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>"
-        text = text .. pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
-        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>') .. "</STRONG></CENTER>"
+        local text = '<script> window.location.href = "/cgi-bin/config/admin/contact";</script>'
+        text = text .. pkg_i18n.translate('CONTACT NOT SET. Please go to %s.')
+        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/contact">Contact</a>') .. "</STRONG></CENTER>"
         form:section(Section, nil, text)
     end
 

@@ -10,6 +10,9 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
+msgid "Geolocation"
+msgstr ""
+
 msgid "Show node on the map"
 msgstr ""
 
@@ -70,4 +73,17 @@ msgid "Show node on the map"
 msgstr ""
 
 msgid "To change, go to Advanced settings/Geolocation."
+msgstr ""
+
+msgid 'LOCATION NOT SET. Please go to %s.'
+msgstr ""
+
+
+msgid "The email address of this node's operator looks valid and is recorded as: "
+msgstr ""
+
+msgid 'To change it, go to Advanced settings/Contact.'
+msgstr ""
+
+msgid 'CONTACT NOT SET. Please go to %s.'
 msgstr ""
