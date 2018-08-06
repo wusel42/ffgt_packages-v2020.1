@@ -80,37 +80,32 @@ local function validemail(str)
 end
 
 local function action_contact(http, renderer)
-	local nixio = require 'nixio'
+    local nixio = require 'nixio'
 
-	-- Determine state
-	local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
+    -- Determine state
+    local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
     local owner = uci:get_first("gluon-node-info", "owner")
-	local contact = uci:get("gluon-node-info", owner, "contact")
+    local contact = uci:get("gluon-node-info", owner, "contact")
     local valid_contact = false
-    local error_message = nil
 
-	-- Step 1: Display form
-	if step == 1 then
-		renderer.render_layout('admin/contact', { error_message, }, 'ffgt-geolocate')
-	-- Step 2: Validate
-	elseif step >= 1 then
-	    contact=trim(http:formvalue("contact"))
-        if contact then
-            valid_contact, error_message = validemail(contact)
-            if not valid_contact then
-                renderer.render_layout('admin/contact', { error_message, }, 'ffgt-geolocate')
-            end
-            -- we should have arrived with a valid contact email, fall through, ...
+    -- Step 1: Display form
+    if step == 1 then
+        renderer.render_layout('admin/contact', { nil, }, 'ffgt-geolocate')
+    -- Step 2: Validate
+    elseif step >=1 then
+        contact=http:formvalue("contact")
+
+       if contact then contact=trim(contact) else contact="{empty}" end
+        valid_contact, error_message = validemail(contact)
+        -- if not error_message then error_message="" end
+        if not (valid_contact == true) then
+            renderer.render_layout('admin/contact', { contact, error_message, }, 'ffgt-geolocate')
         else
-            renderer.render_layout('admin/contact', { error_message="unset", }, 'ffgt-geolocate')
+            uci:set("gluon-node-info", owner, "contact", contact)
+            uci:commit('gluon-node-info')
+            renderer.render_layout('admin/contact_done', nil, 'ffgt-geolocate')
         end
-
-        -- ... and happily jump to the finish line.
-		uci:set("gluon-node-info", owner, "contact", contact)
-        uci:commit('gluon-node-info')
-	    renderer.render_layout('admin/contact_done', nil, 'ffgt-geolocate')
-	end
+    end
 end
 
-
-local contact = entry({"admin", "contact"}, call(action_contact), _("Contact"), 2)
+local contact = entry({"admin", "contact"}, call(action_contact), _("Contact"), 3)

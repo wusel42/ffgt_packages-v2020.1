@@ -13,6 +13,9 @@ msgstr ""
 msgid "Geolocation"
 msgstr ""
 
+msgid "Contact"
+msgstr ""
+
 msgid "Show node on the map"
 msgstr ""
 
@@ -86,4 +89,13 @@ msgid 'To change it, go to Advanced settings/Contact.'
 msgstr ""
 
 msgid 'CONTACT NOT SET. Please go to %s.'
+msgstr ""
+
+msgid "Please enter a valid(!) email address, so we can contact you if something needs to be done about your node."
+msgstr ""
+
+msgid "By entering an email address here, you acknowledge that a) it's under your control and you have the legal authority to use it, b) we may contact you at that address to discuss issues regarding your node (like about mandatory firmware upgrade when autoupdating is disabled or malfunctioning, etc.), and c) that this data is transmitted unencrypted continiously within the mesh (as parts of statisics collection/uptime signalling)."
+msgstr ""
+
+msgid "You may enter a trash email address here (like from fyii.de, mailinator.com, you name it); be reminded, though, that we may remove nodes where we fail to reach a node's operator within reasonable time (that is, no reply after 7 days)."
 msgstr ""

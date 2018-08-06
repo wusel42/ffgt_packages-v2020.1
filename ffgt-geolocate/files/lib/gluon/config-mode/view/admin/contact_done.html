@@ -20,8 +20,8 @@ local uci = require("simple-uci").cursor()
 <h2><%:Contact data set%></h2>
 
 <%
-local text = "<script> window.location.href = "/cgi-bin/config/wizard";</script>"
-text = text .. pkg_i18n.translate('Contact data set, continue at %s.')
+local text = '<script> window.location.href = "/cgi-bin/config/wizard";</script>'
+text = text .. translate('Contact data set, continue at %s.')
 text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/wizard">Wizard</a>') .. "</STRONG></CENTER>"
 write(text) %>
 	<p>

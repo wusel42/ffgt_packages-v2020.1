@@ -22,9 +22,10 @@ local uci = require("simple-uci").cursor()
 <form method="post" enctype="multipart/form-data" action="<%|url(request)%>">
 <%
 local owner = uci:get_first("gluon-node-info", "owner")
-local contact = uci:get("gluon-node-info", owner, "contact")
-if not contact then contact="unset" end
+local curr_contact = uci:get("gluon-node-info", owner, "contact")
+if not curr_contact then curr_contact="unset" end
 
+if not contact then contact=curr_contact end
 if error_message then %>
 	<p class="error"><%=error_message%></p>
 <%
