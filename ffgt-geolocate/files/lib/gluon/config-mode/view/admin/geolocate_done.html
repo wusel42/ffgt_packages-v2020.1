@@ -17,7 +17,7 @@ local fs = require 'nixio.fs'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
 %>
-<h2><%:Geolocation successfull%></h2>
+<h2><%:Geolocation successful%></h2>
 
 <%
 local location = uci:get_first("gluon-node-info", "location")
