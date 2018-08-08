@@ -12,6 +12,10 @@
 
 START=1
 
+if [ -e /lib/gluon/setup-mode/S20network-ffgt.sh ];then
+  mv /lib/gluon/setup-mode/S20network-ffgt.sh /lib/gluon/setup-mode/rc.d/S20network.sh
+fi
+
 if [ -e /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
   mv /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua
 fi
