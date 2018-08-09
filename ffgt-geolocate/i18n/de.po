@@ -87,7 +87,7 @@ msgid "Show node on the map"
 msgstr "Knoten auf Karten anzeigen"
 
 msgid "To change, go to Advanced settings/Geolocation."
-msgstr "Zum ändern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Geolokalisierung</em> gehen."
+msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Geolokalisierung gehen."
 
 msgid 'LOCATION NOT SET. Please go to %s.'
 msgstr "Koordinaten nicht gesetzt; bitte setze welche unter %s."
@@ -97,13 +97,13 @@ msgid "The email address of this node's operator looks valid and is recorded as:
 msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
 
 msgid "To change it, go to Advanced settings/Contact."
-msgstr "Zum ändern bitte unter <em>Erweiterte Einstellungen</em> auf <em>Kontaktadresse</em> gehen."
+msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Kontaktadresse gehen."
 
 msgid 'CONTACT NOT SET. Please go to %s.'
 msgstr "Keine Kontaktadresse angegeben, bitte unter %s eintragen."
 
 msgid "Please enter a valid(!) email address, so we can contact you if something needs to be done about your node."
-msgstr "Bitte gib' hier eine <em>gültige</em> eMail-Adresse an, damit wir Dich erreichen könne, falls mit Deinem Knoten irgendetwas nicht stimmt."
+msgstr "Bitte gib' hier eine gültige(!) eMail-Adresse an, damit wir Dich erreichen könne, falls mit Deinem Knoten irgendetwas nicht stimmt."
 
 msgid "By entering an email address here, you acknowledge that a) it's under your control and you have the legal authority to use it, b) we may contact you at that address to discuss issues regarding your node (like about mandatory firmware upgrade when autoupdating is disabled or malfunctioning, etc.), and c) that this data is transmitted unencrypted continiously within the mesh (as parts of statisics collection/uptime signalling)."
 msgstr "Mit der Angabe einer eMail-Adresse bestätigst Du, a) daß diese unter Deiner Kontrolle ist und Du rechtlich befugt bist, diese hierfür zu nutzen, b) daß wir Dich unter dieser Adresse zu technischen Aspekten bezüglich Deines Knotens anschreiben dürfen (z. B. bei erforderlichem Firmwareupdate, welches wegen deaktiviertem Autoupdater oder anderen Gründen nicht installiert wurde) sowie c) daß Du weißt, daß diese Daten unverschlüsselt periodisch im Maschennetzwerk – als Teil der statistischen/operativen Daten – übertragen werden."

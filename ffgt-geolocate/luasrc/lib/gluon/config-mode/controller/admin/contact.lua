@@ -90,7 +90,7 @@ local function action_contact(http, renderer)
 
     -- Step 1: Display form
     if step == 1 then
-        renderer.render_layout('admin/contact', { nil, }, 'ffgt-geolocate')
+        renderer.render_layout('admin/contact', { contact, }, 'ffgt-geolocate')
     -- Step 2: Validate
     elseif step >=1 then
         contact=http:formvalue("contact")
@@ -103,7 +103,7 @@ local function action_contact(http, renderer)
         else
             uci:set("gluon-node-info", owner, "contact", contact)
             uci:commit('gluon-node-info')
-            renderer.render_layout('admin/contact_done', nil, 'ffgt-geolocate')
+            renderer.render_layout('admin/contact_done', { contact, } , 'ffgt-geolocate')
         end
     end
 end
