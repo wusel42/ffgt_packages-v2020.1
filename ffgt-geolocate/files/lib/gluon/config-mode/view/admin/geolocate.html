@@ -21,6 +21,7 @@ local uci = require("simple-uci").cursor()
 
 <form method="post" enctype="multipart/form-data" action="<%|url(request)%>">
 <%
+local located=0
 local location = uci:get_first("gluon-node-info", "location")
 local lat = uci:get("gluon-node-info", location, "latitude")
 local lon = uci:get("gluon-node-info", location, "longitude")
@@ -47,13 +48,19 @@ if (lat == 0) and (lon == 0) then %>
 	</p>
 <%
 elseif (lat == 51) and (lon == 9) then %>
-	<p class="error"><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%></p>
+	<p class="error"><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%> (1)</p>
 	<p>
 		<%:Please select where this node will be located at.%>
 	</p>
 <%
-elseif null_coords or rgeo_error then %>
-	<p class="error"><strong><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%></strong></p>
+elseif null_coords then %>
+	<p class="error"><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%> (2)</p>
+	<p>
+		<%:Please select where this node will be located at.%>
+	</p>
+<%
+elseif rgeo_error then %>
+	<p class="error"><%:Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map.%> (3)</p>
 	<p>
 		<%:Please select where this node will be located at.%>
 	</p>
@@ -73,15 +80,18 @@ else
   local text = translate('Located the future position of this node as follows, please verify:')
   text = text .. '<div><br></br></div>' .. mystr
   write(text)
+  located=1
 %>
 	<p>
 		<%:If neccessary, please update where this node will be located at.%>
 	</p>
 <%
 end
+if located==0 then
 %>
     <p><%:To select which configuration your node should use, we need to know where it will be located.%></p>
 	<p><%:We will use OpenStreetMap data to convert the coordinates you enter below to a street address, which in turn will result in a location code (locode).%></p>
+<% end %>
 	<p><%:We strongly believe in server-assisted setup, therefore we kindly request this information from you and that your node is connected to the Internet during Setup.%></p>
 
     <p><iframe src="http://map.4830.org/geomap.html" width="100%%" height="700"><%:Map%></iframe></p>

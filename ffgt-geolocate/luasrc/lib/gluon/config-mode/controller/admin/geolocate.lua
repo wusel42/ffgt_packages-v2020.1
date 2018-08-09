@@ -65,7 +65,7 @@ local function action_geoloc(http, renderer)
     	    local newlon = tonumber(trim(http:formvalue("lon")))
 
     	    if not newlat or not newlon then
-    	      renderer.render_layout('admin/geolocate', { null_coords = (not newlat or not newlon), }, 'ffgt-geolocate')
+    	      renderer.render_layout('admin/geolocate', { null_coords = 1, }, 'ffgt-geolocate')
     	    end
             local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f", newlat, newlon)
 	        os.execute(cmdstr)
