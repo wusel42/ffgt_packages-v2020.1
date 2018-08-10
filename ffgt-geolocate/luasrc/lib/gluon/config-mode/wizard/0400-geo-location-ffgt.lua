@@ -45,7 +45,10 @@ return function(form, uci)
         local addr = uci:get("gluon-node-info", location, "addr") or "FEHLER_ADDR"
         local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
         local zip = uci:get("gluon-node-info", location, "zip") or "00000"
-        local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, unlocode)
+	    local selected_domain = uci:get('gluon', 'core', 'domain')
+    	local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", selected_domain)),"\n", "")
+
+        local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, communityname)
         local text = pkg_i18n.translate(
 		    'Located the future position of this node as follows, please verify:'
 	    )
