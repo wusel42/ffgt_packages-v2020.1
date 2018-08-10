@@ -20,10 +20,17 @@ local uci = require("simple-uci").cursor()
 <h2><%:Contact data set%></h2>
 
 <%
-local text = '<script> window.location.href = "/cgi-bin/config/wizard";</script>'
-text = text .. translate('Contact data set, continue at %s.')
-text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/wizard">Wizard</a>') .. "</STRONG></CENTER>"
-write(text) %>
-	<p>
-		<%:So long, and thanks for all the fish!%>
-	</p>
+local owner = uci:get_first("gluon-node-info", "owner")
+local contact = uci:get("gluon-node-info", owner, "contact")
+
+if contact then
+	local text = pkg_i18n.translate("The email address of this node's operator looks valid and is recorded as: ")
+	text = text .. string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
+	text = text .. pkg_i18n.translate('To change it, go to Advanced settings/Contact.')
+	text = "<p>" .. text .. "</p>"
+    write(text)
+end
+-- local text = '<script> window.location.href = "/cgi-bin/config/wizard";</script>'
+-- text = text .. translate('Contact data set, continue at %s.')
+-- text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/wizard">Wizard</a>') .. "</STRONG></CENTER>"
+-- write(text) %>

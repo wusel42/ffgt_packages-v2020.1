@@ -34,7 +34,7 @@ msgid "e.g. %s"
 msgstr "z. B. %s"
 
 msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (‘hood’, ‘community’, ...).'"
-msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseodonymisiert über Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir <em>benötigen</em> eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
+msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseodonymisiert über Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir benötigen eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
 
 msgid "Please select where this node will be located at."
 msgstr "Bitte gib' an, wo dieser Knoten steht/stehen wird."
@@ -103,13 +103,13 @@ msgid 'CONTACT NOT SET. Please go to %s.'
 msgstr "Keine Kontaktadresse angegeben, bitte unter %s eintragen."
 
 msgid "Please enter a valid(!) email address, so we can contact you if something needs to be done about your node."
-msgstr "Bitte gib' hier eine gültige(!) eMail-Adresse an, damit wir Dich erreichen könne, falls mit Deinem Knoten irgendetwas nicht stimmt."
+msgstr "Bitte gib' hier eine gültige(!) eMail-Adresse an, damit wir Dich erreichen können, falls mit Deinem Knoten irgendetwas nicht stimmt."
 
 msgid "By entering an email address here, you acknowledge that a) it's under your control and you have the legal authority to use it, b) we may contact you at that address to discuss issues regarding your node (like about mandatory firmware upgrade when autoupdating is disabled or malfunctioning, etc.), and c) that this data is transmitted unencrypted continiously within the mesh (as parts of statisics collection/uptime signalling)."
-msgstr "Mit der Angabe einer eMail-Adresse bestätigst Du, a) daß diese unter Deiner Kontrolle ist und Du rechtlich befugt bist, diese hierfür zu nutzen, b) daß wir Dich unter dieser Adresse zu technischen Aspekten bezüglich Deines Knotens anschreiben dürfen (z. B. bei erforderlichem Firmwareupdate, welches wegen deaktiviertem Autoupdater oder anderen Gründen nicht installiert wurde) sowie c) daß Du weißt, daß diese Daten unverschlüsselt periodisch im Maschennetzwerk – als Teil der statistischen/operativen Daten – übertragen werden."
+msgstr "Mit der Angabe einer eMail-Adresse bestätigst Du, a) daß diese unter Deiner Kontrolle ist und Du rechtlich befugt bist, diese hierfür zu nutzen, b) daß wir Dich unter dieser Adresse zu technischen Aspekten bezüglich Deines Knotens anschreiben dürfen (z. B. bei erforderlichem Firmwareupdate, welches wegen deaktiviertem Autoupdater oder aus anderen Gründen nicht installiert wurde) sowie c) daß Du weißt, daß diese Daten unverschlüsselt periodisch im Maschennetzwerk – als Teil der statistischen/operativen Daten – übertragen werden."
 
 msgid "You may enter a trash email address here (like from fyii.de, mailinator.com, you name it); be reminded, though, that we may remove nodes where we fail to reach a node's operator within reasonable time (that is, no reply after 7 days)."
-msgstr "Du kannst hier auch eine sog. »Trash-Mail-Adresse« (wie sie z. B. fyii.de, mailinator.com und andere anbieten) angeben; bitte behalte im Hinterkopf, daß wir ggf. Knoten aus unserem Netz entfernen, bei denen wir den Ansprechpartner nicht in angemessener Zeit (7 Kalendertage) per Mail erreichen können."
+msgstr "Du kannst hier auch eine sog. »Trash-Mail-Adresse« (wie sie z. B. fyii.de, mailinator.com und andere anbieten) angeben; bitte behalte im Hinterkopf, daß wir ggf. Knoten aus unserem Netz entfernen müssen, bei denen wir den Ansprechpartner nicht in angemessener Zeit (7 Kalendertage) per Mail erreichen können."
 
 msgid "Your node will be registered running at:"
 msgstr "Als Betriebsposition für Deinen Knoten haben wir notiert:"
