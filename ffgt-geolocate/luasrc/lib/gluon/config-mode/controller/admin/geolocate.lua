@@ -12,7 +12,6 @@ You may obtain a copy of the License at
 package 'ffgt-geolocate'
 
 local util = require 'gluon.util'
-local fs = require 'nixio.fs'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
 
@@ -21,21 +20,7 @@ local function trim(s)
   return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
-local function filehandler(meta, chunk, eof)
-	if not fs.access(tmpfile) and not file and chunk and #chunk > 0 then
-		file = io.open(tmpfile, "w")
-	end
-	if file and chunk then
-		file:write(chunk)
-	end
-	if file and eof then
-		file:close()
-	end
-end
-
 local function action_geoloc(http, renderer)
-	local nixio = require 'nixio'
-
 	-- Determine state
 	local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
     local location = uci:get_first("gluon-node-info", "location")

@@ -12,7 +12,6 @@ You may obtain a copy of the License at
 package 'ffgt-geolocate'
 
 local util = require 'gluon.util'
-local fs = require 'nixio.fs'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
 
@@ -80,8 +79,6 @@ local function validemail(str)
 end
 
 local function action_contact(http, renderer)
-    local nixio = require 'nixio'
-
     -- Determine state
     local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
     local owner = uci:get_first("gluon-node-info", "owner")

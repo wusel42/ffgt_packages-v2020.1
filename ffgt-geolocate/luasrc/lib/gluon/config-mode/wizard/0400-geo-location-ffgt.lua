@@ -1,7 +1,7 @@
 return function(form, uci)
 	local pkg_i18n = i18n 'ffgt-geolocate'
 	local site_i18n = i18n 'gluon-site'
-
+	local util = require 'gluon.util'
 	local site = require 'gluon.site'
 
 	local location = uci:get_first("gluon-node-info", "location")

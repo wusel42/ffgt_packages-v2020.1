@@ -2,8 +2,6 @@
 return function(form, uci)
 	local site_i18n = i18n 'gluon-site'
 	local ffgt_i18n = i18n 'ffgt-geolocate'
-
-	local fs = require 'nixio.fs'
 	local json = require 'jsonc'
 	local site = require 'gluon.site'
 	local util = require 'gluon.util'
