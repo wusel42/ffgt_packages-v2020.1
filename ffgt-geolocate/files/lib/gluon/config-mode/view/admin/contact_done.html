@@ -23,11 +23,10 @@ local owner = uci:get_first("gluon-node-info", "owner")
 local contact = uci:get("gluon-node-info", owner, "contact")
 
 if contact then
-	local text = pkg_i18n.translate("The email address of this node's operator looks valid and is recorded as: ")
-	text = text .. string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
-	text = text .. pkg_i18n.translate('To change it, go to Advanced settings/Contact.')
-	text = "<p>" .. text .. "</p>"
-    write(text)
+	local text = string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
+%>
+    <p><%:The email address of this node's operator looks valid and is recorded as: %><%=text%><%:To change it, go to Advanced settings/Contact.%></p>
+<%
 end
 -- local text = '<script> window.location.href = "/cgi-bin/config/wizard";</script>'
 -- text = text .. translate('Contact data set, continue at %s.')
