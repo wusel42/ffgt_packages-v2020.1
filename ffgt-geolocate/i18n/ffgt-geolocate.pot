@@ -16,6 +16,9 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
+msgid "Contact data set"
+msgstr ""
+
 msgid "Show node on the map"
 msgstr ""
 

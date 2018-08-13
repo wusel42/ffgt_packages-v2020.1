@@ -27,6 +27,9 @@ msgstr "Geolokalisierung"
 msgid "Contact"
 msgstr "Kontaktdaten"
 
+msgid "Contact data set"
+msgstr "Kontaktdaten konfiguriert"
+
 msgid "Show node on the map"
 msgstr "Knoten auf der Karte anzeigen"
 
@@ -97,7 +100,7 @@ msgid "The email address of this node's operator looks valid and is recorded as:
 msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
 
 msgid "To change it, go to Advanced settings/Contact."
-msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Kontaktadresse gehen."
+msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Kontaktdaten gehen."
 
 msgid 'CONTACT NOT SET. Please go to %s.'
 msgstr "Keine Kontaktadresse angegeben, bitte unter %s eintragen."
