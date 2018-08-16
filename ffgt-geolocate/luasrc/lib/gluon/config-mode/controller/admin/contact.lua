@@ -84,6 +84,7 @@ local function action_contact(http, renderer)
     local owner = uci:get_first("gluon-node-info", "owner")
     local contact = uci:get("gluon-node-info", owner, "contact")
     local valid_contact = false
+    local error_message;
 
     -- Step 1: Display form
     if step == 1 then
@@ -92,7 +93,7 @@ local function action_contact(http, renderer)
     elseif step >=1 then
         contact=http:formvalue("contact")
 
-       if contact then contact=trim(contact) else contact="{empty}" end
+        if contact then contact=trim(contact) else contact="{empty}" end
         valid_contact, error_message = validemail(contact)
         -- if not error_message then error_message="" end
         if not (valid_contact == true) then
