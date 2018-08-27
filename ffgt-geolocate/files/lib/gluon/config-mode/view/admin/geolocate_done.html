@@ -15,6 +15,12 @@ $Id$
 local util = require 'gluon.util'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
+local io = io
+
+local function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
 %>
 <h2><%:Geolocation successful%></h2>
 
@@ -38,3 +44,12 @@ local text = translate('Your node will be registered running at:')
 	<p>
 		<%:To change, go to Advanced settings/Geolocation.%>
 	</p>
+<%
+  if file_exists('/tmp/return2wizard.hack') then
+    local cmdstr='/bin/rm /tmp/return2wizard.hack 2>/dev/null'
+    util.exec(cmdstr)
+    text = translate('PLEASE RETURN TO %s.')
+    text = '<script>window.location.href = "/cgi-bin/config/wizard";</script><CENTER><STRONG>' .. string.format(text, '<a href="/cgi-bin/config/wizard">WIZARD</a>') .. '</STRONG></CENTER>'
+    write(text)
+  end
+%>
