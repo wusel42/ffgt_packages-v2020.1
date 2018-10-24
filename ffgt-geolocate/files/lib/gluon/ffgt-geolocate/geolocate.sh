@@ -8,6 +8,9 @@ if [ ! -e $IW ]; then
 fi
 export IW
 
+WLANDEV="client0"
+/sbin/ifconfig -a | /bin/grep wlan0 >/dev/null && WLANDEV="wlan0"
+
 runnow=0
 isconfigured="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
 if [ "$isconfigured" != "1" ]; then
@@ -27,12 +30,12 @@ if [ ${runnow} -eq 1 ]; then
 
  mac=`/sbin/uci get network.bat0.macaddr`
  # FIXME. On multiband devices, check wlan1 as well!
- ${IW} dev client0 scan >/dev/null 2>&1
+ ${IW} dev ${WLANDEV} scan >/dev/null 2>&1
  if [ $? -ne 0 ]; then
-  /sbin/ifconfig client0 up
+  /sbin/ifconfig ${WLANDEV} up
   sleep 2
  fi
- /bin/wget -q -O /dev/null "`${IW} client0 scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
+ /bin/wget -q -O /dev/null "`${IW} ${WLANDEV} scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
  # On success only ...
  if [ -e /tmp/run/geolocate-data-sent ]; then
   curlat="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
