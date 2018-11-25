@@ -43,7 +43,7 @@ local function action_geoloc(http, renderer)
 	elseif step == 2 then
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if autolocate then
-            os.execute("/lib/gluon/ffgt-geolocate/senddata.sh force")
+            os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force")
             renderer.render_layout('admin/geolocate', { autolocated = 1, }, 'ffgt-geolocate')
         else
             local newlat = tonumber(trim(http:formvalue("lat")))
