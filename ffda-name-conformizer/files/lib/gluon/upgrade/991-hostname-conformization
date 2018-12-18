@@ -1,0 +1,9 @@
+#!/bin/sh
+
+HOSTNAME=$(pretty-hostname)
+
+if [ "$HOSTNAME" = "WINTER-IS-HERE" ]; then
+    uci delete system.@system[0].pretty_hostname
+    uci set system.@system[0].hostname='64807-WINTER-IS-HERE'
+fi
+
