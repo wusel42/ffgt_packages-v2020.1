@@ -2,8 +2,22 @@
 
 HOSTNAME=$(pretty-hostname)
 
-if [ "$HOSTNAME" = "WINTER-IS-HERE" ]; then
+if [ "$HOSTNAME" = "33330-33330-Esperanza-bbd2" ]; then
     uci delete system.@system[0].pretty_hostname
-    uci set system.@system[0].hostname='64807-WINTER-IS-HERE'
+    uci set system.@system[0].hostname='33330-Esperanza-bbd2'
 fi
 
+if [ "$HOSTNAME" = "ffgt-Parkbad" ]; then
+    uci delete system.@system[0].pretty_hostname
+    uci set system.@system[0].hostname='33332-Parkbad-1'
+fi
+
+if [ "$HOSTNAME" = "ffgt-Parkbad2" ]; then
+    uci delete system.@system[0].pretty_hostname
+    uci set system.@system[0].hostname='33332-Parkbad-2'
+fi
+
+if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
+    uci delete system.@system[0].pretty_hostname
+    uci set system.@system[0].hostname='33332-FWTest-a0f3c1058b90'
+fi
