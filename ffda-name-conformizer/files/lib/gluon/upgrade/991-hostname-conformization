@@ -21,3 +21,10 @@ if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
     uci delete system.@system[0].pretty_hostname
     uci set system.@system[0].hostname='33332-FWTest-a0f3c1058b90'
 fi
+
+if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
+    uci set gluon-node-info.@location[0].latitude="51.9091574"
+    uci set gluon-node-info.@location[0].longitude="8.3813444"
+    uci set gluon-node-info.@location[0].addr 'Berliner-Str-70'
+    uci commit gluon-node-info
+fi
