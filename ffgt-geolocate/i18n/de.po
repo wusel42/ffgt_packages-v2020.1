@@ -43,7 +43,7 @@ msgid "Please select where this node will be located at."
 msgstr "Bitte gib' an, wo dieser Knoten steht/stehen wird."
 
 msgid "Looks like geolocation failed. Please add the coordinates this node will be located at below, feel free to utilize our map."
-msgstr "Die automatische Lokalisierung schlug wohl fehl. Bitte gib' die Aufstellkoordinaten dieses Knotens an, gerne unter Zuhilfename unserer Karte."
+msgstr "Die Geolokalisierung schlug wohl fehl. Bitte gib' die Aufstellkoordinaten dieses Knotens an, gerne unter Zuhilfename unserer Karte."
 
 msgid "We could not map your coordinates to a location code. That is odd; does this node have Internet connectivity?"
 msgstr "Hmm, es ist keine Zuordnung von Koordinaten zu einer Adresse möglich; hat dieser Knoten aktuell Internetzugang?"
