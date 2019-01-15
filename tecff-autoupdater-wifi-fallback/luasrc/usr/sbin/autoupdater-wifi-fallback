@@ -3,34 +3,12 @@ local uci = require('simple-uci').cursor()
 local site = require 'gluon.site'
 local autil = require 'autoupdater-wifi-fallback.util'
 local util = require 'gluon.util'
-local bit = require 'bit'
-local fcntl = require 'posix.fcntl'
-local unistd = require 'posix.unistd'
 
 local configname = 'autoupdater-wifi-fallback'
 local lockfilename = configname .. '-lockfile'
 local force = false
 local min_uptime_secs = 3600
 local branch_name = uci:get('autoupdater', 'settings', 'branch')
-
-local lockfd, err = fcntl.open(lockfilename, bit.bor(fcntl.O_WRONLY, fcntl.O_CREAT, fcntl.O_CLOEXEC), 384) -- mode 0600
-if not lockfd then
-        io.stderr:write(err, '\n')
-        os.exit(1)
-end
-
-local ok, err = fcntl.fcntl(lockfd, fcntl.F_SETLK, {
-        l_start = 0,
-        l_len = 0,
-        l_type = fcntl.F_WRLCK,
-        l_whence = unistd.SEEK_SET,
-})
-if not ok then
-        io.stderr:write(err, '\n')
-        os.exit(1)
-end
-
-io.stdout:write('Lock acquired.', '\n')
 
 local function parse_args()
 local i = 1
