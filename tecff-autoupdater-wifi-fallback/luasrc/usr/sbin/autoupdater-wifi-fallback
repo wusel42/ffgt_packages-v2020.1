@@ -113,7 +113,7 @@ if not uci:get('autoupdater', branch_name) then
 end
 
 if (force or preflight_check()) and not connectivity_check() then
-  local offset = 2 * 3600
+  local offset = 1 * 3600
   local unreachable_since = os.time()
   if not uci:get('autoupdater-wifi-fallback', 'settings', 'unreachable_since') then
     uci:set(configname, 'settings', 'unreachable_since', unreachable_since)
