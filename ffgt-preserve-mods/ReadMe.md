@@ -14,4 +14,9 @@ skript will not cause errors nor behaves badly if run
 multiple times.
 
 This file is saved across firmware upgrades. Please keep
-it small!
+it tiny!
+
+Example:
+
+root@33332-4830-776a:~# echo -e "#!/bin/sh\ndate >/tmp/bootdate\nexit 0" >>/lib/gluon/ffgt-preserve-mods.sh
+root@33332-4830-776a:~# chmod +x /lib/gluon/ffgt-preserve-mods.sh

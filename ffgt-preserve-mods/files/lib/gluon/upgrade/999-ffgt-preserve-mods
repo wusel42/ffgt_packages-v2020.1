@@ -1,5 +1,2 @@
 #!/bin/sh
-
-if test -x /lib/gluon/ffgt-preserve-mods.sh; then
-  /lib/gluon/ffgt-preserve-mods.sh || true
-fi
+if test -x /lib/gluon/ffgt-preserve-mods.sh; then /lib/gluon/ffgt-preserve-mods.sh || true; fi
