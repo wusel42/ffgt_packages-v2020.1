@@ -1,0 +1,5 @@
+#!/bin/sh
+# Rename this to /lib/gluon/ffgt-preserve-mods.sh and add commands;
+# ENSURE that this script does NOT throw errors!
+
+exit 0
