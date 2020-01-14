@@ -16,7 +16,7 @@ uci:section('wireless', 'wifi-iface', 'dep_radio0', {
 	device = 'radio0',
 	mode = 'ap',
 	macaddr = macaddr,
-	ssid = 'READ http://eos.4830.org NOW',
+	ssid = 'http://supportende.ffgt.net lesen',
 })
 
 uci:commit('wireless')
