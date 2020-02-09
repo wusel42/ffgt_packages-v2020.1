@@ -76,6 +76,8 @@ local function action_geoloc(http, renderer)
                     uci:set('gluon', 'core', 'domain', unlocode)
                     uci:commit('gluon')
                     os.execute('gluon-reconfigure')
+                    local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
+                    os.execute(cmdstr)
                     renderer.render_layout('admin/geolocate_done', nil, 'ffgt-geolocate')
                 end
             end
