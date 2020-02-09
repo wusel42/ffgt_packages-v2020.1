@@ -63,7 +63,7 @@ elseif rgeo_error then
   local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
   local zip = uci:get("gluon-node-info", location, "zip") or "00000"
 
-  if tonumber(zip)!=0 then
+  if tonumber(zip)~=0 then
     local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", unlocode)),"\n", "")
 	local mystr = string.format("<b>Adresse:</b> %s <sup>1</sup>, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, communityname)
     local text = translate('Located the future position of this node as follows, please verify:')
