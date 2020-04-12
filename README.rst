@@ -2,22 +2,22 @@ gluon-ssid-changer
 ==================
 
 *This branch of the script contains the ssid-changer version for the gluon
-branches 2018.1.x and 2018.2.x (current "master"). For older releases of Gluon
+branches 2018.1.x and newer. For older releases of Gluon
 use the branches "2017.1.x" and "2016.2.x".*
 
 This package adds a script to change the SSID when there is no connection to any
-gateway. This Offline-SSID can be generated from the node's hostname with the
-first and last part of the node name or the MAC address allowing observers to
+gateway. This Offline-SSID can be generated from the
+first and last part of the node's name or from the MAC address allowing observers to
 recognize which node does not have a connection to a gateway. This script is
-called once every minute by ``micrond`` and check gateway-connectivity. It will
-change the SSID to the Offline-SSID after the node lost gateway connectivity for
+called once every minute by ``micrond``. It will
+change the SSID to the Offline-SSID after the node had no gateway-connectivity for
 several consecutive checks. As soon as the gateway-connectivity is back it
 toggles back to the original SSID.
 
 You can enable/disable it in the config mode.
 
 It checks if a gateway is reachable in an interval. Different algorithms can be
-selected to determine whether a gateway is reachable:
+selected to determine whether a gateway is assumed reachable:
 
 -  ``tq_limit_enabled=true``: (not working with BATMAN\_V) define an upper and
    lower bound to toggle the SSID. As long as the TQ stays in-between those
@@ -35,7 +35,7 @@ gateway-connectivity is back.
 The parameter ``switch_timeframe`` defines how long it will record the
 gateway-connectivity. **Only** if the gateway is not reachable during at least
 half the checks within ``switch_timeframe`` minutes, the SSID will be changed to
-"FF\_Offline\_$node\_hostname".
+"FF\_Offline\_$node\_hostname" (or \_$node\_mac)
 
 The parameter ``first`` defines a learning phase after reboot (in minutes)
 during which the SSID may be changed to the Offline-SSID **every minute**.
@@ -58,9 +58,9 @@ Adapt and add this block to your ``site.conf``:
       suffix = 'nodename',      -- generate the SSID with either 'nodename', 'mac' or to use only the prefix: 'none'
       
       tq_limit_enabled = false, -- if false, the offline SSID will only be set if there is no gateway reacheable
-                                -- upper and lower limit to turn the offline_ssid on and off
+                                -- if true, set upper and lower limit to turn the offline_ssid on and off
                                 -- in-between these two values the SSID will never be changed to prevent it from
-                                -- toggeling every minute.
+                                -- toggeling every minute:
       tq_limit_max = 45,        -- upper limit, above that the online SSID will be used
       tq_limit_min = 35         -- lower limit, below that the offline SSID will be used
     },
@@ -110,12 +110,6 @@ If you just need the Offline-SSID for administrative purposes, there is a better
 solution, that will just add an extra SSID if a node is offline:
 https://github.com/freifunk-kiel/gluon-ssid-notifier/
 
-Gluon versions
-==============
-
-This branch of the script contains the ssid-changer version for the gluon master
-branch (lede).
-
 Implement this package in your firmware
 =======================================
 
@@ -125,8 +119,8 @@ Create a file "modules" with the following content in your site directory:
 
     GLUON_SITE_FEEDS="ssidchanger"
     PACKAGES_SSIDCHANGER_REPO=https://github.com/freifunk-nord/gluon-ssid-changer.git
-    PACKAGES_SSIDCHANGER_COMMIT=cc16f488bd32f17da845279800e06f237884829e # <-- set the newest commit ID here
-    PACKAGES_SSIDCHANGER_BRANCH=master
+    PACKAGES_SSIDCHANGER_COMMIT=f6db033d6568ea27805c9694b20085b8dec5ba87 # <-- set the newest commit ID here
+    PACKAGES_SSIDCHANGER_BRANCH=2018.1.x
 
 With this done you can add the package ``gluon-ssid-changer`` to your
 ``site.mk``
