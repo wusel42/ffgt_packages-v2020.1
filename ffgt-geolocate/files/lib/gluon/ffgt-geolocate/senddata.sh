@@ -2,7 +2,7 @@
 # This script is supposed to be run every 5 minute via micron.d.
 #
 # Sent WiFi info once per boot.
-# If is_mobile node, fetch location and fill in geoloc data.
+# If is_mobile node, fetch location and fill in geoloc data, DO NOT commit.
 # If is_mobile, do this every 5 Minutes. Otherwise, it can be manually requested in geoloc.
 SETUPMODE="`/sbin/uci get gluon-setup-mode.@setup_mode[0].enabled 2>/dev/null`"
 UPSECS=$(cut -d ' ' -f 1 /proc/uptime)
@@ -18,6 +18,7 @@ else
  MOBILE=1
 fi
 RUNNOW=1
+FORCERUN=0
 ISCONFIGURED="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
 if [ "$ISCONFIGURED" != "1" ]; then
  ISCONFIGURED=0
@@ -94,7 +95,10 @@ if [ -e /usr/sbin/iw ]; then
     if [ $? -ne 0 ]; then
      /usr/bin/awk </tmp/geoloc.out '/^LAT:/ {printf("/sbin/uci set gluon-node-info.@location[0].latitude=%s\n", $2);} /^LON:/ {printf("/sbin/uci set gluon-node-info.@location[0].longitude=%s\n", $2);}' >>/tmp/geoloc.sh
      /usr/bin/awk </tmp/geoloc.out '/^ADR:/ {printf("/sbin/uci set gluon-node-info.@location[0].addr=%c%s%c\n", 39, substr($0, 6), 39);} /^CTY:/ {printf("/sbin/uci set gluon-node-info.@location[0].city=%c%s%c\n", 39, substr($0, 6), 39);}' >>/tmp/geoloc.sh
-     /usr/bin/awk </tmp/geoloc.out '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].locode=%s\n", $2)}; /^ZIP:/ {printf("/sbin/uci set gluon-node-info.@location[0].zip=%s\n", $2);} END{printf("/sbin/uci commit gluon-node-info\n");}' >>/tmp/geoloc.sh
+     /usr/bin/awk </tmp/geoloc.out '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].locode=%s\n", $2)}; /^ZIP:/ {printf("/sbin/uci set gluon-node-info.@location[0].zip=%s\n", $2);}' >>/tmp/geoloc.sh
+     if [ ${MOBILE} -ne 1 -o ${FORCERUN} -eq 1 ]; then
+      echo "/sbin/uci commit gluon-node-info" >>/tmp/geoloc.sh
+     fi
      if [ ${MOBILE} -eq 1 -o ${FORCERUN} -eq 1 ]; then
       /bin/sh /tmp/geoloc.sh
       if [ $ISCONFIGURED -ne 1 ]; then
