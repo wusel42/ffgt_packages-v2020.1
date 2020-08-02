@@ -18,7 +18,6 @@ else
  MOBILE=1
 fi
 RUNNOW=1
-FORCERUN=0
 ISCONFIGURED="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
 if [ "$ISCONFIGURED" != "1" ]; then
  ISCONFIGURED=0
@@ -26,7 +25,7 @@ fi
 DIDENABLEWIFI=0
 
 # Don't run if run already ...
-if [ -e /tmp/run/wifi-data-sent ]; then
+if [ -e /tmp/geoloc.sh -o -e /tmp/run/wifi-data-sent ]; then
  RUNNOW=0
 fi
 
@@ -43,9 +42,6 @@ if [ ${MOBILE} -eq 1 ]; then
  RUNNOW=1
 fi
 
-LASTOCTET=$(cut -d : -f6 /lib/gluon/core/sysconfig/primary_mac)
-DELAYSECS=$(printf %d 0x${LASTOCTET})
-
 if [ ${RUNNOW} -eq 0 ]; then
  exit 0
 fi
@@ -56,6 +52,9 @@ if [ "Y$IPVXPREFIX" == "Y" -o "$IPVXPREFIX" == "ipv5." ]; then
  logger "$0: IPv5 not implemented."
  exit 1
 fi
+
+# Delay run by a random number of seconds (1..10)
+sleep $(/bin/grep -m1 -ao '[0-9]' /dev/urandom | /bin/sed s/0/10/  | /usr/bin/head -n1)
 
 MAC=`/sbin/uci get network.bat0.macaddr`
 # Fuuuu... iw might not be there. If so, let's fake it.
