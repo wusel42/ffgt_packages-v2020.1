@@ -11,6 +11,9 @@ if rc=="0" then
 end
 
 local locode = uci:get_first('gluon-node-info', 'location', 'siteselect')
+if locode==nil then
+    locode = uci:get_first('gluon-node-info', 'location', 'locode')
+end
 cmdstr='wc -l /lib/gluon/domains/' .. locode .. '.json 2>/dev/null || echo 0'
 rc=util.trim(util.exec(cmdstr))
 

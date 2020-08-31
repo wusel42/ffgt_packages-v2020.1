@@ -5,10 +5,11 @@
 # 2016-09-28: Argh. When in normal mode, resolving via (IPv4) upstream only works as group gluon-fastd. So
 # we (mis-) use /sbin/start-stop-daemon for executing ping as that gid.
 # 2018-08-18: Dropped that shit for v2018; no uplink to mesh, no connectivity, no care.
+# 2020-08-30: Use gluon-wan to force v4 resolving via WAN if present.
 if [ -e /tmp/is_online ]; then /bin/rm /tmp/is_online ; fi
 USEIPV4=1
 USEIPV6=0
-/bin/ping -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
+gluon-wan /bin/ping -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
 if [ $? -ne 0 ]; then
  USEIPV4=0
  /bin/ping -q -c 3 setup.ipv6.4830.org >/dev/null 2>&1

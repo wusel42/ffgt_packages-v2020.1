@@ -22,9 +22,14 @@ if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
     uci set system.@system[0].hostname='33332-FWTest-a0f3c1058b90'
 fi
 
-if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
-    uci set gluon-node-info.@location[0].latitude="51.9091574"
-    uci set gluon-node-info.@location[0].longitude="8.3813444"
-    uci set gluon-node-info.@location[0].addr 'Berliner-Str-70'
-    uci commit gluon-node-info
+if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
+    uci set gluon-node-info.@location[0].latitude="51.9063744"
+    uci set gluon-node-info.@location[0].longitude="8.378493154"
+    uci set gluon-node-info.@location[0].addr='Koenigstr-2'
+    chan=$(uci get wireless.radio0.channel)
+    if [ "${chan}" != "5" ]; then
+      uci set wireless.radio0.channel='5'
+      uci commit wireless
+    fi
 fi
+
