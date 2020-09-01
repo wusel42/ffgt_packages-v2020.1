@@ -44,14 +44,19 @@ if [ $(uci get gluon.debug_ssid_enabled||echo false) = 'true' ] ; then
 fi
 
 # Do we already have a private-key? If not generate one
-temp=$(uci get wireguard.wireguard.privatekey)
-if [ "$?" -ne "0" ]; then
-	uci set wireguard.wireguard.privatekey=$(wg genkey)
-	uci commit wireguard
-fi
+#temp=$(uci get wireguard.wireguard.privatekey)
+#if [ "$?" -ne "0" ]; then
+#	uci set wireguard.wireguard.privatekey=$(wg genkey)
+#	uci commit wireguard
+#fi
 
 # Is wireguard enabled?
-if [ "$(uci get wireguard.wireguard.enabled)" == "true" ] || [ "$(uci get wireguard.wireguard.enabled)" == "1" ]; then
+if [ "$(uci get wireguard.wireguard.enabled)" == "true" ]; then
+    if [! -e /var/run/wg-registered ]; then
+        PUBLICKEY=$(uci get wireguard.wireguard.privatekey | wg pubkey)
+        SEGMENT=$(uci get gluon.core.domain)
+        gluon-wan wget -q  -O- --post-data='{"segment": "'"$SEGMENT"'","public_key": "'"$PUBLICKEY"'"}' $(uci get wireguard.wireguard.registerurl) && touch /var/run/wg-registered
+    fi
 
 	#We assume we are not connected by default
 	CONNECTED=0
@@ -61,52 +66,47 @@ if [ "$(uci get wireguard.wireguard.enabled)" == "true" ] || [ "$(uci get wiregu
 	# Check connectivity to supernode
  	ping -c1 -w2  $(wg  | grep fe80 | awk '{split($3,A,"/")};{print A[1]}')%$MESH_VPN_IFACE
 	if [ $? == 0 ]; then
-			CONNECTED=1
+        CONNECTED=1
 	fi
 
 	# If we don't have a connection we try to connect
 	if [ $CONNECTED != 1 ]; then
-		NTP_SERVER=$(uci get system.ntp.server)
-		gluon-wan /usr/sbin/ntpd -n -N -S /usr/sbin/ntpd-hotplug -p $NTP_SERVER -q
+        NTP_SERVER="$(for s in $(uci get system.ntp.server); do echo -n "-p $s " ; done)"
+        gluon-wan /usr/sbin/ntpd -n -N -S /usr/sbin/ntpd-hotplug $NTP_SERVER -q
 
-		# Get the number of configured peers and randomly select one
-		NUMBER_OF_PEERS=$(uci -q show wireguard | egrep -ce peer_[0-9]+.endpoint)
-		PEER="$(awk 'BEGIN{srand();print int(rand()*($NUMBER_OF_PEERS)+1) }')"
-		PEER_PUBLICKEY="$(uci get wireguard.peer_$PEER.publickey)"
+        # Get the number of configured peers and randomly select one
+        NUMBER_OF_PEERS=$(uci -q show wireguard | egrep -ce peer_[0-9]+.endpoint)
+        PEER="$(awk 'BEGIN{srand();print int(rand()*($NUMBER_OF_PEERS)+1) }')"
+        PEER_PUBLICKEY="$(uci get wireguard.peer_$PEER.publickey)"
 
-		endpoint="$(check_handshake "$PEER_PUBLICKEY" "$(uci get wireguard.peer_$PEER.endpoint)")"
+        endpoint="$(check_handshake "$PEER_PUBLICKEY" "$(uci get wireguard.peer_$PEER.endpoint)")"
 
-		# Delete Interfaces
-		ip link set nomaster bat0 dev mesh-vpn &> /dev/null
-		ip link delete dev mesh-vpn &> /dev/null
-		ip link del $MESH_VPN_IFACE &> /dev/null
-		PUBLICKEY=$(uci get wireguard.wireguard.privatekey | wg pubkey)
-		SEGMENT=$(uci get gluon.core.domain)
-		
-                # For future use
-                gluon-wan wget -q  -O- --post-data='{"segment": "'"$SEGMENT"'","public_key": "'"$PUBLICKEY"'"}' http://gw03.ext.ffmuc.net:5000/api/v1/wg/key/exchange
+        # Delete Interfaces
+        ip link set nomaster bat0 dev mesh-vpn &> /dev/null
+        ip link delete dev mesh-vpn &> /dev/null
+        ip link del $MESH_VPN_IFACE &> /dev/null
 
-		# Bring up the wireguard interface
-		ip link add dev $MESH_VPN_IFACE type wireguard
-		uci get wireguard.wireguard.privatekey | wg set $MESH_VPN_IFACE private-key /proc/self/fd/0
-		ip link set up dev $MESH_VPN_IFACE
+        # Bring up the wireguard interface
+        ip link add dev $MESH_VPN_IFACE type wireguard
+        uci get wireguard.wireguard.privatekey | wg set $MESH_VPN_IFACE private-key /proc/self/fd/0
+        ip link set up dev $MESH_VPN_IFACE
 
-		# Add link-address and Peer
-		ip address add "$(interface_linklocal "$MESH_VPN_IFACE")"/64 dev $MESH_VPN_IFACE
-		if [ "$endpoint" == "" ]; then
-			endpoint=$(uci get wireguard.peer_$PEER.endpoint)
-		fi
-		gluon-wan wg set $MESH_VPN_IFACE peer $(uci get wireguard.peer_$PEER.publickey) persistent-keepalive 25 allowed-ips $(uci get wireguard.peer_$PEER.link_address)/128 endpoint $endpoint
-		
-		# We need to allow incoming vxlan traffic on mesh iface
-		sleep 10
-        	ip6tables -I INPUT 1 -i $MESH_VPN_IFACE -m udp -p udp --dport 8472 -j ACCEPT
-		
-		# Bring up VXLAN
-		ip link add mesh-vpn type vxlan id "$(lua -e 'print(tonumber(require("gluon.util").domain_seed_bytes("gluon-mesh-vpn-vxlan", 3), 16))')" local $(interface_linklocal "$MESH_VPN_IFACE") remote $(uci get wireguard.peer_$PEER.link_address) dstport 8472 dev $MESH_VPN_IFACE
-		ip link set up dev mesh-vpn
+        # Add link-address and Peer
+        ip address add "$(interface_linklocal "$MESH_VPN_IFACE")"/64 dev $MESH_VPN_IFACE
+        if [ "$endpoint" == "" ]; then
+            endpoint=$(uci get wireguard.peer_$PEER.endpoint)
+        fi
+        gluon-wan wg set $MESH_VPN_IFACE peer $(uci get wireguard.peer_$PEER.publickey) persistent-keepalive 25 allowed-ips $(uci get wireguard.peer_$PEER.link_address)/128 endpoint $endpoint
 
-		# If we have a BATMAN_V env we need to correct the throughput value now
-		if [ -f /sys/devices/virtual/net/mesh-vpn/batman_adv/throughput_override ]; then echo 1000000 > /sys/devices/virtual/net/mesh-vpn/batman_adv/throughput_override; fi
-	fi
+        # We need to allow incoming vxlan traffic on mesh iface
+        sleep 10
+        ip6tables -I INPUT 1 -i $MESH_VPN_IFACE -m udp -p udp --dport 8472 -j ACCEPT
+
+        # Bring up VXLAN
+        ip link add mesh-vpn type vxlan id "$(lua -e 'print(tonumber(require("gluon.util").domain_seed_bytes("gluon-mesh-vpn-vxlan", 3), 16))')" local $(interface_linklocal "$MESH_VPN_IFACE") remote $(uci get wireguard.peer_$PEER.link_address) dstport 8472 dev $MESH_VPN_IFACE
+        ip link set up dev mesh-vpn
+
+        # If we have a BATMAN_V env we need to correct the throughput value now
+        if [ -f /sys/devices/virtual/net/mesh-vpn/batman_adv/throughput_override ]; then echo 1000000 > /sys/devices/virtual/net/mesh-vpn/batman_adv/throughput_override; fi
+    fi
 fi
