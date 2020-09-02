@@ -51,3 +51,9 @@ fi
 if [ -e /lib/gluon/config-mode/view/admin/info-ffgt.html ]; then
   mv /lib/gluon/config-mode/view/admin/info-ffgt.html  /lib/gluon/config-mode/view/admin/info.html
 fi
+
+EOS_CHECK=$(uci get wireless.dep_radio0.ifname >/dev/null 2>&1 ; echo $?)
+if [ ${EOS_CHECK} -eq 0 ]; then
+  uci delete wireless.dep_radio0
+  uci commit wireless
+fi
