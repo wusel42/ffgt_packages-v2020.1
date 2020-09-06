@@ -93,9 +93,9 @@ local function switch_to_fallback_mode(radio, ssid, bssid)
   uci:set('wireless', radio, 'disabled', false)
   uci:save('wireless')
 
-  os.execute('sysctl net.ipv6.conf.fallback.accept_ra=1')
   os.execute('wifi')
   os.execute('sleep 5')
+  os.execute('sysctl net.ipv6.conf.fallback.accept_ra=2')
   uci:revert('wireless')
   os.execute('sleep 20')
 end
