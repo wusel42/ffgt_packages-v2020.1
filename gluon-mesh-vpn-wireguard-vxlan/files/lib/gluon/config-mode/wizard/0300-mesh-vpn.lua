@@ -5,13 +5,24 @@ local has_tunneldigger = unistd.access('/lib/gluon/mesh-vpn/tunneldigger')
 local has_wireguard = unistd.access('/lib/gluon/mesh-vpn/wireguard')
 
 return function(form, uci)
+    local vpntype = "fastd"
 	if not (has_fastd or has_tunneldigger or has_wireguard) then
 		return
 	end
 
+    if(has_tunneldigger) then
+        vpntype = "fastd"
+    end
+    if(has_wireguard) then
+        vpntype = "wireguard"
+    end
+
 	local pkg_i18n = i18n 'gluon-config-mode-mesh-vpn'
 
-	local msg = pkg_i18n.translate(
+	local msg = string.format("VPN: %s.", vpntype)
+	local s = form:section(Section, nil, msg)
+
+	msg = pkg_i18n.translate(
 		'Your internet connection can be used to establish a ' ..
 	        'VPN connection with other nodes. ' ..
 	        'Enable this option if there are no other nodes reachable ' ..
@@ -19,8 +30,7 @@ return function(form, uci)
 	        'your connection\'s bandwidth available for the network. You can limit how ' ..
 	        'much bandwidth the node will use at most.'
 	)
-
-	local s = form:section(Section, nil, msg)
+	s = form:section(Section, nil, msg)
 
 	local o
 

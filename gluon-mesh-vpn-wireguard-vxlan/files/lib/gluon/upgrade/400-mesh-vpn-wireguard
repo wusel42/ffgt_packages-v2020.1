@@ -20,7 +20,11 @@ echo > /etc/config/wireguard
 
 uci set wireguard.wireguard=wireguard
 uci set wireguard.wireguard.registerurl=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.regurl"||echo "http://gw03.ext.ffmuc.net:5000/api/v1/wg/key/exchange")
-uci set wireguard.wireguard.enabled=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.enabled")
+flag=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.enabled")
+if [ "${flag}" = "1" -o "${flag}" = "true" ]; then
+        flag="true"
+fi
+uci set wireguard.wireguard.enabled=${flag}
 uci set wireguard.wireguard.iface=$(jsonfilter -i $datei  -e "$.mesh_vpn.wireguard.iface")
 uci set wireguard.wireguard.limit=$(jsonfilter -i $datei -e "$.mesh_vpn.wireguard.limit")
 echo "set wireguard.wireguard.privatekey=$privkey" | uci batch
