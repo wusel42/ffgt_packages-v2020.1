@@ -52,8 +52,25 @@ if [ -e /lib/gluon/config-mode/view/admin/info-ffgt.html ]; then
   mv /lib/gluon/config-mode/view/admin/info-ffgt.html  /lib/gluon/config-mode/view/admin/info.html
 fi
 
+COMMIT_WIRELESS=0
 EOS_CHECK=$(uci get wireless.dep_radio0.ifname >/dev/null 2>&1 ; echo $?)
 if [ ${EOS_CHECK} -eq 0 ]; then
   uci delete wireless.dep_radio0
+  COMMIT_WIRELESS=1
+fi
+
+LEGACY_CHECK=$(uci get wireless.legacy_radio0.ifname >/dev/null 2>&1 ; echo $?)
+if [ ${LEGACY_CHECK} -eq 0 ]; then
+  uci delete wireless.legacy_radio0
+  COMMIT_WIRELESS=1
+fi
+
+LEGACY_CHECK=$(uci get wireless.legacy_radio1.ifname >/dev/null 2>&1 ; echo $?)
+if [ ${LEGACY_CHECK} -eq 0 ]; then
+  uci delete wireless.legacy_radio1
+  COMMIT_WIRELESS=1
+fi
+
+if [ ${COMMIT_WIRELESS} -eq 1 ]; then
   uci commit wireless
 fi
