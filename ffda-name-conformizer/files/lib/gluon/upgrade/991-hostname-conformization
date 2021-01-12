@@ -23,8 +23,8 @@ if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
 fi
 
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
-    uci set gluon-node-info.@location[0].latitude="51.9063744"
-    uci set gluon-node-info.@location[0].longitude="8.378493154"
+    uci set gluon-node-info.@location[0].latitude='51.906558409'
+    uci set gluon-node-info.@location[0].longitude='8.377769887'
     uci set gluon-node-info.@location[0].addr='Koenigstr-2'
     chan=$(uci get wireless.radio0.channel)
     if [ "${chan}" != "5" ]; then
@@ -33,3 +33,10 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
+if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
+  PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
+  if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
+    uci delete system.@system[0].pretty_hostname
+    uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
+  fi
+fi

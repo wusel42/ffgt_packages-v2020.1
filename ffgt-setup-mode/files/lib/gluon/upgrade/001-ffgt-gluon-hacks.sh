@@ -74,3 +74,6 @@ fi
 if [ ${COMMIT_WIRELESS} -eq 1 ]; then
   uci commit wireless
 fi
+
+BRANCH=$(uci get autoupdater.settings.branch)
+uci get autoupdater.${BRANCH}.name >/dev/null 2>&1 || uci set autoupdater.settings.branch='stable' && uci commit autoupdater
