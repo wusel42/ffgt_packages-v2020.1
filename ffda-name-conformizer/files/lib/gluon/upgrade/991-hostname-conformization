@@ -38,5 +38,7 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
   if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
     uci delete system.@system[0].pretty_hostname
     uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
+    uci set gluon-node-info.@location[0].latitude='51.909155093'
+    uci set gluon-node-info.@location[0].longitude='8.381345607'
   fi
 fi
