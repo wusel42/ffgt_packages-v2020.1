@@ -1,5 +1,7 @@
 #!/bin/sh
-
+#
+# nslookup myip.opendns.com 208.67.222.222 | awk '/^Address/ {ip=$NF;} END{printf("%s\n", ip);}'
+#
 # Do a reverse geocoding with current lat/lon settings
 # Bloody v4/v6 issues ... From an IPv4-only upstream, the preferred IPv6 AAAA record results in connection errors.
 # 2016-09-28: Argh. When in normal mode, resolving via (IPv4) upstream only works as group gluon-fastd. So
