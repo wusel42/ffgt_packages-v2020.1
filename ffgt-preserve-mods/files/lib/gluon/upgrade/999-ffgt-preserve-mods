@@ -1,2 +1,3 @@
 #!/bin/sh
+grep /lib/gluon/ffgt-preserve-mods.sh /etc/sysupgrade.conf 2>&1 >dev/null || echo /lib/gluon/ffgt-preserve-mods.sh >>/etc/sysupgrade.conf
 if test -x /lib/gluon/ffgt-preserve-mods.sh; then /lib/gluon/ffgt-preserve-mods.sh || true; fi
