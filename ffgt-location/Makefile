@@ -6,7 +6,7 @@ PKG_RELEASE:=1
 
 include $(TOPDIR)/../package/gluon.mk
 
-define Package/gtda-location
+define Package/ffgt-location
   TITLE:=FFGT Location lib
   DEPENDS:=+libiwinfo
 endef
