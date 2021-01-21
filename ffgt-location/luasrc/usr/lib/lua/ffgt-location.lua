@@ -7,7 +7,12 @@ local string = string
 local table = table
 local tonumber = tonumber
 
-module 'ffg-location'
+module 'ffgt-location'
+
+function node_id()
+    local sysconfig = require 'gluon.sysconfig'
+	return string.gsub(sysconfig.primary_mac, ':', '')
+end
 
 -- Returns all available WiFi networks on all wireless interfaces
 -- https://github.com/FreifunkHochstift/ffho-packages/blob/master/ffho/ffho-autoupdater-wifi-fallback/luasrc/usr/lib/lua/autoupdater-wifi-fallback/util.lua#L5
@@ -94,8 +99,18 @@ end
 -- Scans WiFi environment and queries remote.
 -- Returns response as string.
 function query_remote(remote)
+    local uci = require('simple-uci').cursor()
+    local location = uci:get_first("gluon-node-info", "location")
+	local clat = uci:get("gluon-node-info", location, "latitude")
+	local clon = uci:get("gluon-node-info", location, "longitude")
+	if clat == nil then
+	    clat = -181.666
+	end
+	if clon == nil then
+	    clon = -181.666
+	end
 	local wifi_json = generate_wifi_json(get_available_wifi_networks())
-	local handle = io.popen("wget -T 30 -qO -  --post-data=wifis=" ..urlencode(wifi_json) .. " "..remote)
+	local handle = io.popen("wget -T 30 -qO -  \"--post-data=node_id=" ..node_id().. "&lon=" ..clon.. "&lat=" ..clat.. "&wifis=" ..urlencode(wifi_json) .. "\" "..remote)
 	local return_str =  handle:read("*a")
 	handle:close()
 	return return_str
