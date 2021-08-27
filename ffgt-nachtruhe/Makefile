@@ -11,7 +11,7 @@ define Package/ffgt-nachtruhe
   SECTION:=ffgt
   CATEGORY:=FFGT
   TITLE:=Luci module for nachtruhe settings
-  DEPENDS:=+gluon-web-admin
+  DEPENDS:=+gluon-web-admin +ffho-ap-timer -ffho-web-ap-timer
   MAINTAINER:=Freifunk KreisGT <info@freifunk-kreisgt.de>
 endef
 
