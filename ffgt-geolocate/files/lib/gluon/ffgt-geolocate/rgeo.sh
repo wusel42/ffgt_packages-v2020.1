@@ -44,7 +44,7 @@ if [ "X${curlat}" != "X" -a "X${curlon}" != "X" ]; then
       /sbin/uci commit system
      fi
    fi
-   /lib/gluon/upgrade/004-migrate-ffgt-locode
+   /usr/bin/gluon-reconfigure
   fi
  fi
 fi
