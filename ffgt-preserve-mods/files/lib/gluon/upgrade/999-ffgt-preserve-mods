@@ -1,3 +1,6 @@
 #!/bin/sh
-grep /lib/gluon/ffgt-preserve-mods.sh /etc/sysupgrade.conf 2>&1 >dev/null || echo /lib/gluon/ffgt-preserve-mods.sh >>/etc/sysupgrade.conf
+grep /lib/gluon/ffgt-preserve-mods.sh /etc/sysupgrade.conf 2>&1 >/dev/null || echo /lib/gluon/ffgt-preserve-mods.sh >>/etc/sysupgrade.conf
 if test -x /lib/gluon/ffgt-preserve-mods.sh; then /lib/gluon/ffgt-preserve-mods.sh || true; fi
+
+# Cleanup previos mess, i. e. multiple entries
+grep /lib/gluon/ffgt-preserve-mods.sh >/dev/null 2>&1 /etc/sysupgrade.conf && grep -v /lib/gluon/ffgt-preserve-mods.sh /etc/sysupgrade.conf >/tmp/sysupgrade.conf && (cat /tmp/sysupgrade.conf ; echo "/lib/gluon/ffgt-preserve-mods.sh") >/etc/sysupgrade.conf
