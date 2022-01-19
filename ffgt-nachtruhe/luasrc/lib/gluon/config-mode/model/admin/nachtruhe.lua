@@ -25,45 +25,15 @@ function enabled:write(data)
 	uci:set('ap-timer', 'nachtruhe', 'enabled', data)
 end
 
--- local timer_type = s:option(ListValue, 'type', pkg_i18n.translate('Type'))
--- timer_type.default = uci:get('ap-timer', 'settings', 'type')
--- timer_type:depends(enabled, true)
--- timer_type:value('day', pkg_i18n.translate('Daily'))
--- function timer_type:write(data)
--- 	uci:set('ap-timer', 'settings', 'type', data)
--- end
---
--- local s = f:section(Section)
---
--- o = s:option(DynamicList, 'on', pkg_i18n.translate('ON'))
--- o.default = uci:get_list('ap-timer', 'all', 'on')
--- o.placeholder = '06:00'
--- o:depends(timer_type, 'day')
--- o.optional = false
--- o.datatype = 'minlength(5)'
--- function o:write(data)
--- 	uci:set_list('ap-timer', 'all', 'on', data)
--- end
---
--- o = s:option(DynamicList, 'off', pkg_i18n.translate('OFF'))
--- o.default = uci:get_list('ap-timer', 'all', 'off')
--- o.placeholder = '23:00'
--- o:depends(timer_type, 'day')
--- o.optional = false
--- o.datatype = 'minlength(5)'
--- function o:write(data)
--- 	uci:set_list('ap-timer', 'all', 'off', data)
--- end
-
 function f:write()
     local nachtruhe=uci:get_bool('ap-timer', 'nachtruhe', 'enabled')
-    if (nachtruhe) {
+    if (nachtruhe) then
         uci:set('ap-timer', 'settings', 'type', 'day')
         uci:set_list('ap-timer', 'all', 'on', '06:00')
        	uci:set_list('ap-timer', 'all', 'off', '22:00')
         uci:save('ap-timer')
-    }
-	uci:commit('ap-timer')
+    end
+    uci:commit('ap-timer')
 end
 
 return f
