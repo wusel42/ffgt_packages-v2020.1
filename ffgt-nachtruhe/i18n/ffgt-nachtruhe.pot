@@ -1,23 +1,8 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "AP Timer"
-msgstr ""
+msgid "Nachtruhe"
+msgstr "Nachtruhe"
 
-msgid "Daily"
-msgstr ""
-
-msgid "Enabled"
-msgstr ""
-
-msgid "OFF"
-msgstr ""
-
-msgid "ON"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "You can setup the AP Timer here"
-msgstr ""
+msgid "You can enable Nachtruhe (disable AP between 22:00 and 06:00) here"
+msgstr "Hier kannst Du aktivieren, daß das Freifunk-WLAN zwischen 22:00 und 06:00 Uhr abgeschaltet wird"

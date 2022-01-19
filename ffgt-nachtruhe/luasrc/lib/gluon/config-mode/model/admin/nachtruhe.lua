@@ -12,8 +12,8 @@ if not uci:get('ap-timer', 'all') then
 	uci:save('ap-timer')
 end
 
-local f = Form(pkg_i18n.translate('AP Timer'), pkg_i18n.translate(
-	'You can enable 'Nachtruhe' (disable AP between 22:00 and 06:00) here'))
+local f = Form(pkg_i18n.translate('Nachtruhe'), pkg_i18n.translate(
+	'You can enable Nachtruhe (disable AP between 22:00 and 06:00) here'))
 
 local s = f:section(Section)
 
