@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -e /etc/config/freifunk ]; then
+ MESHONLAN=$(uci get freifunk.@settings\[0\].mesh_on_wan)
+ if [ "$MESHONLAN" = "1" ]; then
+  uci set network.mesh_wan.disabled='0'
+ fi
+
+ /bin/pretty-hostname "$(uci get freifunk.@settings[0].name)"
+ ((sleep 30 ; /lib/gluon/ffgt-geolocate/rgeo.sh ; uci commit system)&)
+ uci set gluon-setup-mode.@setup_mode\[0\].configured='1'
+
+ mv /etc/config/freifunk /etc/config/freifunk.legacy
+fi
