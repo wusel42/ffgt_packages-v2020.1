@@ -6,12 +6,12 @@ config core 'core'
   option domain 'xzx'
 EOF
 
- uci set gluon-node-info.@owner\[0\].contact="$(uci get freifunk.@settings\[0\].contact)"
- uci set gluon-node-info.@location\[0\].latitude="$(uci get freifunk.@settings\[0\].latitude)"
- uci set gluon-node-info.@location\[0\].longitude="$(uci get freifunk.@settings\[0\].longitude)"
- uci set gluon-node-info.@location\[0\].share_location='1'
+ uci set gluon-node-info.@owner\[0\].contact="$(uci get freifunk.@settings\[0\].contact)" ||:
+ uci set gluon-node-info.@location\[0\].latitude="$(uci get freifunk.@settings\[0\].latitude)" ||:
+ uci set gluon-node-info.@location\[0\].longitude="$(uci get freifunk.@settings\[0\].longitude)" ||:
+ uci set gluon-node-info.@location\[0\].share_location='1' ||:
  SHOWONMAP="$(uci get freifunk.@settings[0].publish_map)"
  if [ "$SHOWONMAP" = "none" ]; then
-   uci set gluon-node-info.@location\[0\].share_location='0'
+   uci set gluon-node-info.@location\[0\].share_location='0' ||:
  fi
 fi
