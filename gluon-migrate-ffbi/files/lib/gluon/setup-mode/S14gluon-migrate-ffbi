@@ -5,11 +5,13 @@ START=14
 
 boot() {
     if [ -e /etc/config/freifunk ]; then
-        (cd /etc ; tar cf /tmp/configs.tar config/dropbear passwd shadow dropbear) ||:
-        cp -p /etc/config/freifunk /tmp/freifunk && yes | firstboot
-        mkdir -p /etc/config/ ||:
-        cp -p /tmp/freifunk /etc/config/freifunk-bi ||:
-        (cd /etc ; tar xf /tmp/configs.tar) ||:
+        #(cd /etc ; tar cf /tmp/configs.tar config/dropbear passwd shadow dropbear) ||:
+        #cp -p /etc/config/freifunk /tmp/freifunk && yes | firstboot
+        #mkdir -p /etc/config/ ||:
+        #cp -p /tmp/freifunk /etc/config/freifunk-bi ||:
+        #(cd /etc ; tar xf /tmp/configs.tar) ||:
+        mv /etc/config/freifunk /etc/config/freifunk-bi
+        cd /overlay/upper/etc/config && /bin/rm -rf batman-adv autoupdater alfred dhcp fastd firewall network simple-radvd system wireless ||:
         /etc/init.d/done boot
         reboot
     fi
