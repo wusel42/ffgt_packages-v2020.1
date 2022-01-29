@@ -11,7 +11,7 @@ boot() {
         #cp -p /tmp/freifunk /etc/config/freifunk-bi ||:
         #(cd /etc ; tar xf /tmp/configs.tar) ||:
         mv /etc/config/freifunk /etc/config/freifunk-bi
-        cd /overlay/upper/etc/config && /bin/rm -rf batman-adv autoupdater alfred dhcp fastd firewall network simple-radvd system wireless ||:
+        cd /overlay/upper/etc/config && /bin/rm -rf batman-adv autoupdater alfred dhcp fastd firewall network simple-radvd system wireless gluon* ||:
         /etc/init.d/done boot
         reboot
     fi
