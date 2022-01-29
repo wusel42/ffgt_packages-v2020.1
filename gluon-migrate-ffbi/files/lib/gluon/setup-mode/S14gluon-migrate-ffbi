@@ -1,0 +1,45 @@
+#!/bin/sh /etc/rc.common
+
+START=14
+
+
+boot() {
+    if [ -e /etc/config/freifunk ]; then
+        cp -p /etc/config/freifunk /tmp/freifunk && yes | firstboot
+        mkdir -p /etc/config/ ||:
+        cp -p /tmp/freifunk /etc/config/freifunk-bi ||:
+        /etc/init.d/done boot
+        reboot
+    fi
+
+    if [ -e /etc/config/freifunk-bi ]; then
+        uci set gluon-node-info.@owner\[0\].contact="$(uci -q get 'freifunk-bi.@settings[0].contact')" ||:
+        uci set gluon-node-info.@location\[0\].latitude="$(uci -q get 'freifunk-bi.@settings[0].latitude')" ||:
+        uci set gluon-node-info.@location\[0\].longitude="$(uci -q get 'freifunk-bi.@settings[0].longitude')" ||:
+        uci set gluon-node-info.@location\[0\].share_location='1' ||:
+        SHOWONMAP="$(uci -q get 'freifunk-bi.@settings[0].publish_map')"
+        if [ "$SHOWONMAP" = "none" ]; then
+            uci set gluon-node-info.@location\[0\].share_location='0' ||:
+        fi
+        MESHONLAN="$(uci -q get 'freifunk-bi.@settings[0].mesh_on_wan')"
+        if [ "$MESHONLAN" = "1" ]; then
+            uci set network.mesh_wan.disabled='0' ||:
+        fi
+
+        TCENABLED="$(uci -q get 'simple-tc.@interface[0].enabled')"
+        if [ "$TCENABLED" == "1" ]; then
+            uci set gluon.mesh_vpn.limit_enabled='1' ||:
+            uci set gluon.mesh_vpn.limit_ingress="$(uci -q get 'simple-tc.@interface[0].limit_ingress')" ||:
+            uci set gluon.mesh_vpn.limit_egress="$(uci -q get 'simple-tc.@interface[0].limit_egress')" ||:
+        fi
+
+        /bin/pretty-hostname "$(uci -q get 'freifunk-bi.@settings[0].name')" ||:
+        sleep 30
+        /lib/gluon/ffgt-geolocate/rgeo.sh ||:
+        uci set gluon-setup-mode.@setup_mode\[0\].configured='1' ||:
+        uci commit
+        mv /etc/config/freifunk-bi /etc/config/freifunk.legacy ||:
+        /etc/init.d/done boot
+        reboot
+    fi
+}
