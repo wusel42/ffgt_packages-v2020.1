@@ -14,7 +14,12 @@ boot() {
         #cp -p /tmp/freifunk /etc/config/freifunk-bi ||:
         #(cd /etc ; tar xf /tmp/configs.tar) ||:
         mv /etc/config/freifunk /etc/config/freifunk-bi
-        cd /overlay/upper/etc/config && /bin/rm -rf batman-adv autoupdater alfred dhcp fastd firewall network simple-radvd system wireless gluon* ||:
+        cd /overlay/upper/etc/config && /bin/rm -rf batman-adv autoupdater alfred dhcp fastd firewall network simple-radvd system uhttpd wireless gluon* ||:
+        #for i in batman-adv autoupdater alfred dhcp fastd firewall  gluon gluon-core gluon-node-info gluon-setup-mode gluon-wan-dnsmasq network simple-radvd system uhttpd wireless
+        #do
+        #    uci import $i </dev/null
+        #    uci commit $i
+        #done
         sync
         ) > /root/migrate-ffbi-phase-0.log 2>&1
         /etc/init.d/done boot
