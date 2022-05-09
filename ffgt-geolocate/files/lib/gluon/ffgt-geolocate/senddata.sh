@@ -66,7 +66,7 @@ if [ -e /usr/sbin/iw ]; then
   DIDENABLEWIFI=1
   sleep 5
  fi
- /bin/wget -q -O /dev/null "`/usr/sbin/iw dev ${SCANIF} scan | /usr/bin/awk -v mac=${MAC} -v ipv4prefix=${IPVXPREFIX} -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/wifi-data-sent
+ wget -q -O /dev/null "`/usr/sbin/iw dev ${SCANIF} scan | /usr/bin/awk -v mac=${MAC} -v ipv4prefix=${IPVXPREFIX} -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/wifi-data-sent
  if [ ${DIDENABLEWIFI} -eq 1 ]; then
    /sbin/ifconfig ${SCANIF} down
    DIDENABLEWIFI=0
@@ -78,7 +78,7 @@ if [ -e /usr/sbin/iw ]; then
   if [ "X${CURLAT}" = "X" -o ${MOBILE} -eq 1 -o ${FORCERUN} -eq 1 ]; then
    /bin/cat /dev/null >/tmp/geoloc.sh
    sleep 2
-   /bin/wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=${MAC}"
+   wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=${MAC}"
    if [ -e /tmp/geoloc.out ]; then
     # Actually, we might want to sanity check the reply, as it could be empty or worse ... (FIXME)
     HASLOCATION="`/sbin/uci get gluon-node-info.@location[0] 2>/dev/null`"

@@ -47,7 +47,7 @@ curlat="`/sbin/uci get gluon-node-info.@location[0].latitude 2>/dev/null`"
 curlon="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
 if [ "X${curlat}" = "X" ]; then curlat="0"; fi
 if [ "X${curlon}" = "X" ]; then curlon="0"; fi
-/bin/wget -q -O /tmp/getcfg.out "http://setup.ipv6.4830.org/getcfg.php?node=${mac}&lat=${curlat}&lon=${curlon}"
+wget -q -O /tmp/getcfg.out "http://setup.ipv6.4830.org/getcfg.php?node=${mac}&lat=${curlat}&lon=${curlon}"
 if [ -e /tmp/getcfg.out ]; then
   grep "CFG: ok" /tmp/getcfg.out >/dev/null
   if [ $? -eq 0 ]; then

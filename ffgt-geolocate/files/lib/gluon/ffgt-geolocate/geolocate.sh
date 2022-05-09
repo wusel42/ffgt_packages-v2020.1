@@ -35,13 +35,13 @@ if [ ${runnow} -eq 1 ]; then
   /sbin/ifconfig ${WLANDEV} up
   sleep 2
  fi
- /bin/wget -q -O /dev/null "`${IW} ${WLANDEV} scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
+ wget -q -O /dev/null "`${IW} ${WLANDEV} scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
  # On success only ...
  if [ -e /tmp/run/geolocate-data-sent ]; then
   curlat="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
   if [ "X${curlat}" = "X" ]; then
    sleep 5
-   /bin/wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=$mac"
+   wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=$mac"
    if [ -e /tmp/geoloc.out ]; then
     # Actually, we might want to sanity check the reply, as it could be empty or worse ... (FIXME) 
     /bin/cat /dev/null >/tmp/geoloc.sh

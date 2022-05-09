@@ -3,10 +3,10 @@
 if [ ! -e /tmp/is_online ] ; then
  USEIPV4=1
  USEIPV6=0
- /bin/ping -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
+ ping -q -c 3 setup.ipv4.4830.org >/dev/null 2>&1
  if [ $? -ne 0 ]; then
   USEIPV4=0
-  /bin/ping -q -c 3 setup.ipv6.4830.org >/dev/null 2>&1
+  ping -q -c 3 setup.ipv6.4830.org >/dev/null 2>&1
   if [ $? -eq 0 ]; then
    USEIPV6=1
   fi
