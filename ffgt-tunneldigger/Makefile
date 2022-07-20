@@ -7,7 +7,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/ffgtso/tunneldigger.git
 # https://github.com/wlanslovenija/tunneldigger.git
 PKG_SOURCE_DATE:=2022-07-20
-PKG_SOURCE_VERSION:=5687d77377dbce8b38bd3ecf3c149a78c27736e8
+PKG_SOURCE_VERSION:=e5da3805bd8da724623641226046ebaba5be2639
 # 8995046a2ba8f111391e01e6bb38a352c0cedaa1
 
 include $(INCLUDE_DIR)/package.mk
