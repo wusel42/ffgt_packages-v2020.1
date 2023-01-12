@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# HACK, FIXME; if /bin/wget does not exists, create a symlink from /usr/bin/wget
+if [ ! -e /bin/wget ]; then test -e /usr/bin/wget && ln -s /usr/bin/wget /bin/wget ; fi
+
 if [ ! -e /tmp/run/setup-data-sent -o $# -gt 0 ]; then
  isconfigured="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured`"
  setupifmissing="`/sbin/ifconfig br-setup >/dev/null 2>&1 ; echo $?`"
