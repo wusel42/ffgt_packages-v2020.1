@@ -33,6 +33,8 @@ return function(form, uci)
 	share_location.default = uci:get_bool("gluon-node-info", location, "share_location") or true
 	function share_location:write(data)
 		uci:set("gluon-node-info", location, "share_location", data)
+		uci:save("gluon-node-info")
+		uci:commit("gluon-node-info")
 	end
 
     if not lat then lat=0 else lat=tonumber(lat) end
