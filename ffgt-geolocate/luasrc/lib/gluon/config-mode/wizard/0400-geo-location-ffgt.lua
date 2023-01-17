@@ -30,7 +30,7 @@ return function(form, uci)
 	local o
 
 	local share_location = s:option(Flag, "location", pkg_i18n.translate("Show node on the map"))
-	share_location.default = uci:get_bool("gluon-node-info", location, "share_location")
+	share_location.default = uci:get_bool("gluon-node-info", location, "share_location") or true
 	function share_location:write(data)
 		uci:set("gluon-node-info", location, "share_location", data)
 	end
@@ -40,7 +40,7 @@ return function(form, uci)
     if ((lat == 0) and (lon == 0)) or ((lat == 51) and (lon == 9)) or (not unlocode) then
         local text = pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
 	    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>')
-	    local ls = form:section(Section, nil, text)
+	    local s = form:section(Section, nil, text)
     else
         local addr = uci:get("gluon-node-info", location, "addr") or "FEHLER_ADDR"
         local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
@@ -55,7 +55,7 @@ return function(form, uci)
         text = text .. '<div><br></br></div> ' .. mystr
 		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change, go to Advanced settings/Geolocation.')
 
-	    local ls = form:section(Section, nil, text)
+	    local s = form:section(Section, nil, text)
     end
 
 	function s:write()
