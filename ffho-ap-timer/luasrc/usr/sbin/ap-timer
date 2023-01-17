@@ -27,7 +27,7 @@ end
 
 local function apSet(enable)
   local execWifi = false
-  local radios = {'client_radio0', 'client_radio1'}
+  local radios = {'client_radio0', 'client_radio1', 'owe_radio0', 'owe_radio1'}
   for _, radio in ipairs(radios) do
     if uci:get('wireless', radio) then
       uci:set('wireless', radio, 'disabled', not enable)
