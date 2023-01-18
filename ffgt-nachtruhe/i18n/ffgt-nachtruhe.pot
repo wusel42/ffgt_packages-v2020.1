@@ -4,5 +4,5 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Nachtruhe"
 msgstr "Nachtruhe"
 
-msgid "You can enable Nachtruhe (disable AP between 22:00 and 06:00) here"
+msgid "You can enable 'Nachtruhe' (disable AP between 22:00 and 06:00) here"
 msgstr "Hier kannst Du aktivieren, daß das Freifunk-WLAN zwischen 22:00 und 06:00 Uhr abgeschaltet wird"
