@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffgt-config-mode-geo-location
 
-include ../gluon.mk
+include $(TOPDIR)/../package/gluon.mk
 
 define Package/ffgt-config-mode-geo-location
   TITLE:=Set geographic location of a node
