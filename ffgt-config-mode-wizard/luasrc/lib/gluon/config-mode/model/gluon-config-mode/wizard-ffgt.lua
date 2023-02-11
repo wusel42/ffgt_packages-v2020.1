@@ -24,8 +24,8 @@ function f:write()
 
 	os.execute('exec gluon-reconfigure >/dev/null')
 
-	f.template = "wizard/reboot-ffgt"
-	f.package = "gluon-config-mode-core"
+	f.template = "wizard-ffgt/reboot"
+	f.package = "ffgt-gluon-config-mode-wizard"
 	f.hidenav = true
 
 	if unistd.fork() == 0 then
