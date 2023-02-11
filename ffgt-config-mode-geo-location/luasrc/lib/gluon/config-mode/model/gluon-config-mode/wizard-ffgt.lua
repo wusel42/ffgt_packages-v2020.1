@@ -24,7 +24,7 @@ function f:write()
 
 	os.execute('exec gluon-reconfigure >/dev/null')
 
-	f.template = "wizard/reboot"
+	f.template = "wizard/reboot-ffgt"
 	f.package = "gluon-config-mode-core"
 	f.hidenav = true
 
