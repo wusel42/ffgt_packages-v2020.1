@@ -8,7 +8,12 @@ if [ ! -e $IW ]; then
 fi
 export IW
 
-WLANDEV="client0"
+WLANDEV="$(${IW} dev | /usr/bin/awk 'BEGIN{idx=1;} /Interface / {iface[idx]=$2; ifacemap[$2]=idx; idx++}; END{for(i=1; i<idx; i++) {printf("%s ", iface[i]);}}')"
+if [ "X${WLANDEV}" = "X" ]; then
+ echo "$0: no WiFi device detected"
+ logger "$0: no WiFi device detected"
+ exit 0
+fi
 
 runnow=0
 isconfigured="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
@@ -29,12 +34,15 @@ if [ ${runnow} -eq 1 ]; then
 
  mac=`/sbin/uci get network.bat0.macaddr`
  # FIXME. On multiband devices, check wlan1 as well!
- ${IW} dev ${WLANDEV} scan >/dev/null 2>&1
- if [ $? -ne 0 ]; then
-  /sbin/ifconfig ${WLANDEV} up
-  sleep 2
- fi
- wget -q -O /dev/null "`${IW} ${WLANDEV} scan | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk`" && /bin/touch /tmp/run/geolocate-data-sent
+ for dev in ${WLANDEV}
+ do
+  ${IW} dev ${dev} scan >/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+   /sbin/ifconfig ${dev} up
+   sleep 2
+  fi
+ done
+ wget -q -O /dev/null "$( (for dev in ${WLANDEV}; do ${IW} ${dev} scan; done) | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk)" && /bin/touch /tmp/run/geolocate-data-sent
  # On success only ...
  if [ -e /tmp/run/geolocate-data-sent ]; then
   curlat="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
