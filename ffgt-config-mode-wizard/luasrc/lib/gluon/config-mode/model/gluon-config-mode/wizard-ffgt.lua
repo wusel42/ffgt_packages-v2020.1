@@ -1,6 +1,8 @@
 local util = require "gluon.util"
 local uci = require("simple-uci").cursor()
 
+os.execute("/lib/gluon/ffgt-geolocate/ipv5.sh")
+
 local f = Form(translate("Welcome!"))
 f.submit = translate('Save & restart')
 f.reset = false
