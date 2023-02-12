@@ -1,5 +1,5 @@
 return function(form, uci)
-	local pkg_i18n = i18n 'gluon-config-mode-geo-location'
+	local pkg_i18n = i18n 'ffgt-config-mode-wizard'
 	local site_i18n = i18n 'gluon-site'
 
 	local site = require 'gluon.site'
@@ -12,18 +12,13 @@ return function(form, uci)
 	local show_altitude = site.config_mode.geo_location.show_altitude(false)
 
 	local text = pkg_i18n.translate(
-			"No coordinates set; please add them or try the WiFi-based " ..
-			"geolocation, which will upload the WiFi networks (SSID, " ..
-			"BSSID, strenght, channel) to our server, which in turn will " ..
-			"use third party services (Google, OpenStreetMap, ...) to map " ..
-			"that to a location. We *need* a proper location to assign this " ..
-			"node to a Freifunk network (\"hood\", \"community\", ...)."
+		"No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (\"hood\", \"community\", ...)."
 	)
 	if osm then
-		text = text .. '\n' .. osm.help(i18n)
+		text = text .. '<br>' .. osm.help(i18n)
 	end
 	if show_altitude then
-		text = text .. '\n ' .. pkg_i18n.translate(
+		text = text .. '<br>' .. pkg_i18n.translate(
 			'Specifying the altitude is optional; it should only be filled in if an accurate ' ..
 			'value is known.'
 		)
@@ -35,12 +30,6 @@ return function(form, uci)
 
 	local own_latitude = uci:get("gluon-node-info", location, "latitude")
 	local own_longitude = uci:get("gluon-node-info", location, "longitude")
-
-	local share_location = s:option(Flag, "share_location", pkg_i18n.translate("Advertise node position"))
-	share_location.default = uci:get_bool("gluon-node-info", location, "share_location")
-	function share_location:write(data)
-		uci:set("gluon-node-info", location, "share_location", data)
-	end
 
 	local map
 	if osm then
@@ -78,6 +67,15 @@ return function(form, uci)
 		function o:write(data)
 			uci:set("gluon-node-info", location, "altitude", data)
 		end
+	end
+
+    text = pkg_i18n.translate("If you want the location of your node to be displayed on the map, please tick the checkbox below.")
+    s = form:section(Section, nil, text)
+
+	local share_location = s:option(Flag, "share_location", pkg_i18n.translate("Advertise node position"))
+	share_location.default = uci:get_bool("gluon-node-info", location, "share_location")
+	function share_location:write(data)
+		uci:set("gluon-node-info", location, "share_location", data)
 	end
 
 	function s:write()
