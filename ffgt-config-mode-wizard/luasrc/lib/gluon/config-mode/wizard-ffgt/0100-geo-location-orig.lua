@@ -16,8 +16,8 @@ return function(form, uci)
 			"geolocation, which will upload the WiFi networks (SSID, " ..
 			"BSSID, strenght, channel) to our server, which in turn will " ..
 			"use third party services (Google, OpenStreetMap, ...) to map " ..
-			that to a location. We *need* a proper location to assign this " ..
-			node to a Freifunk network (\"hood\", \"community\", ...)."
+			"that to a location. We *need* a proper location to assign this " ..
+			"node to a Freifunk network (\"hood\", \"community\", ...)."
 	)
 	if osm then
 		text = text .. '\n' .. osm.help(i18n)
