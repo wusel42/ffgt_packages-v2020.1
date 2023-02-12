@@ -9,7 +9,7 @@ local s = f:section(Section)
 s.template = "wizard/welcome"
 s.package = "gluon-config-mode-core"
 
-for _, entry in ipairs(util.glob('/lib/gluon/config-mode/wizard-ffgt/*')) do
+for _, entry in ipairs(util.glob('/lib/gluon/config-mode/geoloc-4830/*')) do
 	local section = assert(loadfile(entry))
 	setfenv(section, getfenv())
 	section()(f, uci)
