@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 	http://www.apache.org/licenses/LICENSE-2.0
 ]]--
 
-package 'ffgt-geolocate'
+package 'ffgt-config-mode-wizard'
 
 local util = require 'gluon.util'
 local site = require 'gluon.site'
@@ -97,11 +97,11 @@ local function action_contact(http, renderer)
         valid_contact, error_message = validemail(contact)
         -- if not error_message then error_message="" end
         if not (valid_contact == true) then
-            renderer.render_layout('admin/contact', { contact, error_message, }, 'ffgt-geolocate')
+            renderer.render_layout('admin/contact', { contact, error_message, }, 'ffgt-config-mode-wizard')
         else
             uci:set("gluon-node-info", owner, "contact", contact)
             uci:commit('gluon-node-info')
-            renderer.render_layout('admin/contact_done', { contact, } , 'ffgt-geolocate')
+            renderer.render_layout('admin/contact_done', { contact, } , 'ffgt-config-mode-wizard')
         end
     end
 end

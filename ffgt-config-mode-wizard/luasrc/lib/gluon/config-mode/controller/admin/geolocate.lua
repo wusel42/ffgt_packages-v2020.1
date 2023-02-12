@@ -37,20 +37,22 @@ local function action_geoloc(http, renderer)
         if not (lat == 0 and lon == 0) then
             os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
         end
-		renderer.render_layout('admin/geolocate', { null_coords = (lat == 0 and lon == 0), }, 'ffgt-geolocate')
+        os.execute("logger \"Rendering admin/geolocate\"")
+        renderer.render_layout('admin/geolocate', { null_coords = (lat == 0 and lon == 0), }, 'ffgt-config-mode-wizard')
+        os.execute("logger \"Rendered admin/geolocate\"")
 	-- Step 2: Try geolocate with the data entered, unless "autolocate" was selected, in which
 	--         case we ignore the coordinates entered.
 	elseif step == 2 then
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if autolocate then
             os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force")
-            renderer.render_layout('admin/geolocate', { autolocated = 1, }, 'ffgt-geolocate')
+            renderer.render_layout('admin/geolocate', { autolocated = 1, }, 'ffgt-config-mode-wizard')
         else
             local newlat = tonumber(trim(http:formvalue("lat")))
             local newlon = tonumber(trim(http:formvalue("lon")))
 
             if not newlat or not newlon then
-                renderer.render_layout('admin/geolocate', { null_coords = 1, }, 'ffgt-geolocate')
+                renderer.render_layout('admin/geolocate', { null_coords = 1, }, 'ffgt-config-mode-wizard')
             else
                 local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f 2>/dev/null", newlat, newlon)
                 os.execute(cmdstr)
@@ -71,19 +73,19 @@ local function action_geoloc(http, renderer)
                 end
 
                 if ((lat == 0 and lon == 0) or (lat == 51.0 and lon == 9.0)) then
-                    renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'ffgt-geolocate')
+                    renderer.render_layout('admin/geolocate', { rgeo_error = 1, }, 'ffgt-config-mode-wizard')
                 else
                     uci:set('gluon', 'core', 'domain', unlocode)
                     uci:commit('gluon')
                     os.execute('gluon-reconfigure')
                     local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
                     os.execute(cmdstr)
-                    renderer.render_layout('admin/geolocate_done', nil, 'ffgt-geolocate')
+                    renderer.render_layout('admin/geolocate_done', nil, 'ffgt-config-mode-wizard')
                 end
             end
         end
 	elseif step == 3 then
-        renderer.render_layout('admin/geolocate_eeeee', nil, 'ffgt-geolocate', { hidenav = true, })
+        renderer.render_layout('admin/geolocate_eeeee', nil, 'ffgt-config-mode-wizard', { hidenav = true, })
 	end
 end
 
