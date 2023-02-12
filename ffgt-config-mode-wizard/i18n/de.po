@@ -36,7 +36,7 @@ msgstr "Knoten auf der Karte anzeigen"
 msgid "e.g. %s"
 msgstr "z. B. %s"
 
-msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (‘hood’, ‘community’, ...).'"
+msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (‘hood’, ‘community’, ...)."
 msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseodonymisiert über Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir benötigen eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
 
 msgid "Please select where this node will be located at."
