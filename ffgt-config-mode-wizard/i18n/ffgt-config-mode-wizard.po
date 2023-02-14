@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "If you want the location of your node to be displayed on the map, you can enter it's coordinates here."
+msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
 msgstr ""
 
 msgid "Latitude"
@@ -11,6 +11,15 @@ msgid "Longitude"
 msgstr ""
 
 msgid "Geolocation"
+msgstr ""
+
+msgid "Coordinates"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Mesh"
 msgstr ""
 
 msgid "Contact"
@@ -25,7 +34,7 @@ msgstr ""
 msgid "e.g. %s"
 msgstr ""
 
-msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (‘hood’, ‘community’, ...).'"
+msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (\"hood\", \"community\", ...)."
 msgstr ""
 
 msgid "Please select where this node will be located at."
@@ -58,6 +67,8 @@ msgstr ""
 msgid "Automagic geolocation"
 msgstr ""
 
+msgid "Automagic location done."
+msgstr ""
 
 msgid "Node name"
 msgstr ""
@@ -71,11 +82,7 @@ msgstr ""
 msgid "Based on the coordinates configured, this node will be part of:"
 msgstr ""
 
-
 msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
-msgstr ""
-
-msgid "Show node on the map"
 msgstr ""
 
 msgid "To change, go to Advanced settings/Geolocation."
@@ -84,11 +91,10 @@ msgstr ""
 msgid 'LOCATION NOT SET. Please go to %s.'
 msgstr ""
 
-
-msgid "The email address of this node's operator looks valid and is recorded as: "
+msgid "The recorded email address looks valid:"
 msgstr ""
 
-msgid 'To change it, go to Advanced settings/Contact.'
+msgid "To change it, go to %s."
 msgstr ""
 
 msgid 'CONTACT NOT SET. Please go to %s.'

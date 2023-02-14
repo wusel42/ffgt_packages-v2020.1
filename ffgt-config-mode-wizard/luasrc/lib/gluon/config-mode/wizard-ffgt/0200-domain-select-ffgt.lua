@@ -14,7 +14,7 @@ return function(form, uci)
         -- Selections happens via locode, configuration via domain ...
         if (selected_domain ~= locode) then
             uci:set('gluon', 'core', 'domain', locode)
-            os.execute('gluon-reconfigure')
+            os.execute('gluon-reconfigure >/dev/null')
         end
         local text = ffgt_i18n.translate('Based on the coordinates configured, this node will be part of:')
         local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", locode)),"\n", "")
