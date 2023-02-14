@@ -9,6 +9,6 @@ START=50
 # Reboot if configured AND in setup mode for more that 3600 seconds (i. e. 1 hour) -- accidental invocation?
 configured=$(/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null)
 rc=$?
-if [ ${rc} -eq 0 -a "${configured}" == "1" ]; then
- /usr/bin/awk < /proc/uptime '{if($1 > 3600.0) {printf("/sbin/reboot\n");} else {printf("echo -n\n");}}'| /bin/sh
-fi
+#if [ ${rc} -eq 0 -a "${configured}" == "1" ]; then
+# /usr/bin/awk < /proc/uptime '{if($1 > 3600.0) {printf("/sbin/reboot\n");} else {printf("echo -n\n");}}'| /bin/sh
+#fi

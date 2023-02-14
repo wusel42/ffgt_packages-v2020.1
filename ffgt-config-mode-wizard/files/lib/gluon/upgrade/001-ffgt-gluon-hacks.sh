@@ -15,8 +15,8 @@ if [ ! -e /bin/wget ]; then test -e /usr/bin/wget && ln -s /usr/bin/wget /bin/wg
 
 START=1
 
-if [ -e /rom/gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
-  cp -p /rom/gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua
+if [ -e /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
+  mv /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua
 fi
 
 exit 0
