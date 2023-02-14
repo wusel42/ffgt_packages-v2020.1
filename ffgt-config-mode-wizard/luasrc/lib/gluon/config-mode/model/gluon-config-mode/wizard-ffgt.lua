@@ -1,7 +1,7 @@
 local util = require "gluon.util"
 local uci = require("simple-uci").cursor()
 
-os.execute("/lib/gluon/ffgt-geolocate/ipv5.sh")
+os.execute("/lib/gluon/ffgt-geolocate/ipv5.sh >/dev/null")
 
 local f = Form(translate("Welcome!"))
 f.submit = translate('Save & restart')
@@ -9,7 +9,7 @@ f.reset = false
 
 local s = f:section(Section)
 s.template = "wizard/welcome"
-s.package = "gluon-config-mode-core"
+s.package = "ffgt-config-mode-wizard"
 
 for _, entry in ipairs(util.glob('/lib/gluon/config-mode/wizard/*')) do
 	local section = assert(loadfile(entry))
