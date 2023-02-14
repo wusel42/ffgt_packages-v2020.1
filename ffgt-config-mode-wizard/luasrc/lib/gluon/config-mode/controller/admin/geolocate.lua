@@ -34,7 +34,7 @@ local function action_geoloc(http, renderer)
         if not lat then lat = 0 end
         if not lon then lon = 0 end
         if not (lat == 0 and lon == 0) then
-            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
+            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh >/dev/null")
         end
 		renderer.render_layout('admin/geolocate_new1', { null_coords = (lat == 0 and lon == 0), }, 'ffgt-config-mode-wizard')
 	-- Step 2: Try geolocate with the data entered, unless "autolocate" was selected, in which
