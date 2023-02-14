@@ -16,6 +16,7 @@ if [ "X${WLANDEV}" = "X" ]; then
 fi
 
 runnow=0
+force=0
 isconfigured="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
 if [ "$isconfigured" != "1" ]; then
  isconfigured=0
@@ -23,6 +24,16 @@ fi
 
 if [ ! -e /tmp/run/geolocate-data-sent ]; then
  runnow=1
+fi
+
+if [ $# -eq 1 ]; then
+  if [ "$1" = "force" ]; then
+    runnow=1
+    force=1
+    if [ ! -e /tmp/run/geolocate-data-sent ]; then
+      rm /tmp/run/geolocate-data-sent
+    fi
+  fi
 fi
 
 if [ ${runnow} -eq 1 ]; then
@@ -45,7 +56,11 @@ if [ ${runnow} -eq 1 ]; then
  wget -q -O /dev/null "$( (for dev in ${WLANDEV}; do ${IW} ${dev} scan; done) | /usr/bin/awk -v mac=$mac -v ipv4prefix=$IPVXPREFIX -f /lib/gluon/ffgt-geolocate/preparse.awk)" && /bin/touch /tmp/run/geolocate-data-sent
  # On success only ...
  if [ -e /tmp/run/geolocate-data-sent ]; then
-  curlat="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
+  if [ ${force} -eq 1 ]; then
+    curlat=""
+  else
+    curlat="$(/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null)"
+  fi
   if [ "X${curlat}" = "X" ]; then
    sleep 5
    wget -q -O /tmp/geoloc.out "http://setup.${IPVXPREFIX}4830.org/geoloc.php?list=me&node=$mac"

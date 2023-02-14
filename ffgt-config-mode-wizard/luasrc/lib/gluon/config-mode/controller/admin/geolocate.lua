@@ -42,7 +42,7 @@ local function action_geoloc(http, renderer)
 	elseif step == 2 then
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if autolocate then
-            os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force")
+            os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force >/dev/null")
             renderer.render_layout('admin/geolocate_new1', { autolocated = 1, }, 'ffgt-config-mode-wizard')
         else
             local newlat = tonumber(trim(http:formvalue("lat")))
@@ -51,7 +51,7 @@ local function action_geoloc(http, renderer)
             if not newlat or not newlon then
                 renderer.render_layout('admin/geolocate_new1', { null_coords = 1, }, 'ffgt-config-mode-wizard')
             else
-                local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f 2>/dev/null", newlat, newlon)
+                local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f 2>/dev/null >/dev/null", newlat, newlon)
                 os.execute(cmdstr)
 
                 location = uci:get_first("gluon-node-info", "location")
@@ -74,8 +74,8 @@ local function action_geoloc(http, renderer)
                 else
                     uci:set('gluon', 'core', 'domain', unlocode)
                     uci:commit('gluon')
-                    os.execute('gluon-reconfigure')
-                    local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
+                    os.execute('gluon-reconfigure >/dev/null')
+                    local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null >/dev/null'
                     os.execute(cmdstr)
                     renderer.render_layout('admin/geolocate_newdone', nil, 'ffgt-config-mode-wizard')
                 end

@@ -15,6 +15,9 @@ $Id$
 local util = require 'gluon.util'
 local site = require 'gluon.site'
 local uci = require("simple-uci").cursor()
+local location = uci:get_first("gluon-node-info", "location")
+local lat = uci:get("gluon-node-info", location, "latitude")
+local lon = uci:get("gluon-node-info", location, "longitude")
 %>
 <h2><%:Geolocation%></h2>
 
