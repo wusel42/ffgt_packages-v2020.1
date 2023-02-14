@@ -19,6 +19,14 @@ if [ -e /lib/gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
   mv /lib//gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /lib/gluon/config-mode/model/gluon-config-mode/wizard.lua
 fi
 
+if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
+  rm -rf /lib/gluon/config-mode/wizard && mv /lib/gluon/config-mode/wizard-ffgt /lib/gluon/config-mode/wizard
+fi
+
+if [ -e /lib/gluon/config-mode/reboot-ffgt ]; then
+  rm -rf /lib/gluon/config-mode/reboot && mv /lib/gluon/config-mode/reboot-ffgt /lib/gluon/config-mode/reboot
+fi
+
 exit 0
 
 if [ -e /lib/gluon/config-mode/view/wizard/welcome-ffgt.html ]; then

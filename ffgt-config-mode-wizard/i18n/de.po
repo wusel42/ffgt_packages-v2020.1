@@ -24,6 +24,15 @@ msgstr "Längengrad"
 msgid "Geolocation"
 msgstr "Geolokalisierung"
 
+msgid "Coordinates"
+msgstr "Koordinaten"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Mesh"
+msgstr "Mesh"
+
 msgid "Contact"
 msgstr "Kontaktdaten"
 
@@ -72,7 +81,6 @@ msgstr "Netzbasierte Lokalisierung"
 msgid "Automagic location done."
 msgstr "Netzbasierte Lokalisierung durchgeführt."
 
-
 msgid "Node name"
 msgstr "Name dieses Knotens"
 
@@ -85,25 +93,20 @@ msgstr "Namensvorschläge:"
 msgid "Based on the coordinates configured, this node will be part of:"
 msgstr "Aufgrund der konfigurierten Koordinaten wird dieser Knoten Teil von:"
 
-
 msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
 msgstr "Bitte den Haken setzen/gesetzt lassen, damit die Position dieses Knotens auf Karten angezeigt werden darf."
-
-msgid "Show node on the map"
-msgstr "Knoten auf Karten anzeigen"
 
 msgid "To change, go to Advanced settings/Geolocation."
 msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Geolokalisierung gehen."
 
 msgid 'LOCATION NOT SET. Please go to %s.'
-msgstr "Koordinaten nicht gesetzt; bitte setze welche unter %s."
-
+msgstr "Koordinaten nicht gesetzt; bitte unter %s konfigurieren."
 
 msgid "The email address of this node's operator looks valid and is recorded as: "
 msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
 
-msgid "To change it, go to Advanced settings/Contact."
-msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Kontaktdaten gehen."
+msgid "To change it, go to %s."
+msgstr "Zum ändern bitte %s aufrufen."
 
 msgid 'CONTACT NOT SET. Please go to %s.'
 msgstr "Keine Kontaktadresse angegeben, bitte unter %s eintragen."

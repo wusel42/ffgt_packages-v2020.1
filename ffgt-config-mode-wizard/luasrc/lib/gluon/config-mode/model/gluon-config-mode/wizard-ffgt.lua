@@ -11,7 +11,7 @@ local s = f:section(Section)
 s.template = "wizard/welcome"
 s.package = "gluon-config-mode-core"
 
-for _, entry in ipairs(util.glob('/lib/gluon/config-mode/wizard-ffgt/*')) do
+for _, entry in ipairs(util.glob('/lib/gluon/config-mode/wizard/*')) do
 	local section = assert(loadfile(entry))
 	setfenv(section, getfenv())
 	section()(f, uci)
@@ -26,7 +26,7 @@ function f:write()
 
 	os.execute('exec gluon-reconfigure >/dev/null')
 
-	f.template = "wizard-ffgt/reboot"
+	f.template = "wizard/reboot"
 	f.package = "ffgt-gluon-config-mode-wizard"
 	f.hidenav = true
 
