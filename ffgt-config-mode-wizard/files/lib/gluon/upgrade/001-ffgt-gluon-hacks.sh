@@ -21,6 +21,12 @@ fi
 
 if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
   rm -rf /lib/gluon/config-mode/wizard && mv /lib/gluon/config-mode/wizard-ffgt /lib/gluon/config-mode/wizard
+  for i in 0050-autoupdater-info.lua 0250-outdoor.lua 0300-mesh-vpn.lua
+  do
+    if [ -e /rom/lib/gluon/config-mode/wizard/$i ]; then
+      cp -p /rom/lib/gluon/config-mode/wizard/$i /lib/gluon/config-mode/wizard/
+    fi
+  done
 fi
 
 if [ -e /lib/gluon/config-mode/reboot-ffgt ]; then

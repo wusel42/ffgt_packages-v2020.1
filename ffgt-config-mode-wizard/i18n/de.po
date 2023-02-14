@@ -102,8 +102,8 @@ msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Geolokalisierung ge
 msgid 'LOCATION NOT SET. Please go to %s.'
 msgstr "Koordinaten nicht gesetzt; bitte unter %s konfigurieren."
 
-msgid "The email address of this node's operator looks valid and is recorded as: "
-msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
+msgid "The recorded email address looks valid:"
+msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt:"
 
 msgid "To change it, go to %s."
 msgstr "Zum ändern bitte %s aufrufen."

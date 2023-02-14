@@ -70,8 +70,8 @@ return function(form, uci)
     local valid_contact = validemail(contact)
 
     if valid_contact then
-	    local text = pkg_i18n.translate("The email address of this node's operator looks valid and is recorded as: ")
-	    text = text .. string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
+	    local text = pkg_i18n.translate("The recorded email address looks valid:")
+	    text = text .. string.format(' <a href="mailto:%s">%s</a>.<br></br>', contact, contact)
 	    text = text .. pkg_i18n.translate('To change it, go to %s.')
 	    text = string.format(text, '<a href="/cgi-bin/config/admin/contact">Contact</a>')
 	    form:section(Section, nil, text)
