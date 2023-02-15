@@ -3,10 +3,10 @@
 # But as we don't want to completely rework the Wizardry, we neet to patch our
 # Firmware once after upgrade.
 
+START=1
+
 # HACK, FIXME; if /bin/wget does not exists, create a symlink from /usr/bin/wget
 if [ ! -e /bin/wget ]; then test -e /usr/bin/wget && ln -s /usr/bin/wget /bin/wget ; fi
-
-START=1
 
 if [ -e /lib/gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
   mv /lib//gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /lib/gluon/config-mode/model/gluon-config-mode/wizard.lua

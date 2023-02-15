@@ -1,7 +1,10 @@
 local util = require "gluon.util"
 local uci = require("simple-uci").cursor()
+local unistd = require 'posix.unistd'
 
-os.execute("/lib/gluon/ffgt-geolocate/ipv5.sh >/dev/null")
+if unistd.access('/tmp/is_online') ~= 0 then
+    os.execute("/lib/gluon/ffgt-geolocate/ipv5.sh >/dev/null")
+end
 
 local f = Form(translate("Welcome!"))
 f.submit = translate('Save & restart')

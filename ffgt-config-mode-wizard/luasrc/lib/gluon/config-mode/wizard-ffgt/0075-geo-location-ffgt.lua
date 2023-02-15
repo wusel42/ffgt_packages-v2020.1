@@ -23,9 +23,9 @@ return function(form, uci)
     if ((lat == 0) and (lon == 0)) or ((lat == 51) and (lon == 9)) or (not unlocode) then
         local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
         util.exec(cmdstr)
-        local text = '<script> window.location.href = "/cgi-bin/config/admin/geoloc";</script>'
+        local text = '<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>'
         text = text .. pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
-        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geoloc">Geolocation</a>') .. "</STRONG></CENTER>"
+        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocation</a>') .. "</STRONG></CENTER>"
         form:section(Section, nil, text)
     end
 
