@@ -1,6 +1,7 @@
 
 return function(form, uci)
 	local site_i18n = i18n 'gluon-site'
+	local ffgt_i18n = i18n 'ffgt-config-mode-wizard'
 
 	local json = require 'jsonc'
 	local site = require 'gluon.site'
@@ -38,7 +39,9 @@ return function(form, uci)
 		return list
 	end
 
-	local s = form:section(Section, nil, site_i18n.translate('gluon-config-mode:domain-select'))
+    local text = ffgt_i18n.translate('The following data has been computed already, there should be no need to change anything.')
+    text = "<strong>" .. text .. "</strong><br>" .. site_i18n.translate('gluon-config-mode:domain-select')
+	local s = form:section(Section, nil, text)
 	local o = s:option(ListValue, 'domain', site_i18n.translate('gluon-config-mode:domain'))
 
 	if configured then

@@ -123,3 +123,6 @@ msgstr "Als Betriebsposition für Deinen Knoten haben wir notiert:"
 
 msgid "Geolocation successful"
 msgstr "Geolokalisierung erfolgreich"
+
+msgid 'The following data has been computed already, there should be no need to change anything.'
+msgstr 'Die folgenden Daten wurden bereits als korrekt errechnet, bitte nur nach Aufforderung ändern.'
