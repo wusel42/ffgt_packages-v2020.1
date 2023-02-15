@@ -88,7 +88,7 @@ local function action_contact(http, renderer)
 
     -- Step 1: Display form
     if step == 1 then
-        renderer.render_layout('admin/contact', { contact, }, 'ffgt-geolocate')
+        renderer.render_layout('admin/contact', { contact, }, 'ffgt-config-mode-wizard')
     -- Step 2: Validate
     elseif step >=1 then
         contact=http:formvalue("contact")
