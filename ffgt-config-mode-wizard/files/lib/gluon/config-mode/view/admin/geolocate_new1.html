@@ -41,7 +41,7 @@ if autolocated then %>
 end
 
 if (lat == 0) and (lon == 0) then %>
-	<p class="error" style="text-align: justify;"><%:No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network ("hood", "community", ...).'%></p>
+	<p class="error" style="text-align: justify;"><%:No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network ("hood", "community", ...).%></p>
 	<p>
 		<%:Please select where this node will be located at.%>
 	</p>
@@ -65,9 +65,9 @@ elseif rgeo_error then
 
 	if tonumber(zip)~=0 then
 		local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", unlocode)),"\n", "")
-		local mystr = '<b>' .. pkg_i18n.translate('Address') .. string.format(":</b> %s, %s %s<br>", addr, zip, city)
-		mystr = mystr .. '<b>' .. pkg_i18n.translate('Coordinates') .. string.format(":</b> %f; %f<br>", lat, lon)
-		mystr = mystr .. '<b>' .. pkg_i18n.translate('Mesh') .. string.format(":</b> %s", communityname)
+		local mystr = '<b>' .. translate('Address') .. string.format(":</b> %s, %s %s<br>", addr, zip, city)
+		mystr = mystr .. '<b>' .. translate('Coordinates') .. string.format(":</b> %f; %f<br>", lat, lon)
+		mystr = mystr .. '<b>' .. translate('Mesh') .. string.format(":</b> %s", communityname)
 		local text = translate('Located the future position of this node as follows, please verify:')
 		text = text .. '<br>' .. mystr
 		write(text)
@@ -91,9 +91,9 @@ elseif rgeo_error then
 		local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
 		local zip = uci:get("gluon-node-info", location, "zip") or "00000"
 		local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", unlocode)),"\n", "")
-		local mystr = '<b>' .. pkg_i18n.translate('Address') .. string.format(":</b> %s, %s %s<br>", addr, zip, city)
-		mystr = mystr .. '<b>' .. pkg_i18n.translate('Coordinates') .. string.format(":</b> %f; %f<br>", lat, lon)
-		mystr = mystr .. '<b>' .. pkg_i18n.translate('Mesh') .. string.format(":</b> %s", communityname)
+		local mystr = '<b>' .. translate('Address') .. string.format(":</b> %s, %s %s<br>", addr, zip, city)
+		mystr = mystr .. '<b>' .. translate('Coordinates') .. string.format(":</b> %f; %f<br>", lat, lon)
+		mystr = mystr .. '<b>' .. translate('Mesh') .. string.format(":</b> %s", communityname)
 		local text = translate('Located the future position of this node as follows, please verify:')
 		text = text .. '<br>' .. mystr
 		write(text)

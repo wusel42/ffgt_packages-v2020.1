@@ -5,6 +5,8 @@
 
 START=1
 
+logger "$0: started"
+
 # HACK, FIXME; if /bin/wget does not exists, create a symlink from /usr/bin/wget
 if [ ! -e /bin/wget ]; then test -e /usr/bin/wget && ln -s /usr/bin/wget /bin/wget ; fi
 
@@ -14,6 +16,7 @@ fi
 
 if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
   mv /lib/gluon/config-mode/wizard /lib/gluon/config-mode/wizard-legacy
+  sync
   mv /lib/gluon/config-mode/wizard-ffgt /lib/gluon/config-mode/wizard
   for i in 0050-autoupdater-info.lua 0250-outdoor.lua 0300-mesh-vpn.lua
   do
@@ -24,7 +27,7 @@ if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
   for i in 0100-hostname.lua 0400-geo-location.lua 0500-contact-info.lua
   do
     if [ -e /lib/gluon/config-mode/wizard/$i ]; then
-      rm /lib/gluon/config-mode/wizard/$i
+      /bin/rm /lib/gluon/config-mode/wizard/$i
     fi
   done
 fi
@@ -34,3 +37,4 @@ if [ -e /lib/gluon/config-mode/reboot-ffgt ]; then
   mv /lib/gluon/config-mode/reboot-ffgt /lib/gluon/config-mode/reboot
 fi
 
+logger "$0: done"
