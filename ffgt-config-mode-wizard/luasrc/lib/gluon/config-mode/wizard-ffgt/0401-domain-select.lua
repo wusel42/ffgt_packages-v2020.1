@@ -40,7 +40,7 @@ return function(form, uci)
 	end
 
     local text = ffgt_i18n.translate('The following data has been computed already, there should be no need to change anything.')
-    text = "<strong>" .. text .. "</strong><br>" .. site_i18n.translate('gluon-config-mode:domain-select')
+    text = "<strong>" .. text .. "</strong><br>&nbsp;<br>" .. site_i18n.translate('gluon-config-mode:domain-select')
 	local s = form:section(Section, nil, text)
 	local o = s:option(ListValue, 'domain', site_i18n.translate('gluon-config-mode:domain'))
 

@@ -114,3 +114,6 @@ msgstr ""
 
 msgid "Geolocation successful"
 msgstr ""
+
+msgid 'The following data has been computed already, there should be no need to change anything.'
+msgstr ""
