@@ -25,6 +25,6 @@ function escape(str, c, len, res) {
 /primary channel:/ {HT[numwifi]=$NF;}
 /secondary channel offset:/ {HT[numwifi]=sprintf("%s,%s", HT[numwifi], $NF=="secondary"?"none":$NF);}
 END {
- for(j=1; j<=numwifi; j++) 
+ for(j=1; j<=(numwifi<31?numwifi:30); j++)
      printf("&wifi[]=mac:%s%%7Cssid:%s%%7Css:%s%%7Cchan:%s", BSS[j], escape(SSID[j]), sig[j], HT[j]);
 }
