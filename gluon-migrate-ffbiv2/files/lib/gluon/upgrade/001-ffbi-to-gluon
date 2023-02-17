@@ -1,0 +1,63 @@
+#!/bin/sh
+
+if [ -e /etc/config/freifunk ]; then
+  echo "Migrating FFBI-FW to 4830.org's Gluon ..." | tee -a /tmp/ffbi-migration.log
+
+  # Get former community setting and align with this firmware's meshes
+  domain=$(uci get freifunk.@settings[0].community | sed -e s/badoeynhausen/boy/ -e s/bielefeld/bfe/ -e s/minden/mid/)
+  if [ ! -e /lib/gluon/domains/${domain}.json ]; then
+   echo "No match for mesh ${domain} in /lib/gluon/domains/, setting do default (zzz)." | tee -a /tmp/ffbi-migration.log
+   domain=zzz
+  fi
+  echo "Selected Domain: ${domain}." | tee -a /tmp/ffbi-migration.log
+
+  # Convert into Gluon setting
+  curdom=$(uci get gluon.core.domain 2>/dev/null)
+  if [ "${curdom}" != "${domain}" ]; then
+   echo "Setting domain: ${domain}." | tee -a /tmp/ffbi-migration.log
+   uci set gluon.core.domain=${domain} ||:
+   uci set gluon.core.migrated_from=ffbi ||:
+   uci commit gluon ||:
+  else
+   echo "Domain ${domain} already set." | tee -a /tmp/ffbi-migration.log
+  fi
+
+  # Get Gluon firmware's settings
+  for i in etc/config/autoupdater etc/sysupgrade.conf
+  do
+    if [ -e /rom/$i ]; then
+      cp -p /rom/$i /$i
+    fi
+  done
+
+  lat="$(uci get freifunk.@settings[0].latitude 2>/dev/null || echo 0)"
+  lon="$(uci get freifunk.@settings[0].longitude 2>/dev/null || echo 0)"
+  contact="$(uci get freifunk.@settings[0].contact 2>/dev/null)"
+  name="$(uci get freifunk.@settings[0].name 2>/dev/null)"
+  mac="$(echo -e "local util = require 'gluon.util'\nlocal mac=string.sub(util.node_id(), 9);\nprint(mac);" | /usr/bin/lua)"
+
+  uci set gluon-node-info.@location[0].latitude="$lat"
+  uci set gluon-node-info.@location[0].longitude="$lon"
+  if [ "X${contact}" != "X" ]; then
+    uci set gluon-node-info.@owner[0].contact="$contact"
+  fi
+
+  if [ "X${name}" != "X" ]; then
+    name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/^BO-//g' -e 's/^PW-//g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+    uci set system.@system[0].hostname="$name"
+  fi
+
+  # Delete leftovers
+  rm /etc/uhttpd.crt /etc/uhttpd.key ||:
+  for i in alfred batman-adv dhcp fastd firewall network simple-radvd simple-tc system ubootenv uhttpd wireless
+  do
+    if [ -e /rom/etc/config/$i ]; then
+      cp -p /rom/etc/config/$i /etc/config/$i
+    else
+      rm /etc/config/$i
+    fi
+  done
+
+  mv /etc/config/freifunk /etc/config/freifunk-ffbi
+  gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
+fi
