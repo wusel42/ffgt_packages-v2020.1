@@ -9,17 +9,17 @@ if [ -e /etc/config/freifunk ]; then
    echo "No match for mesh ${domain} in /lib/gluon/domains/, setting do default (zzz)." | tee -a /tmp/ffbi-migration.log
    domain=zzz
   fi
-  echo "Selected Domain: ${domain}." | tee -a /tmp/ffbi-migration.log
+  echo "Selected mesh: ${domain}." | tee -a /tmp/ffbi-migration.log
 
   # Convert into Gluon setting
   curdom=$(uci get gluon.core.domain 2>/dev/null)
   if [ "${curdom}" != "${domain}" ]; then
-   echo "Setting domain: ${domain}." | tee -a /tmp/ffbi-migration.log
+   echo "Setting mesh domain: ${domain}." | tee -a /tmp/ffbi-migration.log
    uci set gluon.core.domain=${domain} ||:
    uci set gluon.core.migrated_from=ffbi ||:
    uci commit gluon ||:
   else
-   echo "Domain ${domain} already set." | tee -a /tmp/ffbi-migration.log
+   echo "Mesh ${domain} already set." | tee -a /tmp/ffbi-migration.log
   fi
 
   # Get Gluon firmware's settings
@@ -35,16 +35,21 @@ if [ -e /etc/config/freifunk ]; then
   contact="$(uci get freifunk.@settings[0].contact 2>/dev/null)"
   name="$(uci get freifunk.@settings[0].name 2>/dev/null)"
   mac="$(echo -e "local util = require 'gluon.util'\nlocal mac=string.sub(util.node_id(), 9);\nprint(mac);" | /usr/bin/lua)"
+  if [ "${mac}X" = "X" ]; then
+    mac="no-mac"
+  fi
 
-  uci set gluon-node-info.@location[0].latitude="$lat"
-  uci set gluon-node-info.@location[0].longitude="$lon"
+  uci set gluon-node-info.@location[0].latitude="$lat" ||:
+  uci set gluon-node-info.@location[0].longitude="$lon" ||:
   if [ "X${contact}" != "X" ]; then
-    uci set gluon-node-info.@owner[0].contact="$contact"
+    uci set gluon-node-info.@owner[0].contact="$contact" ||:
   fi
 
   if [ "X${name}" != "X" ]; then
     name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/^BO-//g' -e 's/^PW-//g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
-    uci set system.@system[0].hostname="$name"
+    uci set system.@system[0].hostname="$name" ||:
+  else
+    uci set system.@system[0].hostname="migrated-node-${mac}"
   fi
 
   # Delete leftovers
@@ -58,6 +63,33 @@ if [ -e /etc/config/freifunk ]; then
     fi
   done
 
+  uci set gluon-setup-mode.@setup_mode[0].configured='1' ||:
+  uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||:
+
+  showonmap="$(uci get freifunk.@settings[0].publish_map)"
+  if [ "${showonmap}" = "none" ]; then
+    uci set gluon-node-info.@location[0].share_location='0' ||:
+  else
+    uci set gluon-node-info.@location[0].share_location='1' ||:
+  fi
+
+  uci commit gluon-setup-mode ||:
+  uci commit gluon-node-info ||:
+  uci commit ||:
+
+  # Move the triggering file out of the way, we're done with it anyway now
   mv /etc/config/freifunk /etc/config/freifunk-ffbi
-  gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
+
+  # Give us some time to establish a WAN connection
+  sleep 15
+
+  # Try to run rgeo.sh — will only work with working WAN connection
+  /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /tmp/ffbi-migration.log
+
+  # Did it blend?
+  zip="$(uci get gluon-node-info.@location[0].zip)"
+  if [ "X${zip}" = "X" ]; then
+    # Nope, run gluon-reconfigure now
+    gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
+  fi
 fi
