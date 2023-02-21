@@ -4,11 +4,12 @@
    _/        _/        _/        _/    _/      _/    _/  _/    _/  _/  _/
   _/        _/          _/_/_/  _/    _/        _/_/_/  _/    _/  _/    _/
 
-   Freifunk-Firmware für den Kreis Gütersloh, Bielefeld, die Müritz-Region
-                     und die Feldberger Seenlandschaft
+  Freifunk-Firmware für den Kreis Gütersloh, für Bielefeld, Bad Oeynhausen,
+     Lüneburg sowie die Müritz-Region und die Feldberger Seenlandschaft
 
-  Info/Kontakt: https://freifunk-kreisgt.de   | https://mueritz.freifunk.net
-                https://freifunk-bielefeld.de | https://freifunk-feldberg.de
+  Info/Kontakt: https://freifunk-bielefeld.de | https://mueritz.freifunk.net
+                  https://freifunk-kreisgt.de | https://freifunk-feldberg.de
+            https://freifunk-badoeynhausen.de | https://freifunk-lueneburg.de
 
   Tools:
   - autoupdater -f    (Firmware-Update erzwingen)
