@@ -38,18 +38,16 @@ if [ -e /etc/config/freifunk ]; then
   if [ "${mac}X" = "X" ]; then
     mac="no-mac"
   fi
+  if [ "${name}X" = "X" ]; then
+    name="migrated-$(/bin/cat /tmp/sysinfo/board_name)-${mac}"
+  fi
+  name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+  uci set system.@system[0].hostname="$name" ||:
 
   uci set gluon-node-info.@location[0].latitude="$lat" ||:
   uci set gluon-node-info.@location[0].longitude="$lon" ||:
   if [ "X${contact}" != "X" ]; then
     uci set gluon-node-info.@owner[0].contact="$contact" ||:
-  fi
-
-  if [ "X${name}" != "X" ]; then
-    name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/^BO-//g' -e 's/^PW-//g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
-    uci set system.@system[0].hostname="$name" ||:
-  else
-    uci set system.@system[0].hostname="migrated-node-${mac}"
   fi
 
   # Delete leftovers
@@ -75,6 +73,7 @@ if [ -e /etc/config/freifunk ]; then
 
   uci commit gluon-setup-mode ||:
   uci commit gluon-node-info ||:
+  uci commit system ||:
   uci commit ||:
 
   # Move the triggering file out of the way, we're done with it anyway now
@@ -91,5 +90,9 @@ if [ -e /etc/config/freifunk ]; then
   if [ "X${zip}" = "X" ]; then
     # Nope, run gluon-reconfigure now
     gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
+  else
+      hostname="${zip}-${name}
+      uci set system.@system[0].hostname="${hostname}" ||:
+      uci commit system ||:
   fi
 fi
