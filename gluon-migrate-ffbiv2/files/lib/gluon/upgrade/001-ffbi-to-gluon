@@ -1,25 +1,25 @@
 #!/bin/sh
 
 if [ -e /etc/config/freifunk ]; then
-  echo "Migrating FFBI-FW to 4830.org's Gluon ..." | tee -a /tmp/ffbi-migration.log
+  echo "Migrating FFBI-FW to 4830.org's Gluon ..." | tee -a /root/ffbi-migration.log
 
   # Get former community setting and align with this firmware's meshes
   domain=$(uci get freifunk.@settings[0].community | sed -e s/badoeynhausen/boy/ -e s/bielefeld/bfe/ -e s/minden/mid/)
   if [ ! -e /lib/gluon/domains/${domain}.json ]; then
-   echo "No match for mesh ${domain} in /lib/gluon/domains/, setting do default (zzz)." | tee -a /tmp/ffbi-migration.log
+   echo "No match for mesh ${domain} in /lib/gluon/domains/, setting do default (zzz)." | tee -a /root/ffbi-migration.log
    domain=zzz
   fi
-  echo "Selected mesh: ${domain}." | tee -a /tmp/ffbi-migration.log
+  echo "Selected mesh: ${domain}." | tee -a /root/ffbi-migration.log
 
   # Convert into Gluon setting
   curdom=$(uci get gluon.core.domain 2>/dev/null)
   if [ "${curdom}" != "${domain}" ]; then
-   echo "Setting mesh domain: ${domain}." | tee -a /tmp/ffbi-migration.log
+   echo "Setting mesh domain: ${domain}." | tee -a /root/ffbi-migration.log
    uci set gluon.core.domain=${domain} ||:
    uci set gluon.core.migrated_from=ffbi ||:
    uci commit gluon ||:
   else
-   echo "Mesh ${domain} already set." | tee -a /tmp/ffbi-migration.log
+   echo "Mesh ${domain} already set." | tee -a /root/ffbi-migration.log
   fi
 
   # Get Gluon firmware's settings, replace leftovers from FFBI
@@ -86,13 +86,13 @@ if [ -e /etc/config/freifunk ]; then
   # Try to run rgeo.sh — will only work with working WAN connection
   # and may call gluon-reconfigure — therefore we must not have
   # /etc/config/freifunk around anymore or we risk an endless loop.
-  /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /tmp/ffbi-migration.log
+  /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log
 
   # Did it blend?
   zip="$(uci get gluon-node-info.@location[0].zip)"
   if [ "X${zip}" = "X" ]; then
     # Nope, run gluon-reconfigure now
-    gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
+    gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log
   else
       hostname="${zip}-${name}"
       uci set system.@system[0].hostname="${hostname}" ||:
