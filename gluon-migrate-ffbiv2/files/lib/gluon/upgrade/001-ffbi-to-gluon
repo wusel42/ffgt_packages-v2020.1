@@ -34,6 +34,9 @@ if [ -e /etc/config/freifunk ]; then
   lon="$(uci get freifunk.@settings[0].longitude 2>/dev/null || echo 0)"
   contact="$(uci get freifunk.@settings[0].contact 2>/dev/null)"
   name="$(uci get freifunk.@settings[0].name 2>/dev/null)"
+
+  echo "Hostname from FFBI Firmware: \"${name}\"." | tee -a /root/ffbi-migration.log
+
   mac="$(echo -e "local util = require 'gluon.util'\nlocal mac=string.sub(util.node_id(), 9);\nprint(mac);" | /usr/bin/lua)"
   if [ "${mac}X" = "X" ]; then
     mac="no-mac"
@@ -42,6 +45,9 @@ if [ -e /etc/config/freifunk ]; then
     name="migrated-$(/bin/cat /tmp/sysinfo/board_name)-${mac}"
   fi
   name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+
+  echo "Setting new Hostname \"${name}\"." | tee -a /root/ffbi-migration.log
+
   uci set system.@system[0].hostname="$name" ||:
 
   if [ "X${contact}" != "X" ]; then
