@@ -3,9 +3,11 @@
 if [ -e /etc/config/freifunk ]; then
   echo "Migrating FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
 
-  echo -e "#!/bin/sh\nsleep 45\n(date ; gluon-reconfigure) | tee -a /root/ffbi-migration.log\nsync\nsleep 2\nreboot" >/tmp/migrateme.sh
+  echo -e "#!/bin/sh\nsleep 30\n(date ; gluon-reconfigure) | tee -a /root/ffbi-migration.log\nsync\nsleep 2\nreboot" >/tmp/migrateme.sh
   chmod +x /tmp/migrateme.sh
   ((/tmp/migrateme.sh)&)
+
+  echo -e "Reconfig-reboot in 30 seconds ...\n$(ps -w | grep migrate)" | tee -a /root/ffbi-migration.log
 
   # Get former community setting and align with this firmware's meshes
   domain=$(uci get freifunk.@settings[0].community | sed -e s/badoeynhausen/boy/ -e s/bielefeld/bfe/ -e s/minden/mid/)
@@ -81,6 +83,7 @@ if [ -e /etc/config/freifunk ]; then
   echo "Setting new Hostname \"${name}\"." | tee -a /root/ffbi-migration.log
 
   uci set system.@system[0].hostname="$name" ||:
+  uci set system.@system[0].ffbi_hostname="$name" ||:
 
   uci commit gluon-setup-mode ||:
   uci commit gluon-node-info ||:
@@ -107,6 +110,7 @@ if [ -e /etc/config/freifunk ]; then
     hostname="${zip}-${name}"
     echo "Setting new Hostname \"${hostname}\" ..." | tee -a /root/ffbi-migration.log
     uci set system.@system[0].hostname="${hostname}" ||:
+    uci set system.@system[0].ffbi_hostname="${hostname}" ||:
     uci commit system ||:
   fi
   echo "Done migrating FFBI-FW to 4830.org's Gluon at $(date)" | tee -a /root/ffbi-migration.log
