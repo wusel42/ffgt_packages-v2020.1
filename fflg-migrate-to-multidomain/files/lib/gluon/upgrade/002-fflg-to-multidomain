@@ -25,5 +25,3 @@ if [ "${domain}" = "lbg" ]; then
   echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
  fi
 fi
-
-
