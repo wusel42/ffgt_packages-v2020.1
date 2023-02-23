@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ -x /tmp/ffbi-migation.sh ]: then
+  echo "Running /tmp/ffbi-migation.sh at $(date) ..." | tee -a /root/ffbi-migration.log
+  /tmp/ffbi-migation.sh
+fi
