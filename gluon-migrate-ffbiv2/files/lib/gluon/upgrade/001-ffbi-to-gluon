@@ -2,8 +2,8 @@
 
 if [ -e /etc/config/freifunk ]; then
   echo "Migrating FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
-  echo "echo \"Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migation.sh
-  chmod +x /tmp/ffbi-migation.sh
+  echo "echo \"Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migration.sh
+  chmod +x /tmp/ffbi-migration.sh
 
   #echo -e "#!/bin/sh\nsleep 30\n(date ; gluon-reconfigure) | tee -a /root/ffbi-migration.log\nsync\nsleep 2\nreboot" >/tmp/migrateme.sh
   #chmod +x /tmp/migrateme.sh
@@ -23,9 +23,8 @@ if [ -e /etc/config/freifunk ]; then
   curdom=$(uci get gluon.core.domain 2>/dev/null)
   if [ "${curdom}" != "${domain}" ]; then
    echo "Setting mesh domain: ${domain}." | tee -a /root/ffbi-migration.log
-   echo "uci set gluon.core.domain=\"${domain}\" ||:" >>/tmp/ffbi-migation.sh
-   echo "uci set gluon.core.domain=${domain} ||:"     >>/tmp/ffbi-migation.sh
-   echo "uci set gluon.core.migrated_from=ffbi ||:"   >>/tmp/ffbi-migation.sh
+   echo "uci set gluon.core.domain=\"${domain}\" ||:" >>/tmp/ffbi-migration.sh
+   echo "uci set gluon.core.migrated_from=ffbi ||:"   >>/tmp/ffbi-migration.sh
   else
    echo "Mesh ${domain} already set?!" | tee -a /root/ffbi-migration.log
   fi
@@ -55,43 +54,47 @@ if [ -e /etc/config/freifunk ]; then
   name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
 
   if [ "X${contact}" != "X" ]; then
-    echo "uci set gluon-node-info.@owner[0].contact=\"$contact\" ||:" >>/tmp/ffbi-migation.sh
+    echo "uci set gluon-node-info.@owner[0].contact=\"$contact\" ||:" >>/tmp/ffbi-migration.sh
   fi
 
-  echo "uci set gluon-node-info.@location[0].latitude=\"$lat\" ||:"   >>/tmp/ffbi-migation.sh
-  echo "uci set gluon-node-info.@location[0].longitude=\"$lon\" ||:"  >>/tmp/ffbi-migation.sh
+  echo "uci set gluon-node-info.@location[0].latitude=\"$lat\" ||:"   >>/tmp/ffbi-migration.sh
+  echo "uci set gluon-node-info.@location[0].longitude=\"$lon\" ||:"  >>/tmp/ffbi-migration.sh
 
   # Delete leftovers
   rm /etc/uhttpd.crt /etc/uhttpd.key ||:
-  for i in alfred batman-adv dhcp fastd firewall network simple-radvd simple-tc ubootenv uhttpd wireless
+  for i in alfred batman-adv dhcp fastd firewall gluon gluon-core gluon-node-info gluon-setup-mode gluon-wan-dnsmasq network simple-radvd simple-tc ubootenv uhttpd wireless
   do
     if [ -e /rom/etc/config/$i ]; then
       cp -p /rom/etc/config/$i /etc/config/$i
     else
-      rm /etc/config/$i
+      if [ -e /etc/config/$i ]; then
+        rm /etc/config/$i ||:
+      fi
     fi
   done
 
   # This must be done here to avoid jumping into Config-Mode
   uci set gluon-setup-mode.@setup_mode[0].configured='1' ||:
   uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||:
+  uci commit gluon-setup-mode ||:
 
   showonmap="$(uci get freifunk.@settings[0].publish_map)"
   if [ "${showonmap}" = "none" ]; then
-    echo "uci set gluon-node-info.@location[0].share_location='0' ||:" >>/tmp/ffbi-migation.sh
+    echo "uci set gluon-node-info.@location[0].share_location='0' ||:" >>/tmp/ffbi-migration.sh
   else
-    echo "uci set gluon-node-info.@location[0].share_location='1' ||:" >>/tmp/ffbi-migation.sh
+    echo "uci set gluon-node-info.@location[0].share_location='1' ||:" >>/tmp/ffbi-migration.sh
   fi
 
   echo "Setting new Hostname \"${name}\"." | tee -a /root/ffbi-migration.log
 
-  echo "uci set system.@system[0].hostname=\"$name\" ||:"              >>/tmp/ffbi-migation.sh
+  echo "uci set system.@system[0].hostname=\"$name\" ||:"              >>/tmp/ffbi-migration.sh
   uci set system.@system[0].ffbi_hostname="$name" ||:
+  uci commit system ||:
 
-  echo "uci commit gluon-setup-mode ||:"  >>/tmp/ffbi-migation.sh
-  echo "uci commit gluon-node-info ||:"   >>/tmp/ffbi-migation.sh
-  echo "uci commit system ||:"            >>/tmp/ffbi-migation.sh
-  echo "uci commit ||:"                   >>/tmp/ffbi-migation.sh
+  echo "uci commit gluon-setup-mode ||:"  >>/tmp/ffbi-migration.sh
+  echo "uci commit gluon-node-info ||:"   >>/tmp/ffbi-migration.sh
+  echo "uci commit system ||:"            >>/tmp/ffbi-migration.sh
+  echo "uci commit ||:"                   >>/tmp/ffbi-migration.sh
 
   # Move the triggering file out of the way, we're done with it anyway now
   mv /etc/config/freifunk /etc/config/freifunk-ffbi
@@ -102,10 +105,10 @@ if [ -e /etc/config/freifunk ]; then
   # Try to run rgeo.sh in the end — will only work with working WAN
   # connection and may call gluon-reconfigure — therefore we must not have
   # /etc/config/freifunk around anymore or we risk an endless loop.
-  echo "(/lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log) ||:" >>/tmp/ffbi-migation.sh
-  echo "(gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log) ||:                  >>/tmp/ffbi-migation.sh
-  echo "echo \"Done migrating FFBI-FW to 4830.org's Gluon at $(date)\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migation.sh
-  echo "echo \"Will now reboot after reconfiguration.\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migation.sh
-  echo "sync ; sleep 5 ; reboot"  >>/tmp/ffbi-migation.sh
+  echo "(/lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log) ||:" >>/tmp/ffbi-migration.sh
+  echo "(gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log) ||:"                 >>/tmp/ffbi-migration.sh
+  echo "echo \"Done migrating FFBI-FW to 4830.org's Gluon at $(date)\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
+  echo "echo \"Will now reboot after reconfiguration.\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
+  echo "sync ; sleep 5 ; reboot"  >>/tmp/ffbi-migration.sh
   echo "Done preparing migration from FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
 fi
