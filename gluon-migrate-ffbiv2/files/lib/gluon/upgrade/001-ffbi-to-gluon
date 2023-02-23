@@ -53,7 +53,7 @@ if [ -e /etc/config/freifunk ]; then
 
   # Delete leftovers
   rm /etc/uhttpd.crt /etc/uhttpd.key ||:
-  for i in alfred batman-adv dhcp fastd firewall network simple-radvd simple-tc system ubootenv uhttpd wireless
+  for i in alfred batman-adv dhcp fastd firewall network simple-radvd simple-tc ubootenv uhttpd wireless
   do
     if [ -e /rom/etc/config/$i ]; then
       cp -p /rom/etc/config/$i /etc/config/$i
@@ -94,7 +94,7 @@ if [ -e /etc/config/freifunk ]; then
     # Nope, run gluon-reconfigure now
     gluon-reconfigure 2>&1 | tee -a /tmp/ffbi-migration.log
   else
-      hostname="${zip}-${name}
+      hostname="${zip}-${name}"
       uci set system.@system[0].hostname="${hostname}" ||:
       uci commit system ||:
   fi
