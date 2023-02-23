@@ -5,12 +5,6 @@ if [ -e /etc/config/freifunk ]; then
   echo "echo \"Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migration.sh
   chmod +x /tmp/ffbi-migration.sh
 
-  #echo -e "#!/bin/sh\nsleep 30\n(date ; gluon-reconfigure) | tee -a /root/ffbi-migration.log\nsync\nsleep 2\nreboot" >/tmp/migrateme.sh
-  #chmod +x /tmp/migrateme.sh
-  #((/tmp/migrateme.sh)&)
-
-  #echo -e "Reconfig-reboot in 30 seconds ...\n$(ps -w | grep migrate)" | tee -a /root/ffbi-migration.log
-
   # Get former community setting and align with this firmware's meshes
   domain=$(uci get freifunk.@settings[0].community | sed -e s/badoeynhausen/boy/ -e s/bielefeld/bfe/ -e s/minden/mid/)
   if [ ! -e /lib/gluon/domains/${domain}.json ]; then
