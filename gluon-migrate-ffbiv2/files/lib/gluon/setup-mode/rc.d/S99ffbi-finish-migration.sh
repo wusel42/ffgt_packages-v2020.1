@@ -1,6 +1,8 @@
 #!/bin/sh
 #/etc/rc.common
 
+exit 0
+
 START=99
 
 if [ -x /tmp/ffbi-migration.sh ]; then
