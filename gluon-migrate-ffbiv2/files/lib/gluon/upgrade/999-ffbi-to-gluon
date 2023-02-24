@@ -98,13 +98,13 @@ if [ -e /etc/config/freifunk ]; then
   echo "$0: Done preparing migration from FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
 
   echo "$0: Running /tmp/ffbi-migration.sh 10 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 10 ; date ; /bin/sh -x /tmp/ffbi-migration.sh 2>&1 | tee -a /root/ffbi-migration.log)&) ||:
+  ((sleep 10 ; (date ; /bin/sh -x /tmp/ffbi-migration.sh 2>&1) | tee -a /root/ffbi-migration.log)&) ||:
 
   echo "$0: Running gluon-reconfigure 15 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 15 ; date ; gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log)&)
+  ((sleep 15 ; (date ; gluon-reconfigure 2>&1) | tee -a /root/ffbi-migration.log)&)
 
   echo "$0: Running rgeo.sh 40 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 40 ; date ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log)&)
+  ((sleep 40 ; (date ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1) | tee -a /root/ffbi-migration.log)&)
 
   echo "$0: Rebooting 75 secs after $(date) ..." | tee -a /root/ffbi-migration.log
   sync
