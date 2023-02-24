@@ -1,5 +1,15 @@
 #!/bin/sh
 
+if [ -e /var/gluon/setup-mode ]; then
+  SETUP_MODE=1
+else
+  SETUP_MODE=0
+fi
+
+echo "$0: SETUP_MODE is ${SETUP_MODE} at $(date)" | tee -a /root/fw-test.log
+
+exit 0
+
 if [ -e /etc/config/freifunk ]; then
   echo "$0: Migrating FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
   echo "echo \"\$0: Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migration.sh
