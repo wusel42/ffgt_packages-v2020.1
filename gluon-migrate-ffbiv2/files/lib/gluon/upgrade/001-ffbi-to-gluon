@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ -e /etc/config/freifunk ]; then
-  echo "Migrating FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
-  echo "echo \"Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migration.sh
+  echo "$0: Migrating FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
+  echo "echo \"\$0: Executing FFBI migration to Gluon at $(date) ...\" | tee -a /root/ffbi-migration.log" >/tmp/ffbi-migration.sh
   chmod -x /tmp/ffbi-migration.sh
 
   # Get former firmware's settings
@@ -82,14 +82,6 @@ if [ -e /etc/config/freifunk ]; then
   uci set system.@system[0].ffbi_hostname="$name" ||:
   uci commit system ||:
 
-  # We prepare a uci-batch here and apply it in config mode
-
-  ## This must be done here to avoid jumping into Config-Mode
-  #uci set gluon-setup-mode.@setup_mode[0].configured='1' ||:
-  #uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||:
-  #uci commit gluon-setup-mode ||:
-
-
   echo "uci commit gluon-setup-mode ||:"                               >>/tmp/ffbi-migration.sh
   echo "uci commit gluon-node-info ||:"                                >>/tmp/ffbi-migration.sh
   echo "uci commit system ||:"                                         >>/tmp/ffbi-migration.sh
@@ -99,15 +91,7 @@ if [ -e /etc/config/freifunk ]; then
   # connection and may call gluon-reconfigure — therefore we must not have
   # /etc/config/freifunk around anymore or we risk an endless loop!
 
-  echo "(/lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log) ||:" >>/tmp/ffbi-migration.sh
-  echo "sleep 15"                                                                       >>/tmp/ffbi-migration.sh
-  echo "(gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log) ||:"                 >>/tmp/ffbi-migration.sh
-  echo "uci set gluon-setup-mode.@setup_mode[0].configured='1' ||:"                     >>/tmp/ffbi-migration.sh
-  echo "uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||:"                        >>/tmp/ffbi-migration.sh
-  echo "uci commit gluon-setup-mode ||:"                                                >>/tmp/ffbi-migration.sh
-  echo "echo \"Done migrating FFBI-FW to 4830.org's Gluon at $(date)\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
-  echo "echo \"Will now reboot after reconfiguration.\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
-  echo "sync ; sleep 10 ; /sbin/reboot"                                                 >>/tmp/ffbi-migration.sh
+  echo "echo \"\$0: Done migrating FFBI-FW to 4830.org's Gluon at $(date)\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
   chmod +x /tmp/ffbi-migration.sh
-  echo "Done preparing migration from FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
+  echo "$0: Done preparing migration from FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
 fi
