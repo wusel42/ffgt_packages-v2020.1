@@ -21,6 +21,9 @@ if [ -e /etc/config/freifunk ]; then
   name="$(uci get freifunk.@settings[0].name 2>/dev/null)"
   showonmap="$(uci get freifunk.@settings[0].publish_map)"
 
+  # Move the triggering file out of the way, we're done with it anyway now
+  mv /etc/config/freifunk /root/freifunk-ffbi ||:
+
   echo "$0: Data gathered: domain=${domain} lat=${lat} lon=${lon} contact=${contact} name=${name} showonmap=${showonmap}" | tee -a /root/ffbi-migration.log
 
   # Now work on the values rescued, builing a commandfile to auto-configure this node accordingly.
