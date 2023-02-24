@@ -79,8 +79,9 @@ if [ -e /etc/config/freifunk ]; then
   echo "uci set system.@system[0].hostname=\"$name\" ||:"              >>/tmp/ffbi-migration.sh
 
   if [ ! -e /etc/config/system ]; then
-    echo -e >/etc/config/system "config system\n\toption timezone 'CET-1CEST,M3.5.0,M10.5.0/3'\n\toption hostname 'unset'"
+    echo -e >/etc/config/system "config system\n\toption timezone 'CET-1CEST,M3.5.0,M10.5.0/3'"
   fi
+  uci get system.@system[0].hostname 2>&1 >/dev/null || uci set system.@system[0].hostname="$name" ||:
   uci set system.@system[0].ffbi_hostname="$name" ||:
   uci commit system ||:
 
@@ -95,16 +96,16 @@ if [ -e /etc/config/freifunk ]; then
   echo "echo \"\$0: Done migrating FFBI-FW to 4830.org's Gluon at $(date)\" | tee -a /root/ffbi-migration.log" >>/tmp/ffbi-migration.sh
   chmod +x /tmp/ffbi-migration.sh
   echo "$0: Done preparing migration from FFBI-FW to 4830.org's Gluon at $(date) ..." | tee -a /root/ffbi-migration.log
-  
+
   echo "$0: Running /tmp/ffbi-migration.sh 10 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 10 ; date ; /bin/sh -x /tmp/ffbi-migration.sh 2&>1 | tee -a /root/ffbi-migration.log)&) ||:
+  ((sleep 10 ; date ; /bin/sh -x /tmp/ffbi-migration.sh 2>&1 | tee -a /root/ffbi-migration.log)&) ||:
   mv /tmp/ffbi-migration.sh /root/ ||:
 
-  echo "$0: Running rgeo.sh 20 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 20 ; date ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log)&)
+  echo "$0: Running gluon-reconfigure 15 secs after $(date) ..." | tee -a /root/ffbi-migration.log
+  ((sleep 15 ; date ; gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log)&)
 
-  echo "$0: Running gluon-reconfigure 30 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 30 ; date ; gluon-reconfigure 2>&1 | tee -a /root/ffbi-migration.log)&)
+  echo "$0: Running rgeo.sh 40 secs after $(date) ..." | tee -a /root/ffbi-migration.log
+  ((sleep 30 ; date ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 | tee -a /root/ffbi-migration.log)&)
 
   echo "$0: Rebooting 60 secs after $(date) ..." | tee -a /root/ffbi-migration.log
   sync
