@@ -79,13 +79,10 @@ if [ -e /etc/config/freifunk ]; then
   echo "$0: Running gluon-reconfigure 40 secs after $(date) ..." | tee -a /root/ffbi-migration.log
   ((sleep 40 ; (date ; gluon-reconfigure 2>&1) | tee -a /root/ffbi-migration.log)&)
 
-  echo "$0: Running rgeo.sh 50 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 50 ; (date ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1) | tee -a /root/ffbi-migration.log)&)
+  echo "$0: Setting gluon-setup-mode to configured and running rgeo.sh 50 secs after $(date) ..." | tee -a /root/ffbi-migration.log
+  ((sleep 50 ; (date ; uci set gluon-setup-mode.@setup_mode[0].configured='1' ||: ; uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||: ; uci commit gluon-setup-mode ||: ; /lib/gluon/ffgt-geolocate/rgeo.sh 2>&1) | tee -a /root/ffbi-migration.log)&)
 
-  echo "$0: Setting gluon-setup-mode to configured in 72 secs after $(date) ..." | tee -a /root/ffbi-migration.log
-  ((sleep 72 ; (date ; uci set gluon-setup-mode.@setup_mode[0].configured='1' ||: ; uci set gluon-setup-mode.@setup_mode[0].enabled='0' ||: ; uci commit gluon-setup-mode ||:) 2&>1 | tee -a /root/ffbi-migration.log)&)
-
-  echo "$0: Rebooting 75 secs after $(date) ..." | tee -a /root/ffbi-migration.log
+  echo "$0: Rebooting 60 secs after $(date) ..." | tee -a /root/ffbi-migration.log
   sync
-  ((sleep 75 ; sync; sync; sync; sleep 1 ; /sbin/reboot)&)
+  ((sleep 60 ; sync; sync; sync; sleep 1 ; /sbin/reboot)&)
 fi
