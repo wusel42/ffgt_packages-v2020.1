@@ -46,7 +46,7 @@ if [ -e /etc/config/freifunk ]; then
   if [ "${name}X" = "X" ]; then
     name="migrated-$(/bin/cat /tmp/sysinfo/board_name)-${mac}"
   fi
-  name="$(echo ${name} | sed -e 's/ /-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+  name="$(echo ${name} | sed -e 's/ /-/g' -e 's/,/-/g' -e 's/\./-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
 
   if [ "X${contact}" != "X" ]; then
     echo "uci set gluon-node-info.@owner[0].contact=\"$contact\" ||:"  >>/tmp/ffbi-migration.sh
@@ -54,11 +54,12 @@ if [ -e /etc/config/freifunk ]; then
 
   echo "uci set gluon-node-info.@location[0].latitude=\"$lat\" ||:"    >>/tmp/ffbi-migration.sh
   echo "uci set gluon-node-info.@location[0].longitude=\"$lon\" ||:"   >>/tmp/ffbi-migration.sh
+  echo "uci set gluon-node-info.@location[0].share_location='0' ||:" >>/tmp/ffbi-migration.sh
 
-  if [ "${showonmap}" = "none" ]; then
-    echo "uci set gluon-node-info.@location[0].share_location='0' ||:" >>/tmp/ffbi-migration.sh
-  else
-    echo "uci set gluon-node-info.@location[0].share_location='1' ||:" >>/tmp/ffbi-migration.sh
+  if [ "X${showonmap}" != "Xnone" -a "X${showonmap}" != "X" ]; then
+    if [ "$lat" != "0" -a "$lon" != "0" ]; then
+      echo "uci set gluon-node-info.@location[0].share_location='1' ||:" >>/tmp/ffbi-migration.sh
+    fi
   fi
 
   echo "uci set system.@system[0].hostname=\"$name\" ||:"              >>/tmp/ffbi-migration.sh
