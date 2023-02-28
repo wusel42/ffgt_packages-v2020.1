@@ -46,7 +46,8 @@ if [ -e /etc/config/freifunk ]; then
   if [ "${name}X" = "X" ]; then
     name="migrated-$(/bin/cat /tmp/sysinfo/board_name)-${mac}"
   fi
-  name="$(echo ${name} | sed -e 's/ /-/g' -e 's/,/-/g' -e 's/\./-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+  #name="$(echo ${name} | sed -e 's/ /-/g' -e 's/,/-/g' -e 's/\./-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+  name="$(echo -n ${name} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-')"
 
   if [ "X${contact}" != "X" ]; then
     echo "uci set gluon-node-info.@owner[0].contact=\"$contact\" ||:"  >>/tmp/ffbi-migration.sh
