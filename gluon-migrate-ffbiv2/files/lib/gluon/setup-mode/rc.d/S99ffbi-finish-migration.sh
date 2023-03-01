@@ -28,7 +28,7 @@ if [ -e /etc/config/freifunk ]; then
 
   # Now work on the values rescued, builing a commandfile to auto-configure this node accordingly.
   if [ ! -e /lib/gluon/domains/${domain}.json ]; then
-   echo "No match for mesh ${domain} in /lib/gluon/domains/, setting do default (zzz)." | tee -a /root/ffbi-migration.log
+   echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (zzz)." | tee -a /root/ffbi-migration.log
    domain=zzz
   fi
   echo "Selected mesh: ${domain}." | tee -a /root/ffbi-migration.log
@@ -46,7 +46,6 @@ if [ -e /etc/config/freifunk ]; then
   if [ "${name}X" = "X" ]; then
     name="migrated-$(/bin/cat /tmp/sysinfo/board_name)-${mac}"
   fi
-  #name="$(echo ${name} | sed -e 's/ /-/g' -e 's/,/-/g' -e 's/\./-/g' -e 's/_/-/g' -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
   name="$(echo -n ${name} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-')"
 
   if [ "X${contact}" != "X" ]; then
@@ -55,7 +54,7 @@ if [ -e /etc/config/freifunk ]; then
 
   echo "uci set gluon-node-info.@location[0].latitude=\"$lat\" ||:"    >>/tmp/ffbi-migration.sh
   echo "uci set gluon-node-info.@location[0].longitude=\"$lon\" ||:"   >>/tmp/ffbi-migration.sh
-  echo "uci set gluon-node-info.@location[0].share_location='0' ||:" >>/tmp/ffbi-migration.sh
+  echo "uci set gluon-node-info.@location[0].share_location='0' ||:"   >>/tmp/ffbi-migration.sh
 
   if [ "X${showonmap}" != "Xnone" -a "X${showonmap}" != "X" ]; then
     if [ "$lat" != "0" -a "$lon" != "0" ]; then
