@@ -2,23 +2,27 @@
 
 HOSTNAME=$(pretty-hostname)
 
+HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-')"
+uci delete system.@system[0].pretty_hostname ||:
+uci set system.@system[0].hostname="${HOSTNAME}"
+
 if [ "$HOSTNAME" = "33330-33330-Esperanza-bbd2" ]; then
-    uci delete system.@system[0].pretty_hostname
+    uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname='33330-Esperanza-bbd2'
 fi
 
 if [ "$HOSTNAME" = "ffgt-Parkbad" ]; then
-    uci delete system.@system[0].pretty_hostname
+    uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname='33332-Parkbad-1'
 fi
 
 if [ "$HOSTNAME" = "ffgt-Parkbad2" ]; then
-    uci delete system.@system[0].pretty_hostname
+    uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname='33332-Parkbad-2'
 fi
 
 if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
-    uci delete system.@system[0].pretty_hostname
+    uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname='33332-FWTest-a0f3c1058b90'
 fi
 
@@ -26,6 +30,7 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     uci set gluon-node-info.@location[0].latitude='51.906558409'
     uci set gluon-node-info.@location[0].longitude='8.377769887'
     uci set gluon-node-info.@location[0].addr='Koenigstr-2'
+    uci commit gluon-node-info
     chan=$(uci get wireless.radio0.channel)
     if [ "${chan}" != "5" ]; then
       uci set wireless.radio0.channel='5'
@@ -36,9 +41,11 @@ fi
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
   PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
   if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
-    uci delete system.@system[0].pretty_hostname
+    uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
     uci set gluon-node-info.@location[0].latitude='51.909155093'
     uci set gluon-node-info.@location[0].longitude='8.381345607'
+    uci commit gluon-node-info
   fi
 fi
+uci commit system
