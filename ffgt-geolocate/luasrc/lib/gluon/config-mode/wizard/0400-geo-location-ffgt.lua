@@ -50,12 +50,14 @@ return function(form, uci)
     	local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", selected_domain)),"\n", "")
 
         local mystr = string.format("<b>Adresse:</b> %s, %s %s<br></br><b>Koordinaten:</b> %f %f<br></br><b>Community:</b> %s", addr, zip, city, lat, lon, communityname)
+        local text2 = pkg_i18n.translate("Geolocation")
         local text = pkg_i18n.translate(
 		    'Located the future position of this node as follows, please verify:'
 	    )
         text = text .. '<div><br></br></div> ' .. mystr
-		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change, go to Advanced settings/Geolocation.')
-
+		text = text .. '<div><br></br></div>' .. pkg_i18n.translate('To change it, go to %s.')
+	    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">%s</a>')
+	    text = string.format(text, text2)
 	    local s = form:section(Section, nil, text)
     end
 

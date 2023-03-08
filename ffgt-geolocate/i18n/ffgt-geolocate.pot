@@ -88,7 +88,7 @@ msgstr ""
 msgid "The email address of this node's operator looks valid and is recorded as: "
 msgstr ""
 
-msgid 'To change it, go to Advanced settings/Contact.'
+msgid 'To change it, go to %s.'
 msgstr ""
 
 msgid 'CONTACT NOT SET. Please go to %s.'
@@ -107,4 +107,10 @@ msgid "Your node will be registered running at:"
 msgstr ""
 
 msgid "Geolocation successful"
+msgstr ""
+
+msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
+msgstr ""
+
+msgid "There are %s SSH keys configured, fine!"
 msgstr ""
