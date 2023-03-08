@@ -27,30 +27,32 @@ curlon="`/sbin/uci get gluon-node-info.@location[0].longitude 2>/dev/null`"
 if [ "X${curlat}" != "X" -a "X${curlon}" != "X" ]; then
  wget -q -O ${DATAFILE} "http://setup.${IPVXPREFIX}4830.org/wizard.php?rgeo=me&node=${mac}&lat=${curlat}&lon=${curlon}"
  if [ -e ${DATAFILE} ]; then
-  # Actually, we might want to sanity check the reply, as it could be empty or worse ... (FIXME)
+  # Sanity checks: LAT != 0, locode not "" and known to firmware ...
   grep "LAT: 0$" <${DATAFILE} >/dev/null 2>&1
   if [ $? -ne 0 ]; then
    newsitecode="`/usr/bin/awk <${DATAFILE} '/^LOC:/ {printf("%s", $2);}'`"
    siteselect="`/sbin/uci get gluon-node-info.@location[0].siteselect 2>/dev/null`"
    # Sanity check: only tamper with settings if the sitecode actually differs
    if [ "X${newsitecode}" != "X" -a "${newsitecode}" != "${siteselect}" ]; then
-    /bin/cat /dev/null >/tmp/geoloc.sh
-    /usr/bin/awk <${DATAFILE} '/^LAT:/ {printf("/sbin/uci set gluon-node-info.@location[0].latitude=%s\n", $2);} /^LON:/ {printf("/sbin/uci set gluon-node-info.@location[0].longitude=%s\n", $2);}' >>/tmp/geoloc.sh
-    /usr/bin/awk <${DATAFILE} '/^ADR:/ {printf("/sbin/uci set gluon-node-info.@location[0].addr=%c%s%c\n", 39, substr($0, 6), 39);} /^CTY:/ {printf("/sbin/uci set gluon-node-info.@location[0].city=%c%s%c\n", 39, substr($0, 6), 39);}' >>/tmp/geoloc.sh
-    /usr/bin/awk <${DATAFILE} '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].locode=%s\n", $2)}; /^ZIP:/ {printf("/sbin/uci set gluon-node-info.@location[0].zip=%s\n", $2);}' >>/tmp/geoloc.sh
-    /usr/bin/awk <${DATAFILE} '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].siteselect=%s\n", $2); printf("/sbin/uci set gluon-node-info.@location[0].siteselect_source=script\n");} END{printf("/sbin/uci commit gluon-node-info\n");}' >>/tmp/geoloc.sh
-    /bin/sh /tmp/geoloc.sh
-    siteselect="`/sbin/uci get gluon-node-info.@location[0].siteselect 2>/dev/null`"
-    if [ "X${siteselect}" != "X" ]; then
-     srcfile="`/sbin/uci get siteselect.${siteselect}.path 2>/dev/null`"
-     if [ "X${srcfile}" != "X" ]; then
-      logger "$0: src=\"${srcfile}\" com=\"${siteselect}\""
-      /bin/cp "${srcfile}" /lib/gluon/site.json
-      (/lib/gluon/site-upgrade &)
+    if [ -e /lib/gluon/domains/${newsitecode}.json ]; then
+     /bin/cat /dev/null >/tmp/geoloc.sh
+     /usr/bin/awk <${DATAFILE} '/^LAT:/ {printf("/sbin/uci set gluon-node-info.@location[0].latitude=%s\n", $2);} /^LON:/ {printf("/sbin/uci set gluon-node-info.@location[0].longitude=%s\n", $2);}' >>/tmp/geoloc.sh
+     /usr/bin/awk <${DATAFILE} '/^ADR:/ {printf("/sbin/uci set gluon-node-info.@location[0].addr=%c%s%c\n", 39, substr($0, 6), 39);} /^CTY:/ {printf("/sbin/uci set gluon-node-info.@location[0].city=%c%s%c\n", 39, substr($0, 6), 39);}' >>/tmp/geoloc.sh
+     /usr/bin/awk <${DATAFILE} '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].locode=%s\n", $2)}; /^ZIP:/ {printf("/sbin/uci set gluon-node-info.@location[0].zip=%s\n", $2);}' >>/tmp/geoloc.sh
+     /usr/bin/awk <${DATAFILE} '/^LOC:/ {printf("/sbin/uci set gluon-node-info.@location[0].siteselect=%s\n", $2); printf("/sbin/uci set gluon-node-info.@location[0].siteselect_source=script\n");} END{printf("/sbin/uci commit gluon-node-info\n");}' >>/tmp/geoloc.sh
+     /bin/sh /tmp/geoloc.sh
+     siteselect="`/sbin/uci get gluon-node-info.@location[0].siteselect 2>/dev/null`"
+     if [ "X${siteselect}" != "X" ]; then
+      srcfile="`/sbin/uci get siteselect.${siteselect}.path 2>/dev/null`"
+      if [ "X${srcfile}" != "X" ]; then
+       logger "$0: src=\"${srcfile}\" com=\"${siteselect}\""
+       /bin/cp "${srcfile}" /lib/gluon/site.json
+       (/lib/gluon/site-upgrade &)
+      fi
      fi
+     /bin/touch ${LOCKFILE}
     fi
    fi
-   /bin/touch ${LOCKFILE}
   fi
  fi
 fi

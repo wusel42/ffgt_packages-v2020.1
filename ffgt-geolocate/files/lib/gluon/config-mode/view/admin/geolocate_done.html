@@ -28,11 +28,11 @@ end
 local location = uci:get_first("gluon-node-info", "location")
 local lat = uci:get_first("gluon-node-info", 'location', "latitude")
 local lon = uci:get_first("gluon-node-info", 'location', "longitude")
-local unlocode = uci:get_first("gluon-node-info", "location", "locode")
+local unlocode = uci:get_first("gluon-node-info", "location", "locode") or "+++ATH"
 if not lat then lat=0 else lat=tonumber(lat) end
 if not lon then lon=0 else lon=tonumber(lon) end
 if (lat == 51.892825) and (lon == 8.383708) then lat=51 lon=9 end
-%><!-- Lat: <%=lat%> Lon: <%=lon%> locode: <%=unnoclode%> --><%
+%><!-- Lat: <%=lat%> Lon: <%=lon%> locode: <%=unlocode%> --><%
 local addr = uci:get_first("gluon-node-info", 'location', "addr") or "FEHLER_ADDR"
 local city = uci:get_first("gluon-node-info", 'location', "city") or "FEHLER_ORT"
 local zip = uci:get_first("gluon-node-info", 'location', "zip") or "00000"

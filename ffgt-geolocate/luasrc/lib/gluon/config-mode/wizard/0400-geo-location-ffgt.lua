@@ -40,6 +40,7 @@ return function(form, uci)
     if ((lat == 0) and (lon == 0)) or ((lat == 51) and (lon == 9)) or (not unlocode) then
         local text = pkg_i18n.translate('LOCATION NOT SET. Please go to %s.')
 	    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>')
+	    text = '<script> window.location.href = "/cgi-bin/config/admin/geolocate";</script>' .. text
 	    local s = form:section(Section, nil, text)
     else
         local addr = uci:get("gluon-node-info", location, "addr") or "FEHLER_ADDR"
