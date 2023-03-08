@@ -98,7 +98,6 @@ msgstr "Zum ändern bitte unter Erweiterte Einstellungen auf Geolokalisierung ge
 msgid 'LOCATION NOT SET. Please go to %s.'
 msgstr "Koordinaten nicht gesetzt; bitte setze welche unter %s."
 
-
 msgid "The email address of this node's operator looks valid and is recorded as: "
 msgstr "Die Mailadresse des Betreibers dieses Knotens erscheint syntaktisch korrekt: "
 
@@ -124,7 +123,7 @@ msgid "Geolocation successful"
 msgstr "Geolokalisierung erfolgreich"
 
 msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
-msgstr "ACHTUNG: Es wurden keine SSh-Schlüssel hinterlegt; SSH-Zugriff auf den laufenden Knoten ist nicht möglich!"
+msgstr "ACHTUNG: Es wurden keine SSH-Schlüssel hinterlegt; SSH-Zugriff auf den laufenden Knoten ist nicht möglich!"
 
-msgid "There are %s SSH keys configured, fine!"
-msgstr "Es wurden %s SSH-Schlüssel hinterlegt, sehr gut!"
+msgid "There are SSH keys (%s)configured, fine!"
+msgstr "Es wurden SSH-Schlüssel (%s) hinterlegt, sehr gut!"
