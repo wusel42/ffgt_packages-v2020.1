@@ -2,7 +2,7 @@
 
 HOSTNAME=$(pretty-hostname)
 
-HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-')"
+HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-' | sed -e 's/-$//')"
 uci delete system.@system[0].pretty_hostname ||:
 uci set system.@system[0].hostname="${HOSTNAME}"
 
@@ -19,11 +19,6 @@ fi
 if [ "$HOSTNAME" = "ffgt-Parkbad2" ]; then
     uci delete system.@system[0].pretty_hostname ||:
     uci set system.@system[0].hostname='33332-Parkbad-2'
-fi
-
-if [ "$HOSTNAME" = "ffgt-a0f3c1058b90" ]; then
-    uci delete system.@system[0].pretty_hostname ||:
-    uci set system.@system[0].hostname='33332-FWTest-a0f3c1058b90'
 fi
 
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
