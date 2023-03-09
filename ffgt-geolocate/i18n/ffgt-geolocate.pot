@@ -112,5 +112,5 @@ msgstr ""
 msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
 msgstr ""
 
-msgid "There are SSH keys (%s)configured, fine!"
+msgid "There are SSH keys (%s) configured, fine!"
 msgstr ""

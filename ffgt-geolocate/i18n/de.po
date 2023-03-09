@@ -125,5 +125,5 @@ msgstr "Geolokalisierung erfolgreich"
 msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
 msgstr "ACHTUNG: Es wurden keine SSH-Schlüssel hinterlegt; SSH-Zugriff auf den laufenden Knoten ist nicht möglich!"
 
-msgid "There are SSH keys (%s)configured, fine!"
+msgid "There are SSH keys (%s) configured, fine!"
 msgstr "Es wurden SSH-Schlüssel (%s) hinterlegt, sehr gut!"
