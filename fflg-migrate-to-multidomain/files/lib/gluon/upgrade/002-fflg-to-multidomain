@@ -2,7 +2,10 @@
 
 domain="zzz"
 
-if [ $(uci get autoupdater.stable.mirror | grep fflg) ]; then
+if [ "$(uci get autoupdater.stable.mirror | grep fflg >/dev/null ; echo $?)" != "0" ]; then
+ echo "Not an FFLG Firmware!" | tee /tmp/multidomain-migration.log
+ exit 0
+else
  domain="lbg"
 fi
 
@@ -12,7 +15,7 @@ if [ ! -e /lib/gluon/domains/${domain}.json ]; then
 fi
 
 if [ "${domain}" = "lbg" ]; then
- echo "Migrating FFLG-FW to Unified Firmware ..." | tee -a /tmp/multidomain-migration.log
+ echo "Migrating FFLG-FW to 4830.org Firmware ..." | tee -a /tmp/multidomain-migration.log
  echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
 
  curdom=$(uci get gluon.core.domain)
