@@ -1,7 +1,5 @@
 #!/bin/sh
 
-domain="zzz"
-
 if [ "$(uci get autoupdater.stable.mirror | grep fflg >/dev/null ; echo $?)" != "0" ]; then
  echo "Not an FFLG Firmware!" | tee /tmp/multidomain-migration.log
  exit 0

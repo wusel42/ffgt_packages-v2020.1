@@ -17,7 +17,7 @@ fi
 
 echo "Migrating FFUE-FW for ${meshname} to 4830.org Firmware ..." | tee -a /tmp/multidomain-migration.log
 
-domain=$(echo ${meshname} | sed -e s/uelzen/uel/ -e s/celle/cel/ -e s/gifhorn/gif/ -e s/bienenbuettel/xbj/)
+domain=$(echo ${meshname} | sed -e s/uelzen/uel/ -e s/celle/cel/ -e s/gifhorn/gif/ -e s/bienenbuettel/xbj/ -e s/wendland/luw/)
 if [ ! -e /lib/gluon/domains/${domain}.json ]; then
  echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (uez)." | tee -a /tmp/multidomain-migration.log
  domain=uez
