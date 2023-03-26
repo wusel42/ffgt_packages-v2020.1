@@ -43,4 +43,13 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
     uci commit gluon-node-info
   fi
 fi
+
+# Router-2017-11-11
+if [ "${PRIMAC}" = "30:b5:c2:2d:de:8a" ]; then
+  uci set gluon-node-info.@location[0].latitude='52.05141835'
+  uci set gluon-node-info.@location[0].longitude='8.52230608'
+  uci commit gluon-node-info
+  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
+fi
+
 uci commit system
