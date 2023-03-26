@@ -52,4 +52,28 @@ if [ "${PRIMAC}" = "30:b5:c2:2d:de:8a" ]; then
   ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
 fi
 
+# Projekt_freifunk_brackwede
+if [ "$HOSTNAME" = "Projekt-freifunk-brackwede" ]; then
+  uci set gluon-node-info.@location[0].latitude='51.98367'
+  uci set gluon-node-info.@location[0].longitude='8.50658'
+  uci commit gluon-node-info
+  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
+fi
+
+# KiTa Stiftberg1
+if [ "$HOSTNAME" = "KiTa-Stiftberg1" ]; then
+  uci set gluon-node-info.@location[0].latitude='52.117229'
+  uci set gluon-node-info.@location[0].longitude='8.688518'
+  uci commit gluon-node-info
+  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
+fi
+
+# Marienkaefer2
+if [ "$HOSTNAME" = "Marienkaefer2" ]; then
+  uci set gluon-node-info.@location[0].latitude='52.117172'
+  uci set gluon-node-info.@location[0].longitude='8.68861114'
+  uci commit gluon-node-info
+  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
+fi
+
 uci commit system
