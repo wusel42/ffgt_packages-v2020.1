@@ -61,7 +61,7 @@ msgid "We will use OpenStreetMap data to convert the coordinates you enter below
 msgstr "Wir nutzen OpenStreetMap-Daten, um die Koordinaten in eine Adresse umzurechnen, aus welcher sich wiederum ein Ortskode (locode) ergibt."
 
 msgid "We strongly believe in server-assisted setup, therefore we kindly request this information from you and that your node is connected to the Internet during Setup."
-msgstr "Da wir stark auf server-basierte Konfiguration bauen, nenne uns bitte die Aufstellungskoordinaten; einer Anzeige an diesen auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, daß dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht möglich."
+msgstr "Da wir stark auf server-basierte Konfiguration bauen, nenne uns bitte die Aufstellungskoordinaten; einer Anzeige dieser auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, daß dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht möglich."
 
 msgid "This node can try network-based location. Our server will receive the neighbouring WiFi networks and try to translate that into a geoposition."
 msgstr "Dieser Knoten kann versuchen, sich über die WLAN-Netze der Umgebung lokalisieren zu lassen."
