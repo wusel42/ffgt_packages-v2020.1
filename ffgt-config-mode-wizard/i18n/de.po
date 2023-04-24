@@ -34,6 +34,9 @@ msgstr "Mesh"
 msgid "Contact"
 msgstr "Kontaktdaten"
 
+msgid "Contact email address"
+msgstr "Mailadresse für Kontaktaufnahme"
+
 msgid "Contact data set"
 msgstr "Kontaktdaten konfiguriert"
 
@@ -44,7 +47,7 @@ msgid "e.g. %s"
 msgstr "z. B. %s"
 
 msgid "No coordinates set; please add them or try the WiFi-based geolocation, which will upload the WiFi networks (SSID, BSSID, strenght, channel) to our server, which in turn will use third party services (Google, OpenStreetMap, ...) to map that to a location. We *need* a proper location to assign this node to a Freifunk network (\"hood\", \"community\", ...)."
-msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseodonymisiert über Drittanbieterdienste (Google, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir benötigen eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"hood\", \"community\", ...) zu konfigurieren."
+msgstr "Keine Koordinaten angegeben; bitte gib' sie an oder versuche die WLAN-basierte automatische Lokalisierung, welche die empfangenen Netzwerkdaten (SSID, BSSID, Signalstärke, Kanal) auf unseren Server hochlädt, der wiederum pseudonymisiert über Drittanbieterdienste (Google, HERE, OpenStreetMap, ...) versuchen wird, diese Daten in eine Position umzurechnen. Wir benötigen eine Aufstellposition für jeden Konten, um diesen für das richtige Freifunk-Netzwerk (\"Mesh\", \"Hood\", \"Community\", ...) zu konfigurieren."
 
 msgid "Please select where this node will be located at."
 msgstr "Bitte gib' an, wo dieser Knoten steht/stehen wird."
@@ -68,7 +71,7 @@ msgid "We will use OpenStreetMap data to convert the coordinates you enter below
 msgstr "Wir nutzen OpenStreetMap-Daten, um die Koordinaten in eine Adresse umzurechnen, aus welcher sich wiederum ein Ortskode (locode) ergibt."
 
 msgid "We strongly believe in server-assisted setup, therefore we kindly request this information from you and that your node is connected to the Internet during Setup."
-msgstr "Da wir stark auf server-basierte Konfiguration bauen, nenne uns bitte die Aufstellungskoordinaten; einer Anzeige an diesen auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, daß dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht möglich."
+msgstr "Da wir stark auf server-basierte Konfiguration bauen, nenne uns bitte die Aufstellungskoordinaten; einer Anzeige dieser auf unserer Karte kannst Du an anderer Stelle widersprechen. Bitte achte darauf, daß dieser Knoten jetzt Internetzugang hat, anderenfalls ist eine Konfiguration nicht möglich."
 
 msgid "This node can try network-based location. Our server will receive the neighbouring WiFi networks and try to translate that into a geoposition."
 msgstr "Dieser Knoten kann versuchen, sich über die WLAN-Netze der Umgebung lokalisieren zu lassen."
