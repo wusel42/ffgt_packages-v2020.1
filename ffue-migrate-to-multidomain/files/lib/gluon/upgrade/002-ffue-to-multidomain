@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$(uci get autoupdater.stable.mirror | grep ffue >/dev/null ; echo $?)" != "0" ]; then
- echo "Not an FFUE Firmware!" | tee /tmp/multidomain-migration.log
+ echo "Not an FFUE Firmware!" | tee -a /tmp/multidomain-migration.log
  exit 0
 fi
 
@@ -11,7 +11,7 @@ do
 done
 
 if [ "${meshname}" = "unified" ]; then
- echo "Welcome to Uelzen Unified Firmware!" | tee /tmp/multidomain-migration.log
+ echo "Welcome to Uelzen Unified Firmware! Nothing to do." | tee -a /tmp/multidomain-migration.log
  exit 0
 fi
 
@@ -22,15 +22,19 @@ if [ ! -e /lib/gluon/domains/${domain}.json ]; then
  echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (uez)." | tee -a /tmp/multidomain-migration.log
  domain=uez
 fi
+if [ ! -e /lib/gluon/domains/${domain}.json ]; then
+ echo "Oops. Firmware not prepared for ${domain}, setting to fallback (zzz)." | tee -a /tmp/multidomain-migration.log
+ domain=zzz
+fi
 
-echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
+echo "Selected mesh: ${domain}." | tee -a /tmp/multidomain-migration.log
 
 curdom=$(uci get gluon.core.domain)
 if [ "${curdom}" != "${domain}" ]; then
- echo "Setting domain: ${domain}." | tee -a /tmp/multidomain-migration.log
+ echo "Setting mesh (domains) to ${domain}." | tee -a /tmp/multidomain-migration.log
  uci set gluon.core.domain=${domain} ||:
  uci commit gluon ||:
  gluon-reconfigure 2>&1 | tee -a /tmp/multidomain-migration.log
 else
- echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
+ echo "Mesh ${domain} already set." | tee -a /tmp/multidomain-migration.log
 fi
