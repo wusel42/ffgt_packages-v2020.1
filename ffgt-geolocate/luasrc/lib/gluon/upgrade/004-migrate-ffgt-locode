@@ -5,6 +5,7 @@ local uci = require('simple-uci').cursor()
 
 local cmdstr='/bin/ls -l /lib/gluon/domains/ 2>/dev/null| /usr/bin/wc -l && exit $?'
 local rc=util.trim(util.exec(cmdstr))
+local cleanup_needed=0
 
 if rc=="0" then
 	return
@@ -13,6 +14,8 @@ end
 local locode = uci:get_first('gluon-node-info', 'location', 'siteselect')
 if locode==nil then
     locode = uci:get_first('gluon-node-info', 'location', 'locode')
+else
+    cleanup_needed=1
 end
 if locode then
     cmdstr='wc -l /lib/gluon/domains/' .. locode .. '.json 2>/dev/null || echo 0'
@@ -28,6 +31,8 @@ if locode then
 	io.stderr:write(string.format("Information: setting FFGT locode '%s' as domain code for site.conf.\n", locode))
     uci:set('gluon', 'core', 'domain', locode)
     uci:commit('gluon')
-    uci:delete('gluon-node-info', 'location', 'siteselect')
-    uci:commit('gluon-node-info')
+    if cleanup_needed==1 then
+        uci:delete('gluon-node-info', '@location[0]', 'siteselect')
+        uci:commit('gluon-node-info')
+    end
 end
