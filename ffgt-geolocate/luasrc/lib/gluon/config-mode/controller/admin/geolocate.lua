@@ -35,7 +35,7 @@ local function action_geoloc(http, renderer)
         if not lat then lat = 0 end
         if not lon then lon = 0 end
         if not (lat == 0 and lon == 0) then
-            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh")
+            os.execute("/lib/gluon/ffgt-geolocate/rgeo.sh 2>&1 >/dev/null")
         end
 		renderer.render_layout('admin/geolocate', { null_coords = (lat == 0 and lon == 0), }, 'ffgt-geolocate')
 	-- Step 2: Try geolocate with the data entered, unless "autolocate" was selected, in which
@@ -43,7 +43,7 @@ local function action_geoloc(http, renderer)
 	elseif step == 2 then
 		local autolocate = (http:formvalue("autolocate") == "1")
 		if autolocate then
-            os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force")
+            os.execute("/lib/gluon/ffgt-geolocate/geolocate.sh force 2>&1 >/dev/null")
             renderer.render_layout('admin/geolocate', { autolocated = 1, }, 'ffgt-geolocate')
         else
             local newlat = tonumber(trim(http:formvalue("lat")))
@@ -52,7 +52,7 @@ local function action_geoloc(http, renderer)
             if not newlat or not newlon then
                 renderer.render_layout('admin/geolocate', { null_coords = 1, }, 'ffgt-geolocate')
             else
-                local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f 2>/dev/null", newlat, newlon)
+                local cmdstr = string.format("/lib/gluon/ffgt-geolocate/rgeo.sh %f %f 2>&1 >/dev/null", newlat, newlon)
                 os.execute(cmdstr)
 
                 location = uci:get_first("gluon-node-info", "location")
@@ -75,8 +75,8 @@ local function action_geoloc(http, renderer)
                 else
                     uci:set('gluon', 'core', 'domain', unlocode)
                     uci:commit('gluon')
-                    os.execute('gluon-reconfigure')
-                    local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
+                    os.execute('gluon-reconfigure 2>&1 >/dev/null')
+                    local cmdstr='touch /tmp/return2wizard.hack 2>&1 >/dev/null'
                     os.execute(cmdstr)
                     renderer.render_layout('admin/geolocate_done', nil, 'ffgt-geolocate')
                 end
