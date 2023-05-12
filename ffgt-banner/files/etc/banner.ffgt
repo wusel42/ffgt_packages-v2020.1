@@ -5,14 +5,14 @@
   _/        _/          _/_/_/  _/    _/        _/_/_/  _/    _/  _/    _/
 
   Freifunk-Firmware für den Kreis Gütersloh, für Bielefeld, Bad Oeynhausen,
-  Minden, Lüneburg sowie die Müritz-Region und die Feldberger Seenlandschaft
+  Minden, Lüneburg, Celle, Gifhorn, Uelzen, Neubrandenbug, die Müritz-Re-
+  gion, die Feldberger Seenlandschaft, Altmark, Südheide sowie das Wendland
 
-  Info/Kontakt: https://freifunk-bielefeld.de | https://mueritz.freifunk.net
-                  https://freifunk-kreisgt.de | https://freifunk-feldberg.de
-            https://freifunk-badoeynhausen.de | https://freifunk-lueneburg.de
+   Karte und Infos zu den einzelnen Communities siehe https://map.4830.org
 
   Tools:
-  - autoupdater -f    (Firmware-Update erzwingen)
-  - batctl gwl        (Informationen zu batman-adv-Gateways anzeigen)
-  - batctl o | wc -l  (Anzahl 'orginators' (Knoten) im Netz anzeigen)
-  - batctl tg | wc -l (Anzahl aller Geräte im Netz anzeigen)
+  - autoupdater -f     (Firmware-Update erzwingen)
+  - autoupdater -b tng (Firmware-Update aus dem experimentellen »tng«-Zweig)
+  - batctl gwl         (Informationen zu batman-adv-Gateways anzeigen)
+  - batctl o | wc -l   (Anzahl 'orginators' (Knoten) im Netz anzeigen)
+  - batctl tg | wc -l  (Anzahl aller Geräte im Netz anzeigen)
