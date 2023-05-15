@@ -77,3 +77,7 @@ fi
 if [ ${COMMIT_WIRELESS} -eq 1 ]; then
   uci commit wireless 2>&1 >/dev/null ||:
 fi
+
+uci del wireless.default_radio0 ||:
+uci del wireless.default_radio1 ||:
+
