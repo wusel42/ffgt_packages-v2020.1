@@ -6,21 +6,6 @@ HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/
 uci delete system.@system[0].pretty_hostname ||:
 uci set system.@system[0].hostname="${HOSTNAME}"
 
-if [ "$HOSTNAME" = "33330-33330-Esperanza-bbd2" ]; then
-    uci delete system.@system[0].pretty_hostname ||:
-    uci set system.@system[0].hostname='33330-Esperanza-bbd2'
-fi
-
-if [ "$HOSTNAME" = "ffgt-Parkbad" ]; then
-    uci delete system.@system[0].pretty_hostname ||:
-    uci set system.@system[0].hostname='33332-Parkbad-1'
-fi
-
-if [ "$HOSTNAME" = "ffgt-Parkbad2" ]; then
-    uci delete system.@system[0].pretty_hostname ||:
-    uci set system.@system[0].hostname='33332-Parkbad-2'
-fi
-
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     uci set gluon-node-info.@location[0].latitude='51.906558409'
     uci set gluon-node-info.@location[0].longitude='8.377769887'
@@ -33,47 +18,36 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
-if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
-  PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
-  if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
-    uci delete system.@system[0].pretty_hostname ||:
-    uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
-    uci set gluon-node-info.@location[0].latitude='51.909155093'
-    uci set gluon-node-info.@location[0].longitude='8.381345607'
+#if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
+#  PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
+#  if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
+#    uci delete system.@system[0].pretty_hostname ||:
+#    uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
+#    uci set gluon-node-info.@location[0].latitude='51.909155093'
+#    uci set gluon-node-info.@location[0].longitude='8.381345607'
+#    uci commit gluon-node-info
+#  fi
+#fi
+
+
+# HF-West30-Verteiler
+if [ "${PRIMAC}" = "84:16:f9:49:04:76 ]; then
+  if [ "$(uci get gluon-node-info.@location\[0\].locode)" != "lbg" ]; then
+    uci set gluon-node-info.@location[0].locode='lbg'
     uci commit gluon-node-info
+    ((sleep 30 ; /usr/bin/gluon-reconfigure ; reboot)&)
   fi
 fi
 
-# Router-2017-11-11
-if [ "${PRIMAC}" = "30:b5:c2:2d:de:8a" ]; then
-  uci set gluon-node-info.@location[0].latitude='52.05141835'
-  uci set gluon-node-info.@location[0].longitude='8.52230608'
-  uci commit gluon-node-info
-  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
-fi
-
-# Projekt_freifunk_brackwede
-if [ "$HOSTNAME" = "Projekt-freifunk-brackwede" ]; then
-  uci set gluon-node-info.@location[0].latitude='51.98367'
-  uci set gluon-node-info.@location[0].longitude='8.50658'
-  uci commit gluon-node-info
-  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
-fi
-
-# KiTa Stiftberg1
-if [ "$HOSTNAME" = "KiTa-Stiftberg1" ]; then
-  uci set gluon-node-info.@location[0].latitude='52.117229'
-  uci set gluon-node-info.@location[0].longitude='8.688518'
-  uci commit gluon-node-info
-  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
-fi
-
-# Marienkaefer2
-if [ "$HOSTNAME" = "Marienkaefer2" ]; then
-  uci set gluon-node-info.@location[0].latitude='52.117172'
-  uci set gluon-node-info.@location[0].longitude='8.68861114'
-  uci commit gluon-node-info
-  ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force)&)
+echo "$HOSTNAME" | grep '^migrated-' >/dev/null
+RC=$?
+if [ $RC -eq 0 ]; then
+  ZIP="$(uci get gluon-node-info.@location\[0\].zip 2>/dev/null)"
+  if [ -z $ZIP ]; then
+    ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force ; reboot)&)
+  else
+    uci set system.@system[0].hostname="${ZIP}-$(echo ${HOSTNAME} | sed -e s/migrated/migr/)"
+  fi
 fi
 
 uci commit system
