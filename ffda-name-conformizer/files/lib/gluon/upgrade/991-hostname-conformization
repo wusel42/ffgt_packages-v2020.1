@@ -3,8 +3,9 @@
 HOSTNAME=$(pretty-hostname)
 
 HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-' | sed -e 's/-$//')"
-uci delete system.@system[0].pretty_hostname ||:
+uci delete system.@system[0].pretty_hostname 2>/dev/null ||:
 uci set system.@system[0].hostname="${HOSTNAME}"
+PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
 
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     uci set gluon-node-info.@location[0].latitude='51.906558409'
@@ -18,22 +19,10 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
-#if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Rathaus" ]; then
-#  PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
-#  if [ "${PRIMAC}" = "30:b5:c2:6f:36:3e" ]; then
-#    uci delete system.@system[0].pretty_hostname ||:
-#    uci set system.@system[0].hostname="33330-Stadt-Guetersloh-Rathaus-1043"
-#    uci set gluon-node-info.@location[0].latitude='51.909155093'
-#    uci set gluon-node-info.@location[0].longitude='8.381345607'
-#    uci commit gluon-node-info
-#  fi
-#fi
-
-
 # HF-West30-Verteiler
 if [ "${PRIMAC}" = "84:16:f9:49:04:76 ]; then
   if [ "$(uci get gluon-node-info.@location\[0\].locode)" != "lbg" ]; then
-    uci set gluon-node-info.@location[0].locode='lbg'
+    uci set gluon-node-info.@location\[0\].locode="lbg"
     uci commit gluon-node-info
     ((sleep 30 ; /usr/bin/gluon-reconfigure ; reboot)&)
   fi
