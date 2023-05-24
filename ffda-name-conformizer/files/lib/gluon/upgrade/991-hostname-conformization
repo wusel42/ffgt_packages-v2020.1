@@ -19,21 +19,21 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
-# HF-West30-Verteiler
-if [ "${PRIMAC}" = "84:16:f9:49:04:76 ]; then
-  if [ "$(uci get gluon-node-info.@location\[0\].locode)" != "lbg" ]; then
-    uci set gluon-node-info.@location\[0\].locode="lbg"
+# Router-2017-11-11
+if [ "${PRIMAC}" = "30:b5:c2:2d:de:8a" ]; then
+  if [ "$(uci get gluon-node-info.@location[0].latitude)" = "51.902054" ]; then
+    uci set gluon-node-info.@location[0].longitude='51.902054'
+    uci set gluon-node-info.@location[0].latitude='8.377531'
     uci commit gluon-node-info
-    ((sleep 30 ; /usr/bin/gluon-reconfigure ; reboot)&)
   fi
 fi
 
 echo "$HOSTNAME" | grep '^migrated-' >/dev/null
 RC=$?
 if [ $RC -eq 0 ]; then
-  ZIP="$(uci get gluon-node-info.@location\[0\].zip 2>/dev/null)"
+  ZIP="$(uci get gluon-node-info.@location[0].zip 2>/dev/null)"
   if [ -z $ZIP ]; then
-    ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force ; reboot)&)
+    ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force ; sleep 10 ; reboot)&)
   else
     uci set system.@system[0].hostname="${ZIP}-$(echo ${HOSTNAME} | sed -e s/migrated/migr/)"
   fi
