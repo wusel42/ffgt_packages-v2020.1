@@ -7,6 +7,9 @@ The *wifi-fallback* provides a solution. It checks hourly whether the node is pa
 a fully operative mesh. Else the node connects to a visible "Freifunknetz"
 in client mode and tries to download an update by executing `autoupdater -f`.
 
+This package needs a very basic /usr/sbin/wpa_supplicant at least. This can
+be supplied by wpa-supplicant-dummy ...
+
 
 /etc/config/autoupdater-wifi-fallback
 -------------------------------------
