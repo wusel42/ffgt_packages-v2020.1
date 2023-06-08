@@ -56,26 +56,26 @@ if [ -e /lib/gluon/config-mode/view/admin/info-ffgt.html ]; then
 fi
 
 COMMIT_WIRELESS=0
-EOS_CHECK=$(uci get wireless.dep_radio0.ifname 2>&1 >/dev/null; echo $?)
+EOS_CHECK=$(uci get wireless.dep_radio0.ifname >/dev/null 2>&1; echo $?)
 if [ ${EOS_CHECK} -eq 0 ]; then
   uci delete wireless.dep_radio0 ||:
   COMMIT_WIRELESS=1
 fi
 
-LEGACY_CHECK=$(uci get wireless.legacy_radio0.ifname 2>&1 >/dev/null ; echo $?)
+LEGACY_CHECK=$(uci get wireless.legacy_radio0.ifname >/dev/null 2>&1 ; echo $?)
 if [ ${LEGACY_CHECK} -eq 0 ]; then
   uci delete wireless.legacy_radio0 ||:
   COMMIT_WIRELESS=1
 fi
 
-LEGACY_CHECK=$(uci get wireless.legacy_radio1.ifname 2>&1 >/dev/null ; echo $?)
+LEGACY_CHECK=$(uci get wireless.legacy_radio1.ifname >/dev/null 2>&1 ; echo $?)
 if [ ${LEGACY_CHECK} -eq 0 ]; then
   uci delete wireless.legacy_radio1 ||:
   COMMIT_WIRELESS=1
 fi
 
 if [ ${COMMIT_WIRELESS} -eq 1 ]; then
-  uci commit wireless 2>&1 >/dev/null ||:
+  uci commit wireless >/dev/null 2>&1 ||:
 fi
 
 uci del wireless.default_radio0 ||:
