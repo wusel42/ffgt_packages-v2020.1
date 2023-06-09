@@ -37,4 +37,13 @@ if [ -e /lib/gluon/config-mode/reboot-ffgt ]; then
   mv /lib/gluon/config-mode/reboot-ffgt /lib/gluon/config-mode/reboot
 fi
 
+BOARD="$(cat /tmp/sysinfo/board_name)"
+if [ "${BOARD}" = "dlink,dap-x1860-a1" ]; then
+  RSSID_DEV="$(uci get system.rssid_wlan1.dev >/dev/null 2>&1)"
+  if [ "${RSSID_DEV}" = "wlan1"]; then
+    uci set system.rssid_wlan1.dev='mesh1' ||:
+    uci commit system >/dev/null 2>&1 ||:
+  fi
+fi
+
 logger "$0: done"

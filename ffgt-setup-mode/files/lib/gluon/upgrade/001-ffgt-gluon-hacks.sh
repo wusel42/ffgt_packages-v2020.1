@@ -78,15 +78,6 @@ if [ ${COMMIT_WIRELESS} -eq 1 ]; then
   uci commit wireless >/dev/null 2>&1 ||:
 fi
 
-BOARD="$(cat /tmp/sysinfo/board_name)"
-if [ "${BOARD}" = "dlink,dap-x1860-a1" ]; then
-  RSSID_DEV="$(uci get system.rssid_wlan1.dev >/dev/null 2>&1)"
-  if [ "${RSSID_DEV}" = "wlan1"]; then
-    uci set system.rssid_wlan1.dev='mesh1' ||:
-    uci commit system >/dev/null 2>&1 ||:
-  fi
-fi
-
 #uci del wireless.default_radio0 ||:
 #uci del wireless.default_radio1 ||:
 
