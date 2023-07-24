@@ -1,14 +1,14 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-pump-for-mesh
+PKG_NAME:=gluon-pump
 PKG_VERSION:=1
 PKG_RELEASE:=2
 
 include ../gluon.mk
 
-define Package/gluon-pump-for-mesh
+define Package/gluon-pump
   TITLE:=Enable PUMP as Mesh-option for DFS channels
   DEPENDS:=+gluon-web-admin +libiwinfo-lua
 endef
 
-$(eval $(call BuildPackageGluon,gluon-pump-for-mesh))
+$(eval $(call BuildPackageGluon,gluon-pump))
