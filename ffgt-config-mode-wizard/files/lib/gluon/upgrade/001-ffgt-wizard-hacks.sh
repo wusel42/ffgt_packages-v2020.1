@@ -46,4 +46,45 @@ if [ "${BOARD}" = "dlink,dap-x1860-a1" ]; then
   fi
 fi
 
+COMMIT_WIRELESS=0
+EOS_CHECK=$(uci get wireless.dep_radio0.ssid >/dev/null 2>&1; echo $?)
+if [ ${EOS_CHECK} -eq 0 ]; then
+  uci delete wireless.dep_radio0 ||:
+  COMMIT_WIRELESS=1
+fi
+
+LEGACY_CHECK=$(uci get wireless.legacy_radio0.ssid >/dev/null 2>&1 ; echo $?)
+if [ ${LEGACY_CHECK} -eq 0 ]; then
+  uci delete wireless.legacy_radio0 ||:
+  COMMIT_WIRELESS=1
+fi
+
+LEGACY_CHECK=$(uci get wireless.legacy_radio1.ssid >/dev/null 2>&1 ; echo $?)
+if [ ${LEGACY_CHECK} -eq 0 ]; then
+  uci delete wireless.legacy_radio1 ||:
+  COMMIT_WIRELESS=1
+fi
+
+DEFAULT_CHECK=$(uci get wireless.default_radio0.ssid >/dev/null 2>&1 ; echo $?)
+if [ ${DEFAULT_CHECK} -eq 0 ]; then
+  uci delete wireless.default_radio0 ||:
+  COMMIT_WIRELESS=1
+fi
+
+DEFAULT_CHECK=$(uci get wireless.default_radio1.ssid >/dev/null 2>&1 ; echo $?)
+if [ ${DEFAULT_CHECK} -eq 0 ]; then
+  uci delete wireless.default_radio1 ||:
+  COMMIT_WIRELESS=1
+fi
+
+DEFAULT_CHECK=$(uci get wireless.default_radio2.ssid >/dev/null 2>&1 ; echo $?)
+if [ ${DEFAULT_CHECK} -eq 0 ]; then
+  uci delete wireless.default_radio2 ||:
+  COMMIT_WIRELESS=1
+fi
+
+if [ ${COMMIT_WIRELESS} -eq 1 ]; then
+  uci commit wireless >/dev/null 2>&1 ||:
+fi
+
 logger "$0: done"
