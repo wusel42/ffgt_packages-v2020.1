@@ -53,7 +53,6 @@ local function connectivity_check()
     for line in f:lines() do
       local gateway_mac = line:match('^[ *]+([0-9a-f:]+)')
       if gateway_mac then
-        found_mac=gateway_mac
         if os.execute('batctl ping -t5 -c1 ' .. gateway_mac .. ' > /dev/null 2>&1') == 0 then
           io.popen('logger -s -t autoupdater-wifi-fallback -p local0.info "batman ping of gateway succeeded"')
           return true
