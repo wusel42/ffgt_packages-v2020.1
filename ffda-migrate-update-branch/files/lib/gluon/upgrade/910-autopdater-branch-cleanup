@@ -1,0 +1,12 @@
+#!/bin/sh
+
+UPDATE_BRANCH=$(uci get autoupdater.settings.branch)
+
+if [ "$UPDATE_BRANCH" = "master" ]; then
+    # migrate nodes on outdated update branches to testing
+    uci set autoupdater.settings.branch='testing'
+fi
+
+# drop outdated update branches
+uci -q delete autoupdater.master || true
+
