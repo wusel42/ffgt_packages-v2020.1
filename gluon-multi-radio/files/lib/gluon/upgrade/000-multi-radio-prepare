@@ -22,3 +22,7 @@ if [ "${BOARDNAME}" = "linksys,mr8300" ]; then
   fw_setenv kernsize 500000 # Enlarge kernel partition, needed for OpenWrt 23+
 fi
 
+if [ "${BOARDNAME}" = "linksys,ea6350" ]; then
+  fw_setenv kernsize 500000 # Enlarge kernel partition, needed for OpenWrt 23+
+fi
+
