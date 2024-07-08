@@ -32,10 +32,10 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
    domain="0ar"
   fi
  fi
- if [ "$(echo $hostname | grep "^SPK-PB-DT-HX" >/dev/null ; echo $?)" = "0" ]; then
+ if [ "$(echo $hostname | grep '^SPK-PB-DT-HX' >/dev/null ; echo $?)" = "0" ]; then
   domain="xx8"
  fi
- if [ "$(echo $hostname | grep "-krvw$" >/dev/null ; echo $?)" = "0" ]; then
+ if [ "$(echo $hostname | grep -- '-krvw$' >/dev/null ; echo $?)" = "0" ]; then
   domain="xx7"
  fi
  echo "Migrating FFLIP-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /tmp/multidomain-migration.log
