@@ -28,7 +28,7 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
  lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
  if [ "$lat" != "0.00" -a "$lon" != "0.00" ]; then
-  if [ ($lat -lt 51.72830 -a $lon -lt 8.33347) ]; then
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if($1<51.72830 && $2<8.33347) {printf("true");} else {printf("false");}}')" = "true" ]; then
    domain="mns"
   fi
  fi
