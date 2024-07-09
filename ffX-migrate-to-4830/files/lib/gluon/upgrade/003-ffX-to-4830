@@ -60,8 +60,9 @@ if [ "${curdom}" != "${domain}" ]; then
  echo "Setting domain: ${domain}." | tee -a /tmp/multidomain-migration.log
  uci set gluon.core.domain="${domain}" ||:
  uci commit gluon ||:
- echo "Will run gluon-reconfigure 2>&1 later" | tee -a /tmp/multidomain-migration.log
- touch /tmp/need-gluon-reconfigure
+ #echo "Will run gluon-reconfigure 2>&1 later" | tee -a /tmp/multidomain-migration.log
+ #touch /tmp/need-gluon-reconfigure
+ gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log
 else
  echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
 fi
