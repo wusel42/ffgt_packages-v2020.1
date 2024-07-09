@@ -1,10 +1,13 @@
 #!/bin/sh
 
-HOSTNAME=$(pretty-hostname)
+HOSTNAME="$(pretty-hostname | sed -e 's/"/-/g')"
+HOSTNAME="$(echo -n "$HOSTNAME" | sed -r -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
+HOSTNAME="$(echo -n "$HOSTNAME" | sed -r -e 's/[^a-zA-Z0-9-]/-/g')"
+HOSTNAME="$(echo -n "$HOSTNAME" | sed -r -e 's/-+/-/g' -e 's/^-//')"
+HOSTNAME="${HOSTNAME:0:63}"
+HOSTNAME="$(echo -n "$HOSTNAME" | sed -e 's/-$//')"
+pretty-hostname "$HOSTNAME"
 
-HOSTNAME="$(echo -n ${HOSTNAME} | sed -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g' | tr -c -s '[A-Za-z0-9]' '-' | sed -e 's/-$//')"
-uci delete system.@system[0].pretty_hostname 2>/dev/null ||:
-uci set system.@system[0].hostname="${HOSTNAME}"
 PRIMAC=$(cat /lib/gluon/core/sysconfig/primary_mac)
 
 if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
@@ -19,24 +22,14 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
-# Router-2017-11-11
-if [ "${PRIMAC}" = "30:b5:c2:2d:de:8a" ]; then
-  if [ "$(uci get gluon-node-info.@location[0].latitude)" = "51.902054" ]; then
-    uci set gluon-node-info.@location[0].longitude='51.902054'
-    uci set gluon-node-info.@location[0].latitude='8.377531'
-    uci commit gluon-node-info
-  fi
-fi
-
 echo "$HOSTNAME" | grep '^migrated-' >/dev/null
 RC=$?
 if [ $RC -eq 0 ]; then
   ZIP="$(uci get gluon-node-info.@location[0].zip 2>/dev/null)"
-  if [ -z $ZIP ]; then
+  if [ "x$ZIP" = "x" ]; then
     ((sleep 300 ; /lib/gluon/ffgt-geolocate/geolocate.sh force ; sleep 10 ; reboot)&)
   else
     uci set system.@system[0].hostname="${ZIP}-$(echo ${HOSTNAME} | sed -e s/migrated/migr/)"
+    uci commit system
   fi
 fi
-
-uci commit system

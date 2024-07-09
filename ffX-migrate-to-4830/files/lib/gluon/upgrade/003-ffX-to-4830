@@ -5,13 +5,12 @@ if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ;
  exit 0
 fi
 
-hostname=$(pretty-hostname | sed -e 's/"/-/g')
+hostname="$(pretty-hostname | sed -e 's/"/-/g')"
 hostname="$(echo -n "$hostname" | sed -r -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
 hostname="$(echo -n "$hostname" | sed -r -e 's/[^a-zA-Z0-9-]/-/g')"
 hostname="$(echo -n "$hostname" | sed -r -e 's/-+/-/g' -e 's/^-//')"
 hostname="${hostname:0:63}"
 hostname="$(echo -n "$hostname" | sed -e 's/-$//')"
-pretty-hostname "$hostname"
 
 domain="$(uci get gluon.core.domain 2>/dev/null ||:)"
 if [ "X${domain}" = "X" ]; then
@@ -33,17 +32,25 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
   fi
  fi
  if [ "$(echo $hostname | grep '^SPK-PB-DT-HX' >/dev/null ; echo $?)" = "0" ]; then
-  domain="xx8"
+  if [ domain != "xx8" ]; then
+   echo "Name-based migration would move node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /tmp/multidomain-migration.log
+   #domain="xx8"
+  fi
  fi
  if [ "$(echo $hostname | grep -- '-krvw$' >/dev/null ; echo $?)" = "0" ]; then
-  domain="xx7"
+  if [ domain != "xx7" ]; then
+   echo "Name-based migration would move node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /tmp/multidomain-migration.log
+   #domain="xx7"
+  fi
  fi
  echo "Migrating FFLIP-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /tmp/multidomain-migration.log
+else
+ echo "Migrating alien FW to 4830.org FW ..." | tee -a /tmp/multidomain-migration.log
 fi
 
 if [ ! -e /lib/gluon/domains/${domain}.json ]; then
  echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (zzz)." | tee -a /tmp/multidomain-migration.log
- domain=zzz
+ domain="zzz"
 fi
 
 echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
@@ -51,9 +58,10 @@ echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
 curdom=$(uci get gluon.core.domain)
 if [ "${curdom}" != "${domain}" ]; then
  echo "Setting domain: ${domain}." | tee -a /tmp/multidomain-migration.log
- uci set gluon.core.domain=${domain} ||:
+ uci set gluon.core.domain="${domain}"" ||:
  uci commit gluon ||:
- gluon-reconfigure 2>&1 | tee -a /tmp/multidomain-migration.log
+ echo "Will run gluon-reconfigure 2>&1 later" | tee -a /tmp/multidomain-migration.log
+ touch /tmp/need-gluon-reconfigure
 else
  echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
 fi
