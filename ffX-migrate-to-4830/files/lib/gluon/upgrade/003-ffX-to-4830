@@ -12,7 +12,8 @@ hostname="$(echo -n "$hostname" | sed -r -e 's/-+/-/g' -e 's/^-//')"
 hostname="${hostname:0:63}"
 hostname="$(echo -n "$hostname" | sed -e 's/-$//')"
 
-domain="$(uci get gluon.core.domain 2>/dev/null ||:)"
+curdom="$(uci get gluon.core.domain 2>/dev/null ||:)"
+domain="${curdom}"
 if [ "X${domain}" = "X" ]; then
  domain="zzz"
 fi
@@ -55,10 +56,9 @@ fi
 
 echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
 
-curdom=$(uci get gluon.core.domain)
 if [ "${curdom}" != "${domain}" ]; then
  echo "Setting domain: ${domain}." | tee -a /tmp/multidomain-migration.log
- uci set gluon.core.domain="${domain}"" ||:
+ uci set gluon.core.domain="${domain}" ||:
  uci commit gluon ||:
  echo "Will run gluon-reconfigure 2>&1 later" | tee -a /tmp/multidomain-migration.log
  touch /tmp/need-gluon-reconfigure
