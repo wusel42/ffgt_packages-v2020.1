@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "$0 start." | tee -a /tmp/multidomain-migration.log
+
 if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ; echo $?)" = "0" ]; then
  echo "4830.org FW detected! Move on, nothing to see here!" | tee -a /tmp/multidomain-migration.log
  exit 0
@@ -62,7 +64,9 @@ if [ "${curdom}" != "${domain}" ]; then
  uci commit gluon ||:
  #echo "Will run gluon-reconfigure 2>&1 later" | tee -a /tmp/multidomain-migration.log
  #touch /tmp/need-gluon-reconfigure
- gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log
+# gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log
 else
  echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
 fi
+
+echo "$0 done." | tee -a /tmp/multidomain-migration.log
