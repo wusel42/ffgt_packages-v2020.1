@@ -1,12 +1,5 @@
 #!/bin/sh
 
-if [ -e /tmp/need-gluon-reconfigure ]; then
- touch /tmp/need-gluon-reconfigure
- rm /tmp/need-gluon-reconfigure
- ((gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log)&)
- sleep 2
-fi
-
 if [ -e /tmp/need-upgrade-fixup ]; then
  for file in $(cat /tmp/need-upgrade-fixup)
  do
@@ -14,4 +7,11 @@ if [ -e /tmp/need-upgrade-fixup ]; then
      rm /lib/gluon/upgrade/${file} ||:
    fi
  done
+fi
+
+if [ -e /tmp/need-gluon-reconfigure ]; then
+ touch /tmp/need-gluon-reconfigure
+ rm /tmp/need-gluon-reconfigure
+ ((gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log)&)
+ sleep 2
 fi
