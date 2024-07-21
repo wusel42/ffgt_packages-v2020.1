@@ -6,3 +6,12 @@ if [ -e /tmp/need-gluon-reconfigure ]; then
  ((gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log)&)
  sleep 2
 fi
+
+if [ -e /tmp/need-upgrade-fixup ]; then
+ for file in $(cat /tmp/need-upgrade-fixup)
+ do
+   if [ -e /lib/gluon/upgrade/${file} ]; then
+     rm /lib/gluon/upgrade/${file} ||:
+   fi
+ done
+fi
