@@ -16,43 +16,43 @@ if [ ! -e /bin/wget ]; then test -e /usr/bin/wget && ln -s /usr/bin/wget /bin/wg
 START=1
 
 if [ -e /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
-  mv /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua
+  mv /gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua /gluon/config-mode/model/gluon-config-mode/wizard.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/view/wizard/welcome-ffgt.html ]; then
-  mv /lib/gluon/config-mode/view/wizard/welcome-ffgt.html /lib/gluon/config-mode/view/wizard/welcome.html
+  mv /lib/gluon/config-mode/view/wizard/welcome-ffgt.html /lib/gluon/config-mode/view/wizard/welcome.html ||:
 fi
 
 if [ -e /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua /lib/gluon/config-mode/wizard/0100-hostname.lua
+  mv /lib/gluon/config-mode/wizard/0100-hostname-ffgt.lua /lib/gluon/config-mode/wizard/0100-hostname.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua /lib/gluon/config-mode/wizard/0200-domain-select.lua
+  mv /lib/gluon/config-mode/wizard/0200-domain-select-ffgt.lua /lib/gluon/config-mode/wizard/0200-domain-select.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua
+  mv /lib/gluon/config-mode/wizard/0400-geo-location-ffgt.lua /lib/gluon/config-mode/wizard/0400-geo-location.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/wizard/0500-contact-info-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/wizard/0500-contact-info-ffgt.lua /lib/gluon/config-mode/wizard/0500-contact-info.lua
+  mv /lib/gluon/config-mode/wizard/0500-contact-info-ffgt.lua /lib/gluon/config-mode/wizard/0500-contact-info.lua ||:
 fi
 
 if [ -e /etc/crontabs/root ]; then
-  mv /etc/crontabs /etc/crontabs_not_used_by_gluon
+  mv /etc/crontabs /etc/crontabs_not_used_by_gluon ||:
 fi
 
 if [ -e /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua /lib/gluon/config-mode/controller/admin/privatewifi.lua
+  mv /lib/gluon/config-mode/controller/admin/privatewifi-ffgt.lua /lib/gluon/config-mode/controller/admin/privatewifi.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua ]; then
-  mv /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua /lib/gluon/config-mode/controller/admin/wifi-config.lua
+  mv /lib/gluon/config-mode/controller/admin/wifi-config-ffgt.lua /lib/gluon/config-mode/controller/admin/wifi-config.lua ||:
 fi
 
 if [ -e /lib/gluon/config-mode/view/admin/info-ffgt.html ]; then
-  mv /lib/gluon/config-mode/view/admin/info-ffgt.html  /lib/gluon/config-mode/view/admin/info.html
+  mv /lib/gluon/config-mode/view/admin/info-ffgt.html  /lib/gluon/config-mode/view/admin/info.html ||:
 fi
 
 COMMIT_WIRELESS=0
