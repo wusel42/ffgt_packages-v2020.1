@@ -50,13 +50,13 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
   fi
  fi
  if [ "$(echo $hostname | grep '^SPK-PB-DT-HX' >/dev/null ; echo $?)" = "0" ]; then
-  if [ domain != "xx8" ]; then
+  if [ "${domain}" != "xx8" ]; then
    echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /tmp/multidomain-migration.log
    domain="xx8"
   fi
  fi
  if [ "$(echo $hostname | grep -- '-krvw$' >/dev/null ; echo $?)" = "0" ]; then
-  if [ domain != "xx7" ]; then
+  if [ "${domain}" != "xx7" ]; then
    echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /tmp/multidomain-migration.log
    domain="xx7"
   fi
