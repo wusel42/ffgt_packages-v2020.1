@@ -45,19 +45,20 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
  if [ "$lat" != "0.00" -a "$lon" != "0.00" ]; then
   if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if($1<51.72830 && $2<8.33347) {printf("true");} else {printf("false");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node $hostname from ${domain} to 4830.org's mns ..." | tee -a /tmp/multidomain-migration.log
    domain="mns"
   fi
  fi
  if [ "$(echo $hostname | grep '^SPK-PB-DT-HX' >/dev/null ; echo $?)" = "0" ]; then
   if [ domain != "xx8" ]; then
-   echo "Name-based migration would move node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /tmp/multidomain-migration.log
-   #domain="xx8"
+   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /tmp/multidomain-migration.log
+   domain="xx8"
   fi
  fi
  if [ "$(echo $hostname | grep -- '-krvw$' >/dev/null ; echo $?)" = "0" ]; then
   if [ domain != "xx7" ]; then
-   echo "Name-based migration would move node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /tmp/multidomain-migration.log
-   #domain="xx7"
+   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /tmp/multidomain-migration.log
+   domain="xx7"
   fi
  fi
  echo "Migrating FFLIP-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /tmp/multidomain-migration.log
