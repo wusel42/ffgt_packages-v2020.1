@@ -1,11 +1,12 @@
 #!/bin/sh
 
-echo "$0 start." | tee -a /tmp/multidomain-migration.log
 
 if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ; echo $?)" = "0" ]; then
- echo "4830.org FW detected! Move on, nothing to see here!" | tee -a /tmp/multidomain-migration.log
+ logger "4830.org FW detected! Move on, nothing to see here!"
  exit 0
 fi
+
+echo "$0 start." | tee -a /root/multidomain-migration.log
 
 hostname="$(pretty-hostname | sed -e 's/"/-/g')"
 hostname="$(echo -n "$hostname" | sed -r -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
@@ -21,7 +22,7 @@ if [ "X${domain}" = "X" ]; then
 fi
 
 if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" ]; then
- echo "Migrating FFLIP-FW to 4830.org FW ..." | tee -a /tmp/multidomain-migration.log
+ echo "Migrating FFLIP-FW to 4830.org FW ..." | tee -a /root/multidomain-migration.log
 
  # FIXUPs
  for file in 550-rsk-config 888-button-bind
@@ -45,25 +46,25 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
  if [ "$lat" != "0.00" -a "$lon" != "0.00" ]; then
   if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if($1<51.72830 && $2<8.33347) {printf("true");} else {printf("false");}}')" = "true" ]; then
-   echo "Geolocation based migration moves node $hostname from ${domain} to 4830.org's mns ..." | tee -a /tmp/multidomain-migration.log
+   echo "Geolocation based migration moves node $hostname from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
    domain="mns"
   fi
  fi
  if [ "$(echo $hostname | grep '^SPK-PB-DT-HX' >/dev/null ; echo $?)" = "0" ]; then
   if [ "${domain}" != "xx8" ]; then
-   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /tmp/multidomain-migration.log
+   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx8 ..." | tee -a /root/multidomain-migration.log
    domain="xx8"
   fi
  fi
  if [ "$(echo $hostname | grep -- '-krvw$' >/dev/null ; echo $?)" = "0" ]; then
   if [ "${domain}" != "xx7" ]; then
-   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /tmp/multidomain-migration.log
+   echo "Name based migration moves node $hostname from ${domain} to 4830.org's xx7 ..." | tee -a /root/multidomain-migration.log
    domain="xx7"
   fi
  fi
- echo "Migrating FFLIP-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /tmp/multidomain-migration.log
+ echo "Migrating FFLIP-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /root/multidomain-migration.log
 else
- echo "Migrating alien FW to 4830.org FW ..." | tee -a /tmp/multidomain-migration.log
+ echo "Migrating alien FW to 4830.org FW ..." | tee -a /root/multidomain-migration.log
 
  # FIXUP
  if [ -h /etc/profile ]; then
@@ -72,21 +73,20 @@ else
 fi
 
 if [ ! -e /lib/gluon/domains/${domain}.json ]; then
- echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (zzz)." | tee -a /tmp/multidomain-migration.log
+ echo "No match for mesh ${domain} in /lib/gluon/domains/, setting to default (zzz)." | tee -a /root/multidomain-migration.log
  domain="zzz"
 fi
 
-echo "Selected Domain: ${domain}." | tee -a /tmp/multidomain-migration.log
+echo "Selected Domain: ${domain}." | tee -a /root/multidomain-migration.log
 
 if [ "${curdom}" != "${domain}" ]; then
- echo "Setting domain: ${domain}." | tee -a /tmp/multidomain-migration.log
+ echo "Setting domain: ${domain}." | tee -a /root/multidomain-migration.log
  uci set gluon.core.domain="${domain}" ||:
  uci commit gluon ||:
- echo "Will run 'gluon-reconfigure 2>&1' later" | tee -a /tmp/multidomain-migration.log
+ echo "Will run 'gluon-reconfigure 2>&1' later" | tee -a /root/multidomain-migration.log
  touch /tmp/need-gluon-reconfigure
- #gluon-reconfigure 2>&1 | tee -a /tmp/gluon-reconfigure.log
 else
- echo "Domain ${domain} already set." | tee -a /tmp/multidomain-migration.log
+ echo "Domain ${domain} already set." | tee -a /root/multidomain-migration.log
 fi
 
-echo "$0 done." | tee -a /tmp/multidomain-migration.log
+echo "$0 done." | tee -a /root/multidomain-migration.log
