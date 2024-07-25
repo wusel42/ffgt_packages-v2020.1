@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ; echo $?)" = "0" ]; then
  logger "4830.org FW detected! Move on, nothing to see here!"
  exit 0
