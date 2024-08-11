@@ -10,7 +10,7 @@ if [ -e /tmp/need-upgrade-fixup ]; then
  done
 fi
 
-if [ -e /tmp/need-gluon-reconfigure ]; then
- rm /tmp/need-gluon-reconfigure ||:
- ((sleep 2 ; gluon-reconfigure 2>&1 | tee /root/migration-gluon-reconfigure.log ; sync; sync; sleep 5 ; sync; reboot)&)
-fi
+#if [ -e /tmp/need-gluon-reconfigure ]; then
+# rm /tmp/need-gluon-reconfigure ||:
+# ((sleep 2 ; gluon-reconfigure 2>&1 | tee /root/migration-gluon-reconfigure.log ; sync; sync; sleep 5 ; sync; reboot)&)
+#fi
