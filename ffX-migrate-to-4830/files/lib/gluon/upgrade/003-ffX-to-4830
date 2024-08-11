@@ -20,6 +20,13 @@ if [ "X${domain}" = "X" ]; then
  domain="zzz"
 fi
 
+if [ -e /tmp/ffX-to-4830.lock ]; then
+ echo "$0 already running, skipping ..." | tee -a /root/multidomain-migration.log
+ exit 0
+else
+ touch /tmp/ffX-to-4830.lock
+fi
+
 if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" ]; then
  echo "Migrating FFLIP-FW to 4830.org FW ..." | tee -a /root/multidomain-migration.log
 
@@ -87,6 +94,10 @@ if [ "${curdom}" != "${domain}" ]; then
  gluon-reconfigure 2>&1 | tee /root/migration-gluon-reconfigure.log
 else
  echo "Domain ${domain} already set." | tee -a /root/multidomain-migration.log
+fi
+
+if [ -e /tmp/ffX-to-4830.lock ]; then
+  rm /tmp/ffX-to-4830.lock
 fi
 
 echo "$0 done." | tee -a /root/multidomain-migration.log
