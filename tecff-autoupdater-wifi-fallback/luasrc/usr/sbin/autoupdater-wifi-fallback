@@ -70,25 +70,30 @@ local function preflight_check()
 end
 
 local function connectivity_check()
-	local f = io.open('/sys/kernel/debug/batman_adv/bat0/gateways', 'r')
+    os.execute('/usr/sbin/batctl gwl >/tmp/bat0_gateways')
+	local f = io.open('/tmp/bat0_gateways', 'r')
 	if f then
 		for line in f:lines() do
 			local gateway_mac = line:match('^=?>? +([0-9a-f:]+)')
 			if gateway_mac then
 				if os.execute('batctl ping -t5 -c1 ' .. gateway_mac .. ' > /dev/null 2>&1') == 0 then
+	                autil.log('out', 'Reached gateway ' .. gateway_mac .. ' via bat0.')
 					return true
 				end
 			end
 		end
 		f:close()
 	end
+    autil.log('out', 'No gateway reached via bat0!')
 
 	-- connectivity check against updateserver
 	for _, host in ipairs(autil.get_update_hosts(branch_name)) do
 		if os.execute('ping -w2 -c1 ' .. host .. ' > /dev/null 2>&1') == 0 then
+	        autil.log('out', 'Reached updateserver ' .. host .. ' via network.')
 			return true
 		end
 	end
+    autil.log('out', 'No updateserver reached via network!')
 
 	autil.log('out', 'connectivity check failed')
 	return false
