@@ -56,6 +56,17 @@ local i = 1
 end
 
 local function preflight_check()
+    local num_radios = 0
+
+	uci:foreach('wireless', 'wifi-device',
+		function(s)
+			num_radios=num_radios+1
+		end
+	)
+    if num_radios < 1 then
+  		return false
+	end
+
 	if not uci:get_bool(configname, 'settings', 'enabled') then
 		return false
 	end
