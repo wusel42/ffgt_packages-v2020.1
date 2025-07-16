@@ -15,8 +15,7 @@ if [ -e /lib/gluon/config-mode/model/gluon-config-mode/wizard-ffgt.lua ]; then
 fi
 
 if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
-  #mv /lib/gluon/config-mode/wizard /lib/gluon/config-mode/wizard-legacy
-  #sync
+  rm -rf /lib/gluon/config-mode/wizard
   mv /lib/gluon/config-mode/wizard-ffgt /lib/gluon/config-mode/wizard ||:
   for i in 0050-autoupdater-info.lua 0250-outdoor.lua 0300-mesh-vpn.lua
   do
