@@ -67,19 +67,22 @@ return function(form, uci)
 	local owner = uci:get_first("gluon-node-info", "owner")
 	local contact = uci:get("gluon-node-info", owner, "contact")
     local valid_contact = validemail(contact)
+	local text2=pkg_i18n.translate("Contact")
 
     if valid_contact then
 	    local text = pkg_i18n.translate("The recorded email address looks valid:")
 	    text = text .. string.format(' <a href="mailto:%s">%s</a>.<br></br>', contact, contact)
 	    text = text .. pkg_i18n.translate('To change it, go to %s.')
-	    text = string.format(text, '<a href="/cgi-bin/config/admin/contact">Contact</a>')
+	    text = string.format(text, '<a href="/cgi-bin/config/admin/contact">%s</a>')
+        text = string.format(text, text2)
 	    form:section(Section, nil, text)
 	else
         local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
         util.exec(cmdstr)
         local text = '<script> window.location.href = "/cgi-bin/config/admin/contact";</script>'
         text = text .. pkg_i18n.translate('CONTACT NOT SET. Please go to %s.')
-        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/contact">Contact</a>') .. "</STRONG></CENTER>"
+        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/contact">%s</a>') .. "</STRONG></CENTER>"
+        text = string.format(text, text2)
         form:section(Section, nil, text)
     end
 

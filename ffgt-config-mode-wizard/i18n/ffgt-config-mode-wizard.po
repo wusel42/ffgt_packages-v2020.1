@@ -115,5 +115,28 @@ msgstr ""
 msgid "Geolocation successful"
 msgstr ""
 
-msgid 'The following data has been computed already, there should be no need to change anything.'
+msgid "The following data has been computed already, there should be no need to change anything."
 msgstr ""
+
+msgid ""
+"Your internet connection can be used to establish a VPN connection with "
+"other nodes. Enable this option if there are no other nodes reachable over "
+"WLAN in your vicinity or you want to make a part of your connection's "
+"bandwidth available for the network. You can limit how much bandwidth the "
+"node will use at most."
+msgstr ""
+
+msgid "Remote access"
+msgstr ""
+
+msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
+msgstr ""
+
+msgid "There are SSH keys (%s) configured, fine!"
+msgstr ""
+
+msgid "Mesh-select"
+msgstr "Here you may change to which mesh your node belongs."
+
+msgid "Mesh-select-warning"
+msgstr "Please do not touch this setting unless you know what you are doing! We selected this nodes mesh based on its location, usually it is unwise to select anything else ..."

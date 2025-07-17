@@ -127,5 +127,36 @@ msgstr "Als Betriebsposition für Deinen Knoten haben wir notiert:"
 msgid "Geolocation successful"
 msgstr "Geolokalisierung erfolgreich"
 
-msgid 'The following data has been computed already, there should be no need to change anything.'
-msgstr 'Die folgenden Daten wurden bereits als korrekt errechnet, bitte nur nach Aufforderung ändern.'
+msgid "The following data has been computed already, there should be no need to change anything."
+msgstr "Die folgenden Daten wurden bereits als korrekt errechnet, bitte nur nach Aufforderung ändern."
+
+msgid ""
+"Your internet connection can be used to establish a VPN connection with "
+"other nodes. Enable this option if there are no other nodes reachable over "
+"WLAN in your vicinity or you want to make a part of your connection's "
+"bandwidth available for the network. You can limit how much bandwidth the "
+"node will use at most."
+msgstr ""
+"Dein Knoten kann deine Internetverbindung nutzen, um darüber eine VPN-"
+"Verbindung zu anderen Knoten aufzubauen. Die dafür genutzte Bandbreite "
+"kannst Du beschränken. Aktiviere die Option, falls keine per WLAN "
+"erreichbaren Nachbarknoten in Deiner Nähe sind oder du Deine "
+"Internetverbindung für das Mesh-Netzwerk zur Verfügung stellen möchtest. "
+"(Es ist ratsam, Mesh-VPN per WAN generell aktiviert zu lassen, somit kann "
+"ein Knoten einfach per WAN-Verbindung oder per WLAN-Mesh genutzt werden, "
+"daher haben wir dieses vorausgewählt.)"
+
+msgid "Remote access"
+msgstr "Remotezugriff"
+
+msgid "WARNING: You have not configured any SSH keys, you will not have SSH access to the running node!"
+msgstr "ACHTUNG: Es wurden keine SSH-Schlüssel hinterlegt; SSH-Zugriff auf den laufenden Knoten ist nicht möglich!"
+
+msgid "There are SSH keys (%s) configured, fine!"
+msgstr "Es wurde(n) %s SSH-Schlüssel hinterlegt, sehr gut!"
+
+msgid "Mesh-select"
+msgstr "Hier hast Du die Möglichkeit, die Mesh-Domäne, in der sich Dein Knoten befindet, zu ändern. Bitte denke daran, dass sich Dein Knoten nur mit den Knoten des ausgewählten Meshes verbinden kann."
+
+msgid "Mesh-select-warning"
+msgstr "Da wir die Meshes ortsbezogen automatisch zuweisen, ändere diese Einstellung nur, wenn Du genau weißt, was Du tust! Im Normalfall ist eine Änderung nicht notwendig und eher kontraproduktiv!"

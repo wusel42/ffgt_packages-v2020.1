@@ -52,6 +52,7 @@ return function(form, uci)
     local zip = uci:get("gluon-node-info", location, "zip") or "00000"
     local selected_domain = uci:get('gluon', 'core', 'domain')
     local communityname = string.gsub(util.exec(string.format("/lib/gluon/ffgt-geolocate/get_domain_name.sh %s", selected_domain)),"\n", "")
+	local text2=pkg_i18n.translate("Geolocation")
 
     local mystr = string.format("<b>Adresse:</b> %s, %s %s<br><b>Koordinaten:</b> %f %f<br><b>Mesh:</b> %s", addr, zip, city, lat, lon, communityname)
     mystr = '<b>' .. pkg_i18n.translate('Address') .. string.format(":</b> %s, %s %s<br>", addr, zip, city)
@@ -64,7 +65,8 @@ return function(form, uci)
     text = text .. '<br></br>' .. mystr
     text = text .. '<br></br>' .. pkg_i18n.translate('To change it, go to %s.')
 
-    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">Geolocate</a>')
+    text = string.format(text, '<a href="/cgi-bin/config/admin/geolocate">%s</a>')
+    text = string.format(text, text2)
     s = form:section(Section, nil, text)
 
     function s:write()
