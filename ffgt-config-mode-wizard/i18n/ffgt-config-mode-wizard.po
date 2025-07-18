@@ -79,7 +79,7 @@ msgstr ""
 msgid "Suggested names:"
 msgstr ""
 
-msgid "Based on the coordinates configured, this node will be part of:"
+msgid "Based on the coordinates configured, this node will be part of"
 msgstr ""
 
 msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."

@@ -91,8 +91,8 @@ msgstr "Der Knotenname dient ausschließlich zur Identifikation Deines Knotens, 
 msgid "Suggested names:"
 msgstr "Namensvorschläge:"
 
-msgid "Based on the coordinates configured, this node will be part of:"
-msgstr "Aufgrund der konfigurierten Koordinaten wird dieser Knoten Teil von:"
+msgid "Based on the coordinates configured, this node will be part of"
+msgstr "Aufgrund der konfigurierten Koordinaten wird dieser Knoten Teil von"
 
 msgid "If you want the location of your node to be displayed on the map, please tick the checkbox below."
 msgstr "Bitte den Haken setzen/gesetzt lassen, damit die Position dieses Knotens auf Karten angezeigt werden darf."
