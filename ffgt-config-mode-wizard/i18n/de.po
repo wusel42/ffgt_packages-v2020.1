@@ -160,3 +160,6 @@ msgstr "Hier hast Du die Möglichkeit, die Mesh-Domäne, in der sich Dein Knoten
 
 msgid "Mesh-select-warning"
 msgstr "Da wir die Meshes ortsbezogen automatisch zuweisen, ändere diese Einstellung nur, wenn Du genau weißt, was Du tust! Im Normalfall ist eine Änderung nicht notwendig und eher kontraproduktiv!"
+
+msgid "Your node's setup is now complete."
+msgstr "Dein Freifunk-Knoten ist nun fertig konfiguriert."

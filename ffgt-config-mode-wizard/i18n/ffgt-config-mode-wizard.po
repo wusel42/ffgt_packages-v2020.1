@@ -140,3 +140,6 @@ msgstr "Here you may change to which mesh your node belongs."
 
 msgid "Mesh-select-warning"
 msgstr "Please do not touch this setting unless you know what you are doing! We selected this nodes mesh based on its location, usually it is unwise to select anything else ..."
+
+msgid "Your node's setup is now complete."
+msgstr ""
