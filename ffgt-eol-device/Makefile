@@ -8,11 +8,17 @@ include $(TOPDIR)/../package/gluon.mk
 
 define Package/ffgt-eol-device
   TITLE:=Change autoupdater branch to "end-of-life" and add "-EOL" to nodename
-  DEPENDS:=+gluon-core
+  DEPENDS:=+gluon-core +libplatforminfo
 endef
 
 define Package/ffgt-eol-device/description
 	Change autoupdater branch to "end-of-life" and add "-EOL" to nodename
 endef
+
+#define Package/ffgt-eol-device/install
+#	$(CP) ./files/* $(1)/
+#	$(INSTALL_DIR) $(1)/usr/sbin/
+#	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/get_image_name $(1)/usr/sbin/
+#endef
 
 $(eval $(call BuildPackageGluon,ffgt-eol-device))
