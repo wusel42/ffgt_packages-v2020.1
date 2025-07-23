@@ -5,6 +5,7 @@ PKG_VERSION:=v2025.1
 PKG_RELEASE:=1
 
 include $(TOPDIR)/../package/gluon.mk
+include $(INCLUDE_DIR)/cmake.mk
 
 define Package/ffgt-eol-device
   TITLE:=Change autoupdater branch to "end-of-life" and add "-EOL" to nodename
