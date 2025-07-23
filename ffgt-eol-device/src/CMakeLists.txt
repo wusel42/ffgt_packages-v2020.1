@@ -12,7 +12,7 @@ find_package(PkgConfig REQUIRED QUIET)
 add_executable(get_image_name
   get_image_name.c
 )
-set_property(TARGET get_image_nanme PROPERTY COMPILE_FLAGS "-std=c99 -Wall")
+set_property(TARGET get_image_name PROPERTY COMPILE_FLAGS "-std=c99 -Wall")
 #set_property(TARGET get_image_name PROPERTY LINK_FLAGS "")
 target_link_libraries(get_image_name
     m
