@@ -8,8 +8,8 @@ RC2="$(grep "${N2}" /lib/gluon/eol-devices >/dev/null ; echo $?)"
 
 if [ $RC1 -eq 0 -o $RC2 -eq 0 ]; then
   branch=$(uci get autoupdater.settings.branch)
-  if [ "${branch}" != "end-of-life" ]; then
-    uci set autoupdater.settings.branch='end-of-life'
+  if [ "${branch}" != "deadend" ]; then
+    uci set autoupdater.settings.branch='deadend'
     uci commit autoupdater
     HOSTNAME="$(uci get system.@system[0].hostname)"
     uci set system.@system[0].hostname="$(echo ${HOSTNAME})-EOL"
