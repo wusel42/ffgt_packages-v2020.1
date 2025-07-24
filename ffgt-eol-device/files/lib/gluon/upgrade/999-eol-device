@@ -7,9 +7,12 @@ RC1="$(grep "${N1}" /lib/gluon/eol-devices >/dev/null ; echo $?)"
 RC2="$(grep "${N2}" /lib/gluon/eol-devices >/dev/null ; echo $?)"
 
 if [ $RC1 -eq 0 -o $RC2 -eq 0 ]; then
-  uci set autoupdater.settings.branch='end-of-life'
-  uci commit autoupdater
-  HOSTNAME="$(uci get system.@system[0].hostname)"
-  uci set system.@system[0].hostname="$(echo ${HOSTNAME})-EOL"
-  uci commit system
+  branch=$(uci get autoupdater.settings.branch)
+  if [ "${branch}" != "end-of-life" ]; then
+    uci set autoupdater.settings.branch='end-of-life'
+    uci commit autoupdater
+    HOSTNAME="$(uci get system.@system[0].hostname)"
+    uci set system.@system[0].hostname="$(echo ${HOSTNAME})-EOL"
+    uci commit system
+  fi
 fi
