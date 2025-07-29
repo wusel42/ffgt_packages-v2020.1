@@ -8,7 +8,7 @@ if [ ! -e $IW ]; then
 fi
 export IW
 
-WLANDEV="$(${IW} dev | /usr/bin/awk 'BEGIN{idx=1;} /Interface / {iface[idx]=$2; ifacemap[$2]=idx; idx++}; END{for(i=1; i<idx; i++) {printf("%s ", iface[i]);}}')"
+WLANDEV="$(${IW} dev | /usr/bin/awk 'BEGIN{idx=1;} /Interface client/ {iface[idx]=$2; ifacemap[$2]=idx; idx++}; END{for(i=1; i<idx; i++) {printf("%s ", iface[i]);}}')"
 if [ "X${WLANDEV}" = "X" ]; then
  echo "$0: no WiFi device detected"
  logger "$0: no WiFi device detected"
