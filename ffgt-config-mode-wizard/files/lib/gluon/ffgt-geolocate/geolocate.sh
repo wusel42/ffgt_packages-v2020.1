@@ -44,7 +44,6 @@ if [ ${runnow} -eq 1 ]; then
  fi
 
  mac=`/sbin/uci get network.bat0.macaddr`
- # FIXME. On multiband devices, check wlan1 as well!
  for dev in ${WLANDEV}
  do
   ${IW} dev ${dev} scan >/dev/null 2>&1
