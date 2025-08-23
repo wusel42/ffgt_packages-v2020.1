@@ -1,5 +1,45 @@
 #!/bin/sh
 
+targetdomain=""
+
+check_location() {
+ local lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
+ local lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
+ if [ "$lat" != "0.00" -a "$lon" != "0.00" ]; then
+  # Soest
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 51.52412 && $1 < 51.62953) && ($2 > 7.97157 && $2 < 8.18361)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+  # Möhnesee
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 51.41955 && $1 < 51.53651) && ($2 > 8.00611 && $2 < 8.23786)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+  # Wickede
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 51.48801 && $1 < 51.51323) && ($2 > 7.84540 && $2 < 7.88788)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+  # Werl
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 51.50447 && $1 < 51.60075) && ($2 > 7.81832 && $2 < 8.00440)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+  # Hamm
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 51.57963 && $1 < 51.75849) && ($2 > 7.65266 && $2 < 8.01109)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+  # Reg.bez. Arnsberg
+  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 50.72081 && $1 < 51.74574) && ($2 > 7.06009 && $2 < 8.97995)) {printf("true");}}')" = "true" ]; then
+   echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+   targetdomain="mns"
+  fi
+ fi
+}
+
+
 hostname="$(pretty-hostname | sed -e 's/"/-/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/e\. V\./eV/g' -e 's/e\.V\./eV/g')"
@@ -23,6 +63,20 @@ if [ "$(pretty-hostname)" != "${hostname}" ]; then
   logger "Changed hostname from $(pretty-hostname) to ${hostname}."
   pretty-hostname "${hostname}"
 fi
+
+# Temporary branch for Möhnesee: delayed reconfiguation to new mesh.
+branch=$(uci get autoupdater.settings.branch)
+if [ "${branch}" == "mns" ]; then
+  uci set autoupdater.settings.branch='stable'
+  uci commit autoupdater
+  check_location
+  if [ "$targetdomain" = "mns" ]; then
+    lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
+    lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
+     echo "Geolocation based migration moves node ${hostname} at ($lat;$lon) from ${domain} to 4830.org's mns ..." | tee -a /root/multidomain-migration.log
+  fi
+fi
+
 
 if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ; echo $?)" = "0" ]; then
  logger "4830.org FW detected! Move on, nothing to see here!"
