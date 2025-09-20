@@ -30,7 +30,7 @@ if [ $# -eq 1 ]; then
   if [ "$1" = "force" ]; then
     runnow=1
     force=1
-    if [ ! -e /tmp/run/geolocate-data-sent ]; then
+    if [ -e /tmp/run/geolocate-data-sent ]; then
       rm /tmp/run/geolocate-data-sent
     fi
   fi
