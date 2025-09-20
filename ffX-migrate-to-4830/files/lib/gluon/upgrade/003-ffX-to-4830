@@ -97,6 +97,7 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
  if [ "${targetlocode}" = "mns" ]; then
   uci set autoupdater.settings.branch='mns'
   uci commit autoupdater
+  echo "Moved mns node to autoupdate branch mns." | tee -a /root/multidomain-migration.log
  fi
  lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
