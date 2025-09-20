@@ -2,6 +2,13 @@
 
 echo "$0 start." | tee -a /root/multidomain-migration.log
 
+is_configured="$(uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null || echo 0)"
+if [ "${is_configured}" != "1" ]; then
+ echo "Skipping run on unconfigured node!" | tee -a /root/multidomain-migration.log
+ logger "Skipping run on unconfigured node!"
+ exit 0
+fi
+
 if [ -e /tmp/ffX-to-4830.lock ]; then
  echo "$0 already running, skipping ..." | tee -a /root/multidomain-migration.log
  exit 0
