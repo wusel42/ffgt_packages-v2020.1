@@ -1,0 +1,7 @@
+Modus operandi as of 2025-09-14:
+
+This mainly migrates from FFLIP-based Gluon to 4830-based Gluon.
+
+But there's a catch: Any nodes in Möhnesee, Hamm, Unna – basically the whole Reg.bez. Arnsberg –, shall be moved from FFLIP's former D1 to 4830's new "mns" mesh.
+
+This changes network parameters and FFLIP's firmware lacks the "offline-autoupdater" package, hence for "mns" nodes, there's a second firmware update involved — first update 1:1 to 4830's FW but switch from "stable" to "mns" branch, then have autoupdater detect an update on the "mns" firmware branch and have THAT migrate to "mns" settings (now with a firmware that can run the autoupdater while being client to Freifunk SSIDs).
