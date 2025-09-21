@@ -62,6 +62,7 @@ if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ;
  if [ ${delayed_reconf} -eq 0 ]; then
   logger "4830.org FW detected! Move on, nothing to see here!"
   echo "4830.org FW detected! Move on, nothing to see here!" | tee -a /root/multidomain-migration.log
+  rm /tmp/ffX-to-4830.lock
   exit 0
  fi
 fi
