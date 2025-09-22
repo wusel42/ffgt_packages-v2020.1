@@ -24,6 +24,7 @@ mns_phase=1
 delayed_reconf=0
 
 hostname="$(pretty-hostname | sed -e 's/"/-/g')"
+hostname="$(echo -n "${hostname}" | sed -r -e 's/\xE4/ae/g' -e 's/\xF6/oe/g' -e 's/\xFC/ue/g' -e 's/\xDF/sz/g' -e 's/\xC4/Ae/g' -e 's/\xD6/Oe/g' -e 's/\xDC/Ue/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/ä/ae/g' -e 's/ö/oe/g' -e 's/ü/ue/g' -e 's/ß/sz/g' -e 's/Ä/Ae/g' -e 's/Ö/Oe/g' -e 's/Ü/Ue/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/e\. V\./eV/g' -e 's/e\.V\./eV/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/[^a-zA-Z0-9-]/-/g')"
