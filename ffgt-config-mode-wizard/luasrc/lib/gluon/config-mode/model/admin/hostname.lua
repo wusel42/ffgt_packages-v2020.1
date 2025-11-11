@@ -55,7 +55,7 @@ local addr = uci:get("gluon-node-info", location, "addr") or "FEHLER_ADDR"
 local city = uci:get("gluon-node-info", location, "city") or "FEHLER_ORT"
 local zip = uci:get("gluon-node-info", location, "zip") or "00000"
 local mac = string.sub(util.node_id(), 9)
-locat text = ""
+local text = ""
 
 if not zip or not city or not addr then
     local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
