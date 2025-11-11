@@ -70,64 +70,60 @@ local current_hostname = pretty_hostname.get(uci)
 local default_hostname = util.default_hostname()
 local configured = uci:get_first('gluon-setup-mode', 'setup_mode', 'configured', false) or (current_hostname ~= default_hostname)
 
-    if (not current_hostname) then hostname=default_hostname else hostname=current_hostname end
-    hostname = transform_hostname(hostname)
+if (not current_hostname) then hostname=default_hostname else hostname=current_hostname end
+hostname = transform_hostname(hostname)
 
-    -- Limit to (37-strlen("00000-")), i. e. 31 chars
-    local mystrA = string.sub(string.format("%.26s-%s", addr, mac), 1, 31)
-    local mystrB = string.sub(string.format("%.26s-%s", city, mac), 1, 31)
-    local mystrC = string.sub(string.format("freifunk-%s", util.node_id()), 1, 31)
+-- Limit to (37-strlen("00000-")), i. e. 31 chars
+local mystrA = string.sub(string.format("%.26s-%s", addr, mac), 1, 31)
+local mystrB = string.sub(string.format("%.26s-%s", city, mac), 1, 31)
+local mystrC = string.sub(string.format("freifunk-%s", util.node_id()), 1, 31)
 
-    local help = site_i18n.translate("gluon-config-mode:hostname-help") or pkg_i18n.translate(
-    	'The node name is used solely for identification of your node, e.g. on a '
-    	.. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
-    )
-    help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names:")
-    help = help .. " " .. string.format("<em>%s</em> | <em>%s</em> | <em>%s</em>", mystrA, mystrB, mystrC);
-    help = text .. "<div><br></br></div>" .. help
+local help = site_i18n.translate("gluon-config-mode:hostname-help") or pkg_i18n.translate(
+    'The node name is used solely for identification of your node, e.g. on a '
+    .. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
+)
+help = help .. "<div><br></br></div>" .. pkg_i18n.translate("Suggested names:")
+help = help .. " " .. string.format("<em>%s</em> | <em>%s</em> | <em>%s</em>", mystrA, mystrB, mystrC);
+help = text .. "<div><br></br></div>" .. help
 
-    if (not current_systemhostname) then hostname=mystrA end
+if (not current_systemhostname) then hostname=mystrA end
 
-    s = f:section(Section, nil, help)
-    o = s:option(Value, 'hostname', optstr)
+s = f:section(Section, nil, help)
+o = s:option(Value, 'hostname', optstr)
 
 
-    local optstr=string.format("%s: %s-", pkg_i18n.translate("Node name"), zip)
-	local s = form:section(Section)
+local optstr=string.format("%s: %s-", pkg_i18n.translate("Node name"), zip)
+local s = form:section(Section)
 
-	local o = s:option(Value, "hostname", optstr)
-	o.datatype = 'minlength(1)'
-	if site.config_mode.hostname.optional(true) then
-		o.optional = true
-		o.placeholder = default_hostname
-	end
-    -- if configured then
-		o.default = hostname
-	-- end
-
-	function o:write(data)
-	    local newname = data
-        newname = newname:gsub(" ","-")
-        newname = newname:gsub("%p","-")
-        newname = newname:gsub("_","-")
-        newname = newname:gsub("%-%-","-")
-        newname = newname:gsub("^ffgt%-", "")
-        newname = newname:gsub("^ffrw%-", "")
-        newname = newname:gsub("^fflip%-", "")
-        newname = newname:gsub("^FFLIP%-", "")
-        newname = newname:gsub("^freifunk%-", "")
-        newname = newname:gsub("^gut%-", "")
-        newname = newname:gsub("^tst%-", "")
-        newname = newname:gsub("^rhwd%-", "")
-        newname = newname:gsub("^muer%-", "")
-        newname = newname:gsub("^%d%d%d%d%d%-", "")
-        newname = zip .. "-" .. newname
-        newname = newname:sub(1, 37)
-
-		pretty_hostname.set(uci, newname)
-		uci:commit('system')
-
-	end
-
-	return {'system'}
+local o = s:option(Value, "hostname", optstr)
+o.datatype = 'minlength(1)'
+if site.config_mode.hostname.optional(true) then
+    o.optional = true
+    o.placeholder = default_hostname
 end
+o.default = hostname
+
+function o:write(data)
+    local newname = data
+    newname = newname:gsub(" ","-")
+    newname = newname:gsub("%p","-")
+    newname = newname:gsub("_","-")
+    newname = newname:gsub("%-%-","-")
+    newname = newname:gsub("^ffgt%-", "")
+    newname = newname:gsub("^ffrw%-", "")
+    newname = newname:gsub("^fflip%-", "")
+    newname = newname:gsub("^FFLIP%-", "")
+    newname = newname:gsub("^freifunk%-", "")
+    newname = newname:gsub("^gut%-", "")
+    newname = newname:gsub("^tst%-", "")
+    newname = newname:gsub("^rhwd%-", "")
+    newname = newname:gsub("^muer%-", "")
+    newname = newname:gsub("^%d%d%d%d%d%-", "")
+    newname = zip .. "-" .. newname
+    newname = newname:sub(1, 37)
+
+    pretty_hostname.set(uci, newname)
+    uci:commit('system')
+end
+
+return {'system'}
