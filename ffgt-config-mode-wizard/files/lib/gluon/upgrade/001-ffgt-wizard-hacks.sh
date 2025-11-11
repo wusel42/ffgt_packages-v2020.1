@@ -23,18 +23,20 @@ if [ -e /lib/gluon/config-mode/wizard-ffgt ]; then
       cp -p /rom/lib/gluon/config-mode/wizard/$i /lib/gluon/config-mode/wizard/ ||:
     fi
   done
-  for i in 0100-hostname.lua 0400-geo-location.lua 0500-contact-info.lua
-  do
-    if [ -e /lib/gluon/config-mode/wizard/$i ]; then
-      /bin/rm /lib/gluon/config-mode/wizard/$i ||:
-    fi
-  done
 fi
 
 if [ -e /lib/gluon/config-mode/reboot-ffgt ]; then
   mv /lib/gluon/config-mode/reboot /lib/gluon/config-mode/reboot-dist ||:
   mv /lib/gluon/config-mode/reboot-ffgt /lib/gluon/config-mode/reboot ||:
 fi
+
+# Cleanup
+for i in 0100-hostname.lua 0400-geo-location.lua 0500-contact-info.lua
+do
+  if [ -e /lib/gluon/config-mode/wizard/$i ]; then
+    /bin/rm /lib/gluon/config-mode/wizard/$i ||:
+  fi
+done
 
 BOARD="$(cat /tmp/sysinfo/board_name)"
 if [ "${BOARD}" = "dlink,dap-x1860-a1" ]; then
