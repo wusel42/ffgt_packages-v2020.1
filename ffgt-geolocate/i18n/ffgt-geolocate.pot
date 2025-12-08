@@ -58,6 +58,11 @@ msgstr ""
 msgid "Automagic geolocation"
 msgstr ""
 
+msgid "Automagic location done."
+msgstr ""
+
+msgid "Please double-check where this node will be located at."
+msgstr ""
 
 msgid "Node name"
 msgstr ""

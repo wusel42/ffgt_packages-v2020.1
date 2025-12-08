@@ -70,6 +70,9 @@ msgstr "Netzbasierte Lokalisierung"
 msgid "Automagic location done."
 msgstr "Netzbasierte Lokalisierung durchgeführt."
 
+msgid "Please double-check where this node will be located at."
+msgstr "Bitte überprüfe, ob die folgende Aufstelladresse korrekt ist."
+
 msgid "Node name"
 msgstr "Name dieses Knotens"
 
