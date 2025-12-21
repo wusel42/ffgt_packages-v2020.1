@@ -25,12 +25,12 @@ fi
 GATEWAY_TQ="$(batctl gwl | grep -e "^=>" -e "^\*" | awk -F'[()]' '{print $2}'| tr -d " ")"
 
 # initialize empty variables
-[ -n "$GATEWAY_TQ" ] || GATEWAY_TQ=0
+[ -n "${GATEWAY_TQ}" ] || GATEWAY_TQ=0
 
-if [ "$GATEWAY_TQ" -eq "0" ]; then
+if [ "${GATEWAY_TQ}" -eq "0" ]; then
     $($DEBUG) && logger -s -t "$SCRIPTNAME" -p 5 "gateway TQ is ${GATEWAY_TQ}, node is considered offline"
     OFFLINE_SINCE="$(cat ${OFFLINE_FILE} 2>/dev/null)"
-    if [ -n "${OFFLINE_SINCE" ]; then
+    if [ -n "${OFFLINE_SINCE}" ]; then
         NOW="$(date +%s)"
         OFFLINE_DELTA="$(expr ${NOW} - ${OFFLINE_SINCE})"
         if [ "${OFFLINE_DELTA}" -gt "${MAX_DELTA}" ]; then
@@ -46,5 +46,7 @@ if [ "$GATEWAY_TQ" -eq "0" ]; then
     fi
 else
     $($DEBUG) && logger -s -t "$SCRIPTNAME" -p 5 "node is considered online, gateway TQ is ${GATEWAY_TQ}."
-    touch ${OFFLINE_FILE} && rm ${OFFLINE_FILE}
+    if [ -f ${OFFLINE_FILE} ]; then
+        rm ${OFFLINE_FILE}
+    fi
 fi
