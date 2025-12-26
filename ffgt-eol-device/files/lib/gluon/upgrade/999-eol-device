@@ -1,19 +1,17 @@
 #!/bin/sh
 
 N1="$(get_image_name)"
-N2="${N1%-*}"
 
-RC1="$(grep "${N1}" /lib/gluon/eol-devices >/dev/null ; echo $?)"
-RC2="$(grep "${N2}" /lib/gluon/eol-devices >/dev/null ; echo $?)"
-branch=$(uci get autoupdater.settings.branch)
+RC1="$(awk -v name="${N1}" </lib/gluon/eol-devices 'BEGIN{found=0;} {if($1==name) found=1;} END{printf("%d", found);}')"
+branch="$(uci get autoupdater.settings.branch)"
 
-# Skip for fake branch mns
+# Skip for "fake" branch mns, we deal with them later ...
 if [ "${branch}" = "mns" ]; then
   exit 0
 fi
 
-if [ $RC1 -eq 0 -o $RC2 -eq 0 ]; then
-  branch=$(uci get autoupdater.settings.branch)
+# We have a match
+if [ $RC1 -eq 1 ]; then
   if [ "${branch}" != "deadend" ]; then
     uci set autoupdater.settings.branch='deadend'
     uci commit autoupdater
