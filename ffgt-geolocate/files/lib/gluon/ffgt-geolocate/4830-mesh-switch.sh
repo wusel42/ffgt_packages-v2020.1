@@ -70,7 +70,7 @@ if [ $(printf "%.0f" "${curlat}") != 0 -o $(printf "%.0f" "${curlon}") != 0 ]; t
    fi
   fi
  else
-  logger "$0: call for get=mesh failed on setup.${IPVXPREFIX}4830.org ..."
+  logger "$0: call for get=newmesh failed on setup.${IPVXPREFIX}4830.org ..."
  fi
 fi
 
