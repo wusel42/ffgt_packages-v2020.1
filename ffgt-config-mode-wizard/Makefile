@@ -1,12 +1,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffgt-config-mode-wizard
+PKG_VERSION:=1
+PKG_RELEASE:=0
 
 include $(TOPDIR)/../package/gluon.mk
 
 define Package/ffgt-config-mode-wizard
   TITLE:=Set geographic location of a node
-  DEPENDS:=+gluon-config-mode-core +gluon-node-info +gluon-config-mode-geo-location-osm
+  DEPENDS:=+gluon-config-mode-core +gluon-node-info
 endef
 
 #define Package/ffgt-config-mode-wizard/install
