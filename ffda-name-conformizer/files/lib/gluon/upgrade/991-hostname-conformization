@@ -22,6 +22,15 @@ if [ "$HOSTNAME" = "33330-Stadt-Guetersloh-Berliner-Platz2" ]; then
     fi
 fi
 
+if [ "$HOSTNAME" = "Router-2017-11-11-EOL" ]; then
+    uci set gluon-node-info.@location[0].latitude='52.05141835'
+    uci set gluon-node-info.@location[0].longitude='8.52230608'
+    uci set gluon-node-info.@location[0].addr='Juelicher-Str-6'
+    uci set gluon-node-info.@location[0].city='Bielefeld'
+    uci set gluon-node-info.@location[0].zip='33613'
+    uci commit gluon-node-info
+fi
+
 echo "$HOSTNAME" | grep '^migrated-' >/dev/null
 RC=$?
 if [ $RC -eq 0 ]; then
