@@ -25,10 +25,11 @@ end
 <h2><%:Contact data set%></h2>
 
 <%
-local owner = uci:get_first("gluon-node-info", "owner")
-local contact = uci:get("gluon-node-info", owner, "contact")
+local owner = uci:get_first("gluon-node-info", "contact")
+local contact = uci:get("gluon-node-info", owner, "email")
 
 if contact then
+    contact = string.gsub(util.exec(string.format("/usr/sbin/mapped_email %s", contact)),"\n", "")
 	local text = string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
 %>
     <p><%:The email address of this node's operator looks valid and is recorded as: %><%=text%></p>

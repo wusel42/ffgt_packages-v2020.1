@@ -11,6 +11,8 @@ add_executable(mapped_email
 )
 set_property(TARGET mapped_email PROPERTY COMPILE_FLAGS "-std=c99 -Wall")
 #set_property(TARGET mapped_email PROPERTY LINK_FLAGS "")
-target_link_libraries(mapped_email)
+target_link_libraries(
+  mapped_email
+)
 
 install(TARGETS mapped_email RUNTIME DESTINATION sbin)

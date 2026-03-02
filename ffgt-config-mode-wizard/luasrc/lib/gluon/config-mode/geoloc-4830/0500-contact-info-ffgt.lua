@@ -59,27 +59,31 @@ end
 
 
 return function(form, uci)
-	local pkg_i18n = i18n 'ffgt-geolocate'
-	-- 'gluon-config-mode-contact-info'
+	local pkg_i18n = i18n 'ffgt-config-mode-wizard'
 	local site_i18n = i18n 'gluon-site'
 	local site = require 'gluon.site'
 	local util = require 'gluon.util'
 
-	local owner = uci:get_first("gluon-node-info", "owner")
-	local contact = uci:get("gluon-node-info", owner, "contact")
+	local owner = uci:get_first("gluon-node-info", "contact")
+	local contact = uci:get("gluon-node-info", owner, "email")
+    contact = string.gsub(util.exec(string.format("/usr/sbin/mapped_email %s", contact)),"\n", "")
     local valid_contact = validemail(contact)
+	local text2=pkg_i18n.translate("Contact")
 
     if valid_contact then
-	    local text = pkg_i18n.translate("The email address of this node's operator looks valid and is recorded as: ")
-	    text = text .. string.format('<a href="mailto:%s">%s</a>.<br><div></div></br>', contact, contact)
-	    text = text .. pkg_i18n.translate('To change it, go to Advanced settings/Contact.')
+	    local text = pkg_i18n.translate("The recorded email address looks valid:")
+	    text = text .. string.format(' <a href="mailto:%s">%s</a>.<br></br>', contact, contact)
+	    text = text .. pkg_i18n.translate('To change it, go to %s.')
+	    text = string.format(text, '<a href="/cgi-bin/config/admin/contact">%s</a>')
+        text = string.format(text, text2)
 	    form:section(Section, nil, text)
 	else
         local cmdstr='touch /tmp/return2wizard.hack 2>/dev/null'
         util.exec(cmdstr)
         local text = '<script> window.location.href = "/cgi-bin/config/admin/contact";</script>'
         text = text .. pkg_i18n.translate('CONTACT NOT SET. Please go to %s.')
-        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/contact">Contact</a>') .. "</STRONG></CENTER>"
+        text = "<CENTER><STRONG>" .. string.format(text, '<a href="/cgi-bin/config/admin/contact">%s</a>') .. "</STRONG></CENTER>"
+        text = string.format(text, text2)
         form:section(Section, nil, text)
     end
 

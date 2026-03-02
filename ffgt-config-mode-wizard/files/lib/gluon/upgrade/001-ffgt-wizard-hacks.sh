@@ -94,7 +94,7 @@ if [ $? -eq 0 ]; then
   if [ "${contactstr}X" != "X" ]; then
     uci show gluon-node-info.@contact[0] >/dev/null 2>&1 || uci add gluon-node-info contact ||:
     uci set gluon-node-info.@contact[0].email="$(/usr/sbin/mapped_email ${contactstr})" ||:
-    uci set gluon-node-info.@contact[0].usage-restriction="Private data, do not disclose on a map or database unless authorized by 4830.org e. V. officials." ||:
+    uci set gluon-node-info.@contact[0].usage_restriction='Private data, do not disclose on a map or database unless authorized by 4830.org e. V. officials.'
     uci set gluon-node-info.@owner[0].contact="obsolete" ||:
     uci commit gluon-node-info
   fi
