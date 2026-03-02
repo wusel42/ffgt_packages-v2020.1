@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 // SPDX-FileCopyrightText: 2026 Kai 'wusel' Siering <wusel+src@uu.org>
-
+// Must not be used outside an 4830.org-firmware and/or to decipher contact
+// details from data provided by 4830.org e. V.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
