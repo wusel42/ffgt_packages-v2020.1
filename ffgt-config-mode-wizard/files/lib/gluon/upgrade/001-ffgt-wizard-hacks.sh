@@ -88,4 +88,18 @@ if [ ${COMMIT_WIRELESS} -eq 1 ]; then
   uci commit wireless >/dev/null 2>&1 ||:
 fi
 
+uci get gluon-node-info.@owner[0].contact >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+  contactstr="$(uci get gluon-node-info.@owner[0].contact | awk '{found=0; for(i=1; i<=NF && found==0; i++) {if(index($i, "@")) {found=i;}} if(found!=0) {printf("%s\n", $found);}}')"
+  if [ "${contactstr}X" != "X" ]; then
+    uci set gluon-node-info.@contact[0].email="${contactstr}"
+    uci set gluon-node-info.@owner[0].contact="**redacted**"
+    uci commit gluon-node-info
+  fi
+fi
+
+
+
+
+
 logger "$0: done"

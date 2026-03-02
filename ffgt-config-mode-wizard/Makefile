@@ -5,6 +5,7 @@ PKG_VERSION:=1
 PKG_RELEASE:=0
 
 include $(TOPDIR)/../package/gluon.mk
+include $(INCLUDE_DIR)/cmake.mk
 
 define Package/ffgt-config-mode-wizard
   TITLE:=Set geographic location of a node

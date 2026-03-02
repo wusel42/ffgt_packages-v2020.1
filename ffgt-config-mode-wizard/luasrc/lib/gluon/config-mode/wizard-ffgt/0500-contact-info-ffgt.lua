@@ -64,8 +64,9 @@ return function(form, uci)
 	local site = require 'gluon.site'
 	local util = require 'gluon.util'
 
-	local owner = uci:get_first("gluon-node-info", "owner")
-	local contact = uci:get("gluon-node-info", owner, "contact")
+	local owner = uci:get_first("gluon-node-info", "contact")
+	local contact = uci:get("gluon-node-info", owner, "email")
+    contact = string.gsub(util.exec(string.format("/usr/sbin/mapped_email %s", contact)),"\n", "")
     local valid_contact = validemail(contact)
 	local text2=pkg_i18n.translate("Contact")
 

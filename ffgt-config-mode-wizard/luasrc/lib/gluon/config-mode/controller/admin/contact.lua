@@ -79,10 +79,11 @@ local function validemail(str)
 end
 
 local function action_contact(http, renderer)
-    -- Determine state
+   -- Determine state
     local step = tonumber(http:getenv("REQUEST_METHOD") == "POST" and http:formvalue("step")) or 1
-    local owner = uci:get_first("gluon-node-info", "owner")
-    local contact = uci:get("gluon-node-info", owner, "contact")
+    local owner = uci:get_first("gluon-node-info", "contact")
+    local contact = uci:get("gluon-node-info", owner, "email")
+    contact = string.gsub(util.exec(string.format("/usr/sbin/mapped_email %s", contact)),"\n", "")
     local valid_contact = false
     local error_message;
 
@@ -99,9 +100,11 @@ local function action_contact(http, renderer)
         if not (valid_contact == true) then
             renderer.render_layout('admin/contact', { contact, error_message, }, 'ffgt-config-mode-wizard')
         else
-            uci:set("gluon-node-info", owner, "contact", contact)
+            local tmp = contact;
+            contact = string.gsub(util.exec(string.format("/usr/sbin/mapped_email %s", contact)),"\n", "")
+            uci:set("gluon-node-info", owner, "email", contact)
             uci:commit('gluon-node-info')
-            renderer.render_layout('admin/contact_done', { contact, } , 'ffgt-config-mode-wizard')
+            renderer.render_layout('admin/contact_done', { tmp, } , 'ffgt-config-mode-wizard')
         end
     end
 end
