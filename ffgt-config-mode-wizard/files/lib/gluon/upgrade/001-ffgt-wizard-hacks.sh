@@ -101,7 +101,4 @@ if [ $? -eq 0 ]; then
 fi
 
 
-
-
-
 logger "$0: done"
