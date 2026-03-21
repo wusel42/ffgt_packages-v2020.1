@@ -26,6 +26,7 @@ define Build/Compile
 endef
 
 define Package/4830-mapped-email/install
+    mkdir -p $(1)/usr/sbin/
 	$(CP) $(PKG_BUILD_DIR)/mapped_email $(1)/usr/sbin/mapped_email
 endef
 
