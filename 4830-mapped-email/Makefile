@@ -26,7 +26,7 @@ define Build/Compile
 endef
 
 define Package/4830-mapped-email/install
-	$(CP) $(PKG_BUILD_DIR)/mapped_mail $(1)/usr/sbin/mapped_mail
+	$(CP) $(PKG_BUILD_DIR)/mapped_email $(1)/usr/sbin/mapped_email
 endef
 
 $(eval $(call BuildPackageGluon,4830-mapped-email))
