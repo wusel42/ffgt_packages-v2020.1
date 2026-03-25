@@ -82,16 +82,20 @@ if [ "X${domain}" = "X" ]; then
  domain="zzz"
 fi
 
-if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" -o "$(uci get autoupdater.stable.mirror | grep freifunk-winterberg.net >/dev/null ; echo $?)" = "0" ]; then
- former_fw="???"
- if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" ]; then
-  echo "Migrating FFLIP-FW to 4830.org FW ..." | tee -a /root/multidomain-migration.log
-  former_fw="LIP"
- else
-  echo "Migrating FFWTB-FW to 4830.org FW ..." | tee -a /root/multidomain-migration.log
-  former_fw="WTB"
- fi
+former_fw="???"
+if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" ]; then
+ former_fw="LIP"
+fi
 
+if [ $(uci get autoupdater.stable.mirror | grep freifunk-winterberg.net >/dev/null ; echo $?)" = "0" ]; then
+ former_fw="WTB"
+fi
+
+if [ $(uci get autoupdater.stable.mirror | grep freifunk-nordheide >/dev/null ; echo $?)" = "0" ]; then
+ former_fw="NH"
+fi
+
+if [ "${former_fw}" = "LIP" -o "${former_fw}" = "WTB" -o "${former_fw}" = "NH" ]; then
  # FIXUPs
  for file in 550-rsk-config 888-button-bind
  do
@@ -113,6 +117,19 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
    domain="lem"
   fi
   targetlocode="$(/lib/gluon/ffgt-geolocate/is_mns.sh)"
+ fi
+
+ if [ "${former_fw}" = "NH" ]; then
+  olddom=$(uci get gluon.core.domain)
+  domain=$(echo ${olddom} | sed -e s/ffstd/sta/ -e s/ffnhsw/bhu/ -e s/ffnhso/jeg/ -e s/ffnhno/zes/ -e s/ffnhnw/win/)
+  targetlocode="$(/lib/gluon/ffgt-geolocate/is_mns.sh)"
+  if [ "${targetlocode}" != "zzz" ]; then
+   domain="${targetlocode}"
+  fi
+  if [ ! -e /lib/gluon/domains/${domain}.json ]; then
+   domain="zzz"
+  fi
+  targetlocode="ndh"
  fi
 
  if [ "${former_fw}" = "WTB" ]; then
