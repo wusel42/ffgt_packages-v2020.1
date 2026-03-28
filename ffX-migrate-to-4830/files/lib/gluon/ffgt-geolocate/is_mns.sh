@@ -23,16 +23,12 @@ if [ "$lat" != "0.00" -a "$lon" != "0.00" ]; then
   targetlocode="mns"
  fi
  # Worpswede
- if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 53.18546 && $1 < 53.34440) && ($2 > 8.80709 && $2 < 9.03643)) {printf("true");}}')" = "true" ]; then
-  targetlocode="bhu"
- fi
+# if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 53.18546 && $1 < 53.34440) && ($2 > 8.80709 && $2 < 9.03643)) {printf("true");}}')" = "true" ]; then
+#  targetlocode="bhu"
+# fi
  # Lüneburg
  if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 53.18855 && $1 < 53.28964) && ($2 > 10.32758 && $2 < 10.52018)) {printf("true");}}')" = "true" ]; then
   targetlocode="lbg"
- fi
- # Soltau-Stenbeck (Luhe)
- if [ "$(echo "$lat;$lon" | awk 'BEGIN{FS=";";} {if (($1 > 52.96580 && $1 < 53.11773) && ($2 > 9.80264 && $2 < 10.09755)) {printf("true");}}')" = "true" ]; then
-  targetlocode="uez"
  fi
 fi
 echo -n ${targetlocode}

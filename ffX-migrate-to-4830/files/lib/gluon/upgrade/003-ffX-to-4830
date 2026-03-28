@@ -121,7 +121,7 @@ if [ "${former_fw}" = "LIP" -o "${former_fw}" = "WTB" -o "${former_fw}" = "NH" ]
 
  if [ "${former_fw}" = "NH" ]; then
   olddom=$(uci get gluon.core.domain)
-  domain=$(echo ${olddom} | sed -e s/ffstd/sta/ -e s/ffnhsw/bhu/ -e s/ffnhso/jeg/ -e s/ffnhno/zes/ -e s/ffnhnw/win/)
+  domain=$(echo ${olddom} | sed -e s/ffstd/sta/ -e s/ffnhsw/bhu/ -e s/ffnhso/jeg/ -e s/ffnhno/zes/ -e s/ffnhnw/win/ -e s/ffnh/xx4/ -e s/ffnhdiv/xx5/)
   targetlocode="$(/lib/gluon/ffgt-geolocate/is_mns.sh)"
   if [ "${targetlocode}" != "zzz" ]; then
    domain="${targetlocode}"
