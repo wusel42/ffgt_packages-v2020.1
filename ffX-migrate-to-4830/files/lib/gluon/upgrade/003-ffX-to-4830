@@ -93,11 +93,11 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; 
  former_fw="LIP"
 fi
 
-if [ $(uci get autoupdater.stable.mirror | grep freifunk-winterberg.net >/dev/null ; echo $?)" = "0" ]; then
+if [ "$(uci get autoupdater.stable.mirror | grep freifunk-winterberg.net >/dev/null ; echo $?)" = "0" ]; then
  former_fw="WTB"
 fi
 
-if [ $(uci get autoupdater.stable.mirror | grep freifunk-nordheide >/dev/null ; echo $?)" = "0" ]; then
+if [ "$(uci get autoupdater.stable.mirror | grep freifunk-nordheide >/dev/null ; echo $?)" = "0" ]; then
  former_fw="NH"
 fi
 
