@@ -30,10 +30,9 @@ if [ "${mac}X" = "X" ]; then
  mac="0mac"
 fi
 
-# This requires the real GNU sed binary, not busybox' version
 hostname="$(pretty-hostname | sed -e 's/"/-/g')"
-hostname="$(echo -n "${hostname}" | sed -r -e 's/\xE4/ae/g' -e 's/\xF6/oe/g' -e 's/\xFC/ue/g' -e 's/\xDF/sz/g' -e 's/\xC4/Ae/g' -e 's/\xD6/Oe/g' -e 's/\xDC/Ue/g')"
-hostname="$(echo -n "${hostname}" | sed -r -e 's/\xC3\xA4/ae/g' -e 's/\xC3\xB6/oe/g' -e 's/\xC3\xBC/ue/g' -e 's/\xC3\x9F/sz/g' -e 's/\xC3\x84/Ae/g' -e 's/\xC3\x96/Oe/g' -e 's/\xC3\x9C/Ue/g')"
+hostname="$(echo -n "${hostname}" | awk '{h=$0; gsub(/\xE4/, "ae", h); gsub(/\xF6/, "oe", h); gsub(/\xFC/, "ue", h); gsub(/\xDF/, "sz", h); gsub(/\xC4/, "Ae", h); gsub(/\xD6/, "Oe", h); gsub(/\xDC/, "Ue", h); print h;}')"
+hostname="$(echo -n "${hostname}" | awk '{h=$0; gsub(/\xC3\xA4/, "ae", h); gsub(/\xC3\xB6/, "oe", h); gsub(/\xC3\xBC/, "ue", h); gsub(/\xC3\x9F/, "sz", h); gsub(/\xC3\x84/, "Ae", h); gsub(/\xC3\x96/, "Oe", h); gsub(/\xC3\x9C/, "Ue", h); print h;}')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/e\. V\./eV/g' -e 's/e\.V\./eV/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/[^a-zA-Z0-9-]/-/g')"
 hostname="$(echo -n "${hostname}" | sed -r -e 's/-+/-/g' -e 's/^-//')"
