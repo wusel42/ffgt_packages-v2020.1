@@ -77,6 +77,12 @@ if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ;
   fi
   logger "4830.org FW detected! Move on, nothing to see here!"
   echo "4830.org FW detected! Move on, nothing to see here!" | tee -a /root/multidomain-migration.log
+  aabranch="$(uci get autoupdater.settings.branch)"
+  if [ "${aabranch}" = "mns" -o "${aabranch}" = "wtb" ]; then
+   uci set autoupdater.settings.branch='stable23'
+   uci commit autoupdater
+   echo "Moved node to autoupdate branch $(uci get autoupdater.settings.branch) from ${aabranch}." | tee -a /root/multidomain-migration.log
+  fi
   rm ${LOCKFILE}
   exit 0
  fi
