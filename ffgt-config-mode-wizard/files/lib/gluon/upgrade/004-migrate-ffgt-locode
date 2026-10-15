@@ -1,45 +1,36 @@
 #!/usr/bin/lua
-
-local util = require 'gluon.util'
+local fs = require 'nixio.fs'
 local uci = require('simple-uci').cursor()
+local package_name = 'gluon-node-info'
+local location = uci:get_first(package_name, 'location')
+if not location then return end
+local locode = uci:get(package_name, location, 'locode')
+local siteselect = uci:get(package_name, location, 'siteselect')
+local location_changed = false
 
-local cmdstr='/bin/ls -l /lib/gluon/domains/ 2>/dev/null| /usr/bin/wc -l && exit $?'
-local rc=util.trim(util.exec(cmdstr))
-local cleanup_needed=0
-
-if rc=="0" then
-	return
+if locode == nil and siteselect ~= nil then
+    locode = siteselect
+    uci:set(package_name, location, 'locode', locode)
+    location_changed = true
 end
 
-local domain = uci:get('gluon', 'core', 'domain')
-if domain==nil then
-    domain = ""
-fi
-
-local locode = uci:get_first('gluon-node-info', 'location', 'siteselect')
-if locode==nil then
-    locode = uci:get_first('gluon-node-info', 'location', 'locode')
-else
-    cleanup_needed=1
+if fs.stat('/lib/gluon/domains', 'type') == 'dir' and locode ~= nil then
+    if locode:match('^[%w_-]+$') and
+       fs.stat('/lib/gluon/domains/' .. locode .. '.json', 'type') == 'reg' then
+        if uci:get('gluon', 'core', 'domain') ~= locode then
+            io.stderr:write(string.format('Setting FFGT domain to %s.\n', locode))
+            uci:set('gluon', 'core', 'domain', locode)
+            uci:commit('gluon')
+        end
+    else
+        io.stderr:write(string.format('Ignoring invalid FFGT locode %q.\n', locode))
+    end
 end
 
-if locode then
-    cmdstr='wc -l /lib/gluon/domains/' .. locode .. '.json 2>/dev/null || echo 0'
-    rc=util.trim(util.exec(cmdstr))
+if siteselect ~= nil then
+    uci:delete(package_name, location, 'siteselect')
+    location_changed = true
 end
-
-if locode and rc=="0" then
-    io.stderr:write(string.format("Warning: invalid FFGT locode '%s' configured, ignoring.\n", locode))
-    locode = nil
-else
-    if locode != domain then
-        io.stderr:write(string.format("Information: setting FFGT locode '%s' as domain code for site.conf.\n", locode))
-        uci:set('gluon', 'core', 'domain', locode)
-        uci:commit('gluon')
-    fi
-end
-
-if cleanup_needed==1 then
-    uci:delete('gluon-node-info', '@location[0]', 'siteselect')
-    uci:commit('gluon-node-info')
+if location_changed then
+    uci:commit(package_name)
 end
