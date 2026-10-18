@@ -36,6 +36,7 @@ end
 if siteselect ~= nil then
     uci:delete(package_name, location, 'siteselect')
     location_changed = true
+    io.stderr:write(string.format('Removed obsolete siteselect option.\n'))
 end
 if location_changed then
     uci:commit(package_name)
