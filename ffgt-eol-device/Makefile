@@ -8,12 +8,12 @@ include $(TOPDIR)/../package/gluon.mk
 include $(INCLUDE_DIR)/cmake.mk
 
 define Package/ffgt-eol-device
-  TITLE:=Change autoupdater branch to "end-of-life" and add "-EOL" to nodename
+  TITLE:=Change autoupdater branch to "deadend" and add "-EOL" to nodename
   DEPENDS:=+gluon-core +libplatforminfo
 endef
 
 define Package/ffgt-eol-device/description
-	Change autoupdater branch to "end-of-life" and add "-EOL" to nodename
+	Change autoupdater branch to "deadend" and add "-EOL" to nodename
 endef
 
 #define Package/ffgt-eol-device/install

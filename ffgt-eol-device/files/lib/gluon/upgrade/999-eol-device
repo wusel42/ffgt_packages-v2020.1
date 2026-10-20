@@ -2,13 +2,8 @@
 
 N1="$(get_image_name)"
 
-RC1="$(awk -v name="${N1}" </lib/gluon/eol-devices 'BEGIN{found=0;} {if($1==name) found=1;} END{printf("%d", found);}')"
+RC1="$(awk -v name="${N1:-unknown}" </lib/gluon/eol-devices 'BEGIN{found=0;} {if($1==name) found=1;} END{printf("%d", found);}')"
 branch="$(uci get autoupdater.settings.branch)"
-
-# Skip for "fake" branch mns, we deal with them later ...
-#if [ "${branch}" = "mns" ]; then
-#  exit 0
-#fi
 
 # We have a match
 if [ $RC1 -eq 1 ]; then
@@ -16,7 +11,7 @@ if [ $RC1 -eq 1 ]; then
     uci set autoupdater.settings.branch='deadend'
     uci commit autoupdater
     HOSTNAME="$(uci get system.@system[0].hostname)"
-    uci set system.@system[0].hostname="$(echo ${HOSTNAME})-EOL"
+    uci set system.@system[0].hostname="${HOSTNAME}-EOL"
     uci commit system
   fi
 fi
