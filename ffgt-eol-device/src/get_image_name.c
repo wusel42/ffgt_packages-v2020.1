@@ -20,11 +20,14 @@
 #include <sys/stat.h>
 
 
-int main(int argc, char *argv[]) {
-	if (!platforminfo_get_image_name()) {
-		fputs("autoupdater: error: unsupported hardware model\n", stderr);
+int main(void) {
+    char *tmpstr;
+
+    tmpstr=platforminfo_get_image_name();
+	if (tmpstr==NULL) {
+		fputs("get_image_name: unsupported hardware model\n", stderr);
 		return EXIT_FAILURE;
 	}
-	printf("%s\n", platforminfo_get_image_name());
-	return;
+	printf("%s\n", tmpstr);
+	return EXIT_SUCCESS;
 }
