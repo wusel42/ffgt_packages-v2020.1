@@ -167,7 +167,7 @@ if [ "${former_fw}" != "alien" ]; then
   do
    olddom=$(echo $i | awk '{gsub("/$", "", $1); gsub("/stable/images/sysupgrade", "", $1); n=split($1, a, "/"); printf("%s", a[n]);}')
   done
-  domain=$(echo ${meshname} | sed -e s/domaene/d/ | sed -e s/d01/yz0/ -e s/d02/yz1/ -e s/d03/dtm/ -e s/d04/dt0/ -e s/d05/yz2/ -e s/d06/yz3/ -e s/d07/wre/ -e s/d08/lue/ -e s/d09/kmn/ -e s/d10/unn/ -e s/d11/hze/)
+  domain=$(echo ${olddom} | sed -e s/domaene/d/ | sed -e s/d01/yz0/ -e s/d02/yz1/ -e s/d03/dtm/ -e s/d04/dt0/ -e s/d05/yz2/ -e s/d06/yz3/ -e s/d07/wre/ -e s/d08/lue/ -e s/d09/kmn/ -e s/d10/unn/ -e s/d11/hze/)
   if [ ! -e /lib/gluon/domains/${domain}.json ]; then
    domain="zzz"
   fi
