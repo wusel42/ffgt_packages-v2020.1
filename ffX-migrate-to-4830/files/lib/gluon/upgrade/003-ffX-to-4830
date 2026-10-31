@@ -8,11 +8,13 @@ is_configured="$(uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null 
 if [ "${is_configured}" != "1" ]; then
  echo "Skipping run on unconfigured node!" | tee -a /root/multidomain-migration.log
  logger "Skipping run on unconfigured node!"
+ echo "$0 end." | tee -a /root/multidomain-migration.log
  exit 0
 fi
 
 if [ -e ${LOCKFILE} ]; then
  echo "$0 already running, skipping ..." | tee -a /root/multidomain-migration.log
+ echo "$0 end." | tee -a /root/multidomain-migration.log
  exit 0
 else
  touch ${LOCKFILE}
@@ -84,6 +86,7 @@ if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ;
   fi
   logger "4830.org FW detected! Move on, nothing to see here!"
   echo "4830.org FW detected! Move on, nothing to see here!" | tee -a /root/multidomain-migration.log
+  echo "$0 end." | tee -a /root/multidomain-migration.log
   rm ${LOCKFILE}
   exit 0
  fi
@@ -95,7 +98,11 @@ if [ "X${domain}" = "X" ]; then
  domain="zzz"
 fi
 
-former_fw="???"
+former_fw="alien"
+if [ "$(uci get autoupdater.stable.mirror | grep ffdo_ng >/dev/null ; echo $?)" = "0" ]; then
+ former_fw="DTM"
+fi
+
 if [ "$(uci get autoupdater.stable.mirror | grep freifunk-lippe.de >/dev/null ; echo $?)" = "0" ]; then
  former_fw="LIP"
 fi
@@ -108,7 +115,7 @@ if [ "$(uci get autoupdater.stable.mirror | grep freifunk-nordheide >/dev/null ;
  former_fw="NH"
 fi
 
-if [ "${former_fw}" = "LIP" -o "${former_fw}" = "WTB" -o "${former_fw}" = "NH" ]; then
+if [ "${former_fw}" != "alien" ]; then
  # FIXUPs
  for file in 550-rsk-config 888-button-bind
  do
@@ -155,9 +162,22 @@ if [ "${former_fw}" = "LIP" -o "${former_fw}" = "WTB" -o "${former_fw}" = "NH" ]
   targetlocode="wtb"
  fi
 
+ if [ "${former_fw}" = "DTM" ]; then
+  for i in $(uci get autoupdater.stable.mirror)
+  do
+   olddom=$(echo $i | awk '{gsub("/$", "", $1); gsub("/stable/images/sysupgrade", "", $1); n=split($1, a, "/"); printf("%s", a[n]);}')
+  done
+  domain=$(echo ${meshname} | sed -e s/domaene/d/ | sed -e s/d01/yz0/ -e s/d02/yz1/ -e s/d03/dtm/ -e s/d04/dt0/ -e s/d05/yz2/ -e s/d06/yz3/ -e s/d07/wre/ -e s/d08/lue/ -e s/d09/kmn/ -e s/d10/unn/ -e s/d11/hze/)
+  if [ ! -e /lib/gluon/domains/${domain}.json ]; then
+   domain="zzz"
+  fi
+ fi
+
+ echo "Former ${former_fw} firmware adjusted, selected domain: ${domain}." | tee -a /root/multidomain-migration.log
+
  uci set autoupdater.settings.branch='stable23'
  uci commit autoupdater
- echo "Moved ${targetlocode} node to autoupdate branch $(uci get autoupdater.settings.branch)." | tee -a /root/multidomain-migration.log
+ echo "Moved ${former_fw} node to autoupdate branch $(uci get autoupdater.settings.branch)." | tee -a /root/multidomain-migration.log
 
  lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
@@ -199,14 +219,13 @@ fi
 
 echo "Selected Mesh: ${domain}." | tee -a /root/multidomain-migration.log
 
+uci set gluon-node-info.@location[0].locode="${domain}" ||:
+uci commit gluon-node-info ||:
+
 if [ "${curdom}" != "${domain}" ]; then
  echo "Setting domain: ${domain}." | tee -a /root/multidomain-migration.log
  uci set gluon.core.domain="${domain}" ||:
  uci commit gluon ||:
- uci set gluon-node-info.@location[0].locode="${domain}" ||:
- uci commit gluon-node-info ||:
- #echo "Will run 'gluon-reconfigure 2>&1' later" | tee -a /root/multidomain-migration.log
- #touch /tmp/need-gluon-reconfigure
  gluon-reconfigure 2>&1 | tee /root/migration-gluon-reconfigure.log
 else
  echo "Domain ${domain} already set." | tee -a /root/multidomain-migration.log
@@ -215,3 +234,4 @@ fi
 rm ${LOCKFILE}
 
 echo "$0 done." | tee -a /root/multidomain-migration.log
+exit 0
