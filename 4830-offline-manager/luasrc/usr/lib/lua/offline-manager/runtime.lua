@@ -1,5 +1,6 @@
 local uci = require('simple-uci').cursor()
 local util = require 'gluon.util'
+local wireless = require 'gluon.wireless'
 local iwinfo = require 'iwinfo'
 local json = require 'jsonc'
 local unistd = require 'posix.unistd'
@@ -156,7 +157,7 @@ function M.scan(active_phys)
 	local result, seen = {}, {}
 	uci:foreach('wireless', 'wifi-device', function(radio)
 		if M.cancelled() then return end
-		local phy = util.find_phy(radio)
+		local phy = wireless.find_phy(radio)
 		if not phy or (active_phys and not active_phys[phy]) then return end
 		local kind = iwinfo.type(radio['.name'])
 		local backend = kind and iwinfo[kind]

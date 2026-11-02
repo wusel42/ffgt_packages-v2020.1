@@ -116,8 +116,8 @@ local pwait, psignal = {WNOHANG = 1}, {SIGKILL = 9, SIGTERM = 15, SIGINT = 2, SI
 local iwinfo = {}
 package.loaded['simple-uci'] = {cursor = function() return uci end}
 package.loaded['gluon.util'] = {readfile = function(p) return files[p] end,
-	find_phy = function(r) return r.phy end,
 	glob = function(pattern) assert(pattern == '/sys/class/ieee80211/*'); return phys end}
+package.loaded['gluon.wireless'] = {find_phy = function(r) return r.phy end}
 package.loaded.iwinfo = iwinfo
 package.loaded.jsonc = {parse = function(s) return s == 'down' and {up = false, pending = false} or ready() end}
 package.loaded['posix.unistd'] = unistd
