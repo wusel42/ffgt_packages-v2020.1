@@ -1,0 +1,7 @@
+Validation: 2026-11-02
+Lua 5.1: 64 tests passed.
+Python wrapper: 1 test passed.
+All Lua source files: luac -p passed.
+Shell entry and hooks: sh -n passed.
+Package and site patches: git apply --check passed against the documented bases.
+No firmware build or hardware tests performed.
