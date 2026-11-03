@@ -175,9 +175,9 @@ if [ "${former_fw}" != "alien" ]; then
 
  echo "Former ${former_fw} firmware adjusted, selected domain: ${domain}." | tee -a /root/multidomain-migration.log
 
- uci set autoupdater.settings.branch='stable23'
- uci commit autoupdater
- echo "Moved ${former_fw} node to autoupdate branch $(uci get autoupdater.settings.branch)." | tee -a /root/multidomain-migration.log
+ #uci set autoupdater.settings.branch='stable23'
+ #uci commit autoupdater
+ #echo "Moved ${former_fw} node to autoupdate branch $(uci get autoupdater.settings.branch)." | tee -a /root/multidomain-migration.log
 
  lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
