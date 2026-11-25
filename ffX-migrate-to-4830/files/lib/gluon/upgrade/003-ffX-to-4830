@@ -71,14 +71,19 @@ if [ ${mns_phase} -eq 2 ]; then
  fi
 fi
 
+schedule_geolocation() {
+ local helper=/lib/gluon/ffgt-geolocate/geolocate-lite.sh
+ "$helper" --check && return 0
+ echo "Scheduling WiFi geolocation due to missing or invalid coordinates." | tee -a /root/multidomain-migration.log
+ (
+  sleep 150
+  "$helper" || echo "WiFi geolocation failed. See logread -e geolocate-lite."
+ ) </dev/null >>/root/multidomain-migration.log 2>&1 &
+}
+
 if [ "$(uci get autoupdater.stable.mirror | grep firmware.*4830.org >/dev/null ; echo $?)" = "0" ]; then
  if [ ${delayed_reconf} -eq 0 ]; then
-  lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
-  lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
-  if [ "${lat}" = "0.00" -o "${lon}" = "0.00" ]; then
-   echo "Started WiFi-based location gathering in the backgroud due to missing coordinates." | tee -a /root/multidomain-migration.log
-   ((sleep 150 ; /lib/gluon/ffgt-geolocate/geolocate-lite.sh force ; echo >>/root/multidomain-migration.log "Geolocation results:" ; cat /tmp/geoloc.out >>/root/multidomain-migration.log) &)
-  fi
+  schedule_geolocation
   aabranch="$(uci get autoupdater.settings.branch)"
   if [ "${aabranch}" = "mns" -o "${aabranch}" = "wtb" ]; then
    # If this is a deadend system, 999-eol-device will set the branch to "deadend" anyway
@@ -181,12 +186,7 @@ if [ "${former_fw}" != "alien" ]; then
  #uci commit autoupdater
  #echo "Moved ${former_fw} node to autoupdate branch $(uci get autoupdater.settings.branch)." | tee -a /root/multidomain-migration.log
 
- lat=$(uci get gluon-node-info.@location[0].latitude 2>/dev/null || echo "0.00")
- lon=$(uci get gluon-node-info.@location[0].longitude 2>/dev/null || echo "0.00")
- if [ "${lat}" = "0.00" -o "${lon}" = "0.00" ]; then
-  echo "Started WiFi-based location gathering in the backgroud due to missing coordinates." | tee -a /root/multidomain-migration.log
-  ((sleep 150 ; /lib/gluon/ffgt-geolocate/geolocate-lite.sh force ; echo >>/root/multidomain-migration.log "Geolocation results:" ; cat /tmp/geoloc.out >>/root/multidomain-migration.log) &)
- fi
+ schedule_geolocation
  echo "Migrating FF${former_fw}-FW, mesh ${olddom}, to 4830.org's ${domain} ..." | tee -a /root/multidomain-migration.log
 elif [ ${delayed_reconf} -eq 1 ]; then
  echo "Delayed migration of FFLIP-FW, Möhnesee reconfiguraion ..." | tee -a /root/multidomain-migration.log
