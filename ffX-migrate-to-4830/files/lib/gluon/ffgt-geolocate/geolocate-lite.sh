@@ -17,6 +17,8 @@ fi
 
 runnow=0
 force=0
+respawn=0
+
 isconfigured="`/sbin/uci get gluon-setup-mode.@setup_mode[0].configured 2>/dev/null`"
 if [ "$isconfigured" != "1" ]; then
  isconfigured=0
@@ -39,7 +41,8 @@ fi
 if [ ${runnow} -eq 1 ]; then
  IPVXPREFIX="`/lib/gluon/ffgt-geolocate/ipv5.sh`"
  if [ "Y$IPVXPREFIX" == "Y" -o "$IPVXPREFIX" == "ipv5." ]; then
-  logger "$0: IPv5 not implemented."
+  logger "$0: IPv5 not implemented, respawning in 150 seconds."
+  ((sleep 150 ; /lib/gluon/ffgt-geolocate/geolocate-lite.sh force)&)
   exit 1
  fi
 
@@ -78,9 +81,29 @@ if [ ${runnow} -eq 1 ]; then
       LOC:) field=migration_locode;;
       *) continue;;
      esac
-     uci set gluon-node-info.@location[0].${field}="${value}"
+     if [ "${field}" = "latitude" ]; then
+       if [ "${value}" = "51.916478" ]; then
+         value="0.000"
+         respawn=1
+       fi
+     fi
+     if [ "${field}" = "longitude" ]; then
+       if [ "${value}" = "8.310817" ]; then
+         value="0.000"
+         respawn=1
+       fi
+     fi
+     if [ "${value}" != "0.000" ]; then
+       uci set gluon-node-info.@location[0].${field}="${value}" ||:
+     else
+       uci delete gluon-node-info.@location[0].${field} ||:
+     fi
     done </tmp/geoloc.out
     uci commit gluon-node-info
+    if [ ${respawn} -eq 1 ]; then
+      logger "$0: Geolocation failed, respawning in 150 seconds."
+      ((sleep 150 ; /lib/gluon/ffgt-geolocate/geolocate-lite.sh force)&)
+    fi
    fi
   fi
  fi
